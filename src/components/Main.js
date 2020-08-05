@@ -9,13 +9,11 @@ const Main = () => {
   return (
     <React.Fragment>
       <Header />
-      <Box width="100vw" minHeight={"100vh"} bg="gray.100">
-        <Switch>
-          <Route path="/home" component={Home} />
-          <Route exact path="/new" component={Form} />
-          <Redirect to="/home" />
-        </Switch>
-      </Box>
+      <Switch>
+        <Route path="/home" component={Home} />
+        <Route exact path="/new" component={Form} />
+        <Redirect to="/home" />
+      </Switch>
     </React.Fragment>
   );
 };

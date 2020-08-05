@@ -22,7 +22,6 @@ const Header = props => {
       padding="1.5rem"
       bg="teal.500"
       color="white"
-      {...props}
     >
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
