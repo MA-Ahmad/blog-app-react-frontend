@@ -8,12 +8,14 @@ import {
   Stack,
   Textarea,
   Button,
-  Heading
+  Heading,
+  useToast
 } from "@chakra-ui/core";
 import BlogContext from "../context/blog-context";
 
 const Form = () => {
   const context = useContext(BlogContext);
+  const toast = useToast();
 
   const [title, setTitle] = useState("");
   const [authorName, setAuthorName] = useState("");
@@ -23,6 +25,14 @@ const Form = () => {
     e.preventDefault();
     console.log(title);
     context.createBlog({ title: title, author: authorName, content: content });
+    toast({
+      position: "bottom",
+      title: "Account created.",
+      description: "We've created your account for you.",
+      status: "success",
+      duration: 5000,
+      isClosable: true
+    });
     setTitle("");
     setAuthorName("");
     setContent("");
