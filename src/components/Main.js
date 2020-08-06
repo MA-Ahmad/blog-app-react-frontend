@@ -1,8 +1,7 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { Box } from "@chakra-ui/core";
 import Header from "../shared/Header";
-import Form from "./Form";
+import BlogForm from "./BlogForm";
 import Home from "./Home";
 
 const Main = () => {
@@ -11,7 +10,7 @@ const Main = () => {
       <Header />
       <Switch>
         <Route path="/home" component={Home} />
-        <Route exact path="/new" component={Form} />
+        <Route exact path="/new" component={BlogForm} />
         <Redirect to="/home" />
       </Switch>
     </React.Fragment>
