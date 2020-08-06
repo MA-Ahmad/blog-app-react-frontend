@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -15,13 +15,31 @@ import {
 import BlogContext from "../context/blog-context";
 import { Formik, Field } from "formik";
 
-const BlogForm = () => {
-  const context = useContext(BlogContext);
-  const toast = useToast();
-
+const BlogForm = ({ match }) => {
   const [title, setTitle] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [content, setContent] = useState("");
+  const [initialValues, setInitialValues] = useState({
+    title: "",
+    authorName: "",
+    content: ""
+  });
+
+  const context = useContext(BlogContext);
+  const toast = useToast();
+
+  const isAddMode = !match.params.id;
+  const selectedBlog = isAddMode
+    ? ""
+    : context.blogs.filter(
+        blog => blog.id === parseInt(match.params.id, 10)
+      )[0];
+
+  useEffect(() => {
+    if (!isAddMode) {
+      setInitialValues(selectedBlog);
+    }
+  }, []);
 
   function validateTitle(value) {
     let error;
@@ -60,30 +78,35 @@ const BlogForm = () => {
         <Box p={5} shadow="md" borderWidth="1px" rounded="md" width={"40%"}>
           <Stack isInline spacing={8} align="center">
             <Formik
-              initialValues={{
-                title: title,
-                authorName: authorName,
-                content: content
-              }}
+              enableReinitialize={!isAddMode}
+              initialValues={initialValues}
               onSubmit={(values, actions) => {
                 setTimeout(() => {
                   context.createBlog(values);
+
+                  if (!isAddMode) {
+                    values["id"] = selectedBlog.id;
+                    setInitialValues(values);
+                  } else {
+                    actions.resetForm({});
+                  }
                   actions.setSubmitting(false);
+                  const text = isAddMode
+                    ? "You've successfully created a blog post."
+                    : "Blog post updated successfully";
                   toast({
                     position: "bottom",
-                    title: "Account created.",
-                    description: "We've created your account for you.",
+                    title: "Blog",
+                    description: text,
                     status: "success",
                     duration: 5000,
                     isClosable: true
                   });
                 }, 1000);
-                console.log(title);
-                console.log(authorName);
-                actions.resetForm({});
               }}
             >
               {({ values, handleChange, handleSubmit, isSubmitting }) => {
+                console.log(values);
                 return (
                   <form onSubmit={handleSubmit} style={{ width: "100%" }}>
                     <Box paddingBottom={3}>

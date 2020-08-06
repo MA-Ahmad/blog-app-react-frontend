@@ -49,13 +49,21 @@ const Header = props => {
         alignItems="center"
         flexGrow={1}
       >
-        {/* <MenuItems>New</MenuItems> */}
         <MenuItems>
           <Link to="/new" className="btn btn-secondary" role="button">
             New
           </Link>
         </MenuItems>
-        <MenuItems>List</MenuItems>
+        <MenuItems>
+          <Link
+            to="/home"
+            className="btn btn-secondary"
+            role="button"
+            size="lg"
+          >
+            List
+          </Link>
+        </MenuItems>
         <MenuItems></MenuItems>
       </Box>
 

@@ -11,6 +11,7 @@ const Main = () => {
       <Switch>
         <Route path="/home" component={Home} />
         <Route exact path="/new" component={BlogForm} />
+        <Route exact path="/edit/:id" component={BlogForm} />
         <Redirect to="/home" />
       </Switch>
     </React.Fragment>
