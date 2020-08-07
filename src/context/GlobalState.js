@@ -1,6 +1,6 @@
 import React, { useState, useReducer } from "react";
 import BlogContext from "./blog-context";
-import { blogReducer, CREATE_BLOG, DELETE_BLOG } from "./reducers";
+import { blogReducer, CREATE_BLOG, EDIT_BLOG, DELETE_BLOG } from "./reducers";
 import blogs_data from "../data/blogs";
 
 const GlobalState = props => {
@@ -14,11 +14,18 @@ const GlobalState = props => {
     }, 700);
   };
 
+  const editBlog = blog => {
+    setTimeout(() => {
+      dispatch({ type: EDIT_BLOG, blog: blog });
+    }, 700);
+  };
+
   return (
     <BlogContext.Provider
       value={{
         blogs: blogState.blogs,
-        createBlog: createBlog
+        createBlog: createBlog,
+        editBlog: editBlog
       }}
     >
       {props.children}

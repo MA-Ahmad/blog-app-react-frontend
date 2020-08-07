@@ -1,32 +1,30 @@
 export const CREATE_BLOG = "CREATE_BLOG";
+export const EDIT_BLOG = "EDIT_BLOG";
 export const DELETE_BLOG = "DELETE_BLOG";
 
 const createBlog = (blog, state) => {
-  const updatedBlogs = [...state.blogs];
-  const updatedBlogIndex = updatedBlogs.findIndex(
-    updatedBlog => updatedBlog.id === blog.id
-  );
+  const state_blogs = [...state.blogs];
+  state_blogs.push({ ...blog, id: state_blogs.length + 1 });
+  return { ...state, blogs: state_blogs };
+};
 
-  if (updatedBlogIndex < 0) {
-    updatedBlogs.push({ ...blog, id: updatedBlogs.length + 1 });
-  } else {
-    const updatedBlog = {
-      ...updatedBlogs[updatedBlogIndex]
-    };
-    updatedBlogs[updatedBlogIndex] = blog;
-  }
-  console.log(updatedBlogs);
-  console.log(state);
+const editBlog = (blog, state) => {
+  const state_blogs = [...state.blogs];
+  const blogIndex = getBlogIndex(state, blog.id);
+  state_blogs[blogIndex] = blog;
+  return { ...state, blogs: state_blogs };
+};
 
-  return { ...state, blogs: updatedBlogs };
+const getBlogIndex = (state, blogId) => {
+  return state.blogs.findIndex(blog => blog.id === blogId);
 };
 
 export const blogReducer = (state, action) => {
-  // console.log("state");
-  // console.log(state);
   switch (action.type) {
     case CREATE_BLOG:
       return createBlog(action.blog, state);
+    case EDIT_BLOG:
+      return editBlog(action.blog, state);
     // case REMOVE_USER:
     // return removeUser(action.userId, state);
     default:
