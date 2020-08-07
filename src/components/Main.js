@@ -10,8 +10,20 @@ const Main = () => {
       <Header />
       <Switch>
         <Route path="/home" component={Home} />
-        <Route exact path="/new" component={BlogForm} />
-        <Route exact path="/edit/:id" component={BlogForm} />
+        <Route
+          exact
+          path="/new"
+          render={props => {
+            return <BlogForm {...props} editMode={false} />;
+          }}
+        />
+        <Route
+          exact
+          path="/edit/:id"
+          render={props => {
+            return <BlogForm {...props} editMode={true} />;
+          }}
+        />
         <Redirect to="/home" />
       </Switch>
     </React.Fragment>
