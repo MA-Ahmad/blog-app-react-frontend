@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Image, Badge, Flex, SimpleGrid } from "@chakra-ui/core";
+import { Box, Image, Badge, SimpleGrid } from "@chakra-ui/core";
 import Dotdotdot from "react-dotdotdot";
 import BlogContext from "../context/blog-context";
 import { Link } from "react-router-dom";
