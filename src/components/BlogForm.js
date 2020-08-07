@@ -15,31 +15,30 @@ import {
 import BlogContext from "../context/blog-context";
 import { Formik, Field } from "formik";
 
-const BlogForm = ({ match }) => {
-  const [title, setTitle] = useState("");
-  const [authorName, setAuthorName] = useState("");
-  const [content, setContent] = useState("");
+const BlogForm = ({ match, editMode }) => {
   const [initialValues, setInitialValues] = useState({
     title: "",
     authorName: "",
     content: ""
   });
-
+  const [id, setId] = useState(match.params.id);
   const context = useContext(BlogContext);
   const toast = useToast();
 
-  const isAddMode = !match.params.id;
-  const selectedBlog = isAddMode
-    ? ""
-    : context.blogs.filter(
-        blog => blog.id === parseInt(match.params.id, 10)
-      )[0];
-
   useEffect(() => {
-    if (!isAddMode) {
+    if (editMode) {
+      const selectedBlog = context.blogs.filter(
+        blog => blog.id === Number(id)
+      )[0];
       setInitialValues(selectedBlog);
+    } else {
+      setInitialValues({
+        title: "",
+        authorName: "",
+        content: ""
+      });
     }
-  }, []);
+  }, [editMode]);
 
   function validateTitle(value) {
     let error;
@@ -78,22 +77,22 @@ const BlogForm = ({ match }) => {
         <Box p={5} shadow="md" borderWidth="1px" rounded="md" width={"40%"}>
           <Stack isInline spacing={8} align="center">
             <Formik
-              enableReinitialize={!isAddMode}
+              enableReinitialize
               initialValues={initialValues}
               onSubmit={(values, actions) => {
                 setTimeout(() => {
-                  context.createBlog(values);
-
-                  if (!isAddMode) {
-                    values["id"] = selectedBlog.id;
+                  if (editMode) {
+                    values["id"] = Number(id);
                     setInitialValues(values);
+                    context.editBlog(values);
                   } else {
+                    context.createBlog(values);
                     actions.resetForm({});
                   }
                   actions.setSubmitting(false);
-                  const text = isAddMode
-                    ? "You've successfully created a blog post."
-                    : "Blog post updated successfully";
+                  const text = editMode
+                    ? "Blog post updated successfully"
+                    : "You've successfully created a blog post.";
                   toast({
                     position: "bottom",
                     title: "Blog",
@@ -106,7 +105,6 @@ const BlogForm = ({ match }) => {
               }}
             >
               {({ values, handleChange, handleSubmit, isSubmitting }) => {
-                console.log(values);
                 return (
                   <form onSubmit={handleSubmit} style={{ width: "100%" }}>
                     <Box paddingBottom={3}>
