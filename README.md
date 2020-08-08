@@ -1,5 +1,3 @@
-# React Blogs
-
 <h3 align="center">React Blogs</h3>
 
 <div align="center">
@@ -9,9 +7,9 @@
 </div>
 <p align="center">This app shows you how to create a CRUD app with react by using ChakraUI.</p>
 
-![App Demo](/home_page.png) 
+![Home Page](/home_page.png) 
 
-# What this App does?
+## What this App does?
 
 - By this app, you will be able to:
 
