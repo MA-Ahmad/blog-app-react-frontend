@@ -19,14 +19,19 @@ const getBlogIndex = (state, blogId) => {
   return state.blogs.findIndex(blog => blog.id === blogId);
 };
 
+const deleteBlog = (blogId, state) => {
+  const state_blogs = [...state.blogs];
+  return { ...state, blogs: state_blogs.filter(blog => blog.id !== blogId) };
+};
+
 export const blogReducer = (state, action) => {
   switch (action.type) {
     case CREATE_BLOG:
       return createBlog(action.blog, state);
     case EDIT_BLOG:
       return editBlog(action.blog, state);
-    // case REMOVE_USER:
-    // return removeUser(action.userId, state);
+    case DELETE_BLOG:
+      return deleteBlog(action.blogId, state);
     default:
       return state;
   }
