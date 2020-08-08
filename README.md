@@ -7,7 +7,7 @@
 </div>
 <p align="center">This app shows you how to create a CRUD app with react by using ChakraUI.</p>
 
-![Home Page](/home_page.png) 
+![Home Page](/public/home_page.png) 
 
 ## What this App does?
 
