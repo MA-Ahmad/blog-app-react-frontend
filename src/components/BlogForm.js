@@ -71,7 +71,7 @@ const BlogForm = ({ match, editMode }) => {
     >
       <Flex alignItems="center" justifyContent="center" flexDirection="column">
         <Heading as="h1" color="teal.500" size="lg" p={5}>
-          Create a Blog
+          {editMode ? "Update" : "Create"} a Blog
         </Heading>
 
         <Box p={5} shadow="md" borderWidth="1px" rounded="md" width={"40%"}>
@@ -175,7 +175,7 @@ const BlogForm = ({ match, editMode }) => {
                       type="submit"
                       float="right"
                     >
-                      Submit
+                      {editMode ? "Update" : "Create"}
                     </Button>
                   </form>
                 );
