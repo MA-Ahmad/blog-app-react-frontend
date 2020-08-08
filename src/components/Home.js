@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Box, Image, Badge, SimpleGrid } from "@chakra-ui/core";
+import { Box, Badge, SimpleGrid } from "@chakra-ui/core";
 import Dotdotdot from "react-dotdotdot";
 import BlogContext from "../context/blog-context";
 import { Link } from "react-router-dom";
+import PageLoader from "./PageLoader";
+import { Img } from "react-image";
 
 const Home = () => {
   const context = useContext(BlogContext);
@@ -51,7 +53,11 @@ const Home = () => {
                   overflow="hidden"
                   position="relative"
                 >
-                  <Image src="https://bit.ly/2Z4KKcF" alt="Blog image" />
+                  <Img
+                    src={"https://bit.ly/2Z4KKcF"}
+                    alt="Blog image"
+                    loader={<PageLoader />}
+                  />
                   <Box p="6">
                     <Box d="flex" alignItems="baseline">
                       <Box
