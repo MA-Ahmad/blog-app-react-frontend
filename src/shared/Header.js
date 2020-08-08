@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Heading, Flex, Text, Button, Link } from "@chakra-ui/core";
 import { NavLink } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
+import "../App.css";
 
 const MenuItems = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -25,10 +26,8 @@ const Header = props => {
       color="white"
     >
       <Flex align="center" mr={5}>
-        <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
-          <NavLink to="/home" className="btn btn-secondary" role="button">
-            Blog
-          </NavLink>
+        <Heading as="h1" size="lg" letterSpacing={"-.1rem"} color="gray.600">
+          Blog
         </Heading>
       </Flex>
 
@@ -51,13 +50,17 @@ const Header = props => {
         flexGrow={1}
       >
         <Box>
-          <Heading fontSize="20px" color="gray.600">
-            <NavLink to="/new">New</NavLink>
+          <Heading fontSize="20px">
+            <NavLink to="/new" activeClassName="active">
+              New
+            </NavLink>
           </Heading>
         </Box>
         <Box ml={3}>
-          <Heading fontSize="20px" color="gray.600">
-            <NavLink to="/home">List</NavLink>
+          <Heading fontSize="20px">
+            <NavLink to="/blogs" activeClassName="active">
+              List
+            </NavLink>
           </Heading>
         </Box>
       </Box>

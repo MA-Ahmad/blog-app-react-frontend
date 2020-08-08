@@ -9,7 +9,7 @@ const Main = () => {
     <React.Fragment>
       <Header />
       <Switch>
-        <Route path="/home" component={Home} />
+        <Route exact path="/blogs" component={Home} />
         <Route
           exact
           path="/new"
@@ -24,7 +24,7 @@ const Main = () => {
             return <BlogForm {...props} editMode={true} />;
           }}
         />
-        <Redirect to="/home" />
+        <Redirect to="/blogs" />
       </Switch>
     </React.Fragment>
   );
