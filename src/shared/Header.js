@@ -1,6 +1,7 @@
 import React from "react";
-import { Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
-import { Link } from "react-router-dom";
+import { Box, Heading, Flex, Text, Button, Link } from "@chakra-ui/core";
+import { NavLink } from "react-router-dom";
+import { FaGithub } from "react-icons/fa";
 
 const MenuItems = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -25,9 +26,9 @@ const Header = props => {
     >
       <Flex align="center" mr={5}>
         <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
-          <Link to="/home" className="btn btn-secondary" role="button">
+          <NavLink to="/home" className="btn btn-secondary" role="button">
             Blog
-          </Link>
+          </NavLink>
         </Heading>
       </Flex>
 
@@ -49,31 +50,31 @@ const Header = props => {
         alignItems="center"
         flexGrow={1}
       >
-        <MenuItems>
-          <Link to="/new" className="btn btn-secondary" role="button">
-            New
-          </Link>
-        </MenuItems>
-        <MenuItems>
-          <Link
-            to="/home"
-            className="btn btn-secondary"
-            role="button"
-            size="lg"
-          >
-            List
-          </Link>
-        </MenuItems>
-        <MenuItems></MenuItems>
+        <Box>
+          <Heading fontSize="20px" color="gray.600">
+            <NavLink to="/new">New</NavLink>
+          </Heading>
+        </Box>
+        <Box ml={3}>
+          <Heading fontSize="20px" color="gray.600">
+            <NavLink to="/home">List</NavLink>
+          </Heading>
+        </Box>
       </Box>
 
       <Box
         display={{ sm: show ? "block" : "none", md: "block" }}
         mt={{ base: 4, md: 0 }}
       >
-        <Button bg="transparent" border="1px">
-          Create account
-        </Button>
+        <Link
+          href="https://chakra-ui.com"
+          isExternal
+          style={{ textDecoration: "none" }}
+        >
+          <Button leftIcon={FaGithub} bg="transparent" border="1px">
+            View Source
+          </Button>
+        </Link>
       </Box>
     </Flex>
   );
