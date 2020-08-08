@@ -70,7 +70,7 @@ const Header = props => {
         mt={{ base: 4, md: 0 }}
       >
         <Link
-          href="https://chakra-ui.com"
+          href="https://github.com/MA-Ahmad/reactBlog"
           isExternal
           style={{ textDecoration: "none" }}
         >
