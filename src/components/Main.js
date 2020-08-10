@@ -9,7 +9,7 @@ const Main = () => {
     <React.Fragment>
       <Header />
       <Switch>
-        <Route exact path="/blogs" component={Home} />
+        <Route exact path="/" component={Home} />
         <Route
           exact
           path="/new"

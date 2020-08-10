@@ -58,7 +58,7 @@ const Header = props => {
         </Box>
         <Box ml={3}>
           <Heading fontSize="20px">
-            <NavLink to="/blogs" activeClassName="active">
+            <NavLink exact to="/" activeClassName="active">
               List
             </NavLink>
           </Heading>
