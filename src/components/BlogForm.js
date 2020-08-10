@@ -109,10 +109,10 @@ const BlogForm = ({ match, editMode }) => {
                       title: "Blog",
                       description: text,
                       status: "success",
-                      duration: 5000,
+                      duration: 2000,
                       isClosable: true
                     });
-                  }, 1000);
+                  }, 200);
                 }}
               >
                 {({ values, handleChange, handleSubmit, isSubmitting }) => {
