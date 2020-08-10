@@ -24,7 +24,7 @@ const Main = () => {
             return <BlogForm {...props} editMode={true} />;
           }}
         />
-        <Redirect to="/blogs" />
+        <Redirect to="/" />
       </Switch>
     </React.Fragment>
   );
