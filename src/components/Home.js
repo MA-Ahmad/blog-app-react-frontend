@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Box, Badge, SimpleGrid } from "@chakra-ui/core";
+import { Box, Badge, SimpleGrid, useToast } from "@chakra-ui/core";
 import Dotdotdot from "react-dotdotdot";
 import BlogContext from "../context/blog-context";
 import { Link } from "react-router-dom";
@@ -9,11 +9,23 @@ import { Img } from "react-image";
 const Home = () => {
   const context = useContext(BlogContext);
   const [blogId, setBlogId] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     context.deleteBlog(blogId);
   }, [blogId]);
 
+  const handleDelete = id => {
+    toast({
+      position: "bottom",
+      title: "Notification",
+      description: "Blog deleted successfully",
+      status: "success",
+      duration: 2000,
+      isClosable: true
+    });
+    setBlogId(id);
+  };
   return (
     <Box
       maxWidth="1200px"
@@ -39,7 +51,7 @@ const Home = () => {
                   p="2px 8px"
                   variantColor="red"
                   as="button"
-                  onClick={() => setBlogId(blog.id)}
+                  onClick={() => handleDelete(blog.id)}
                 >
                   Delete
                 </Badge>
