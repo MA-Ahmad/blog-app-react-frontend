@@ -108,7 +108,7 @@ const BlogForm = ({ match, history, editMode }) => {
                       : "You've successfully created a blog post.";
                     toast({
                       position: "bottom",
-                      title: "Blog",
+                      title: "Notification",
                       description: text,
                       status: "success",
                       duration: 2000,
