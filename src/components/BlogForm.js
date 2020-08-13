@@ -16,7 +16,7 @@ import BlogContext from "../context/blog-context";
 import { Formik, Field } from "formik";
 import { FadeTransform } from "react-animation-components";
 
-const BlogForm = ({ match, editMode }) => {
+const BlogForm = ({ match, history, editMode }) => {
   const [initialValues, setInitialValues] = useState({
     title: "",
     authorName: "",
@@ -94,12 +94,14 @@ const BlogForm = ({ match, editMode }) => {
                   setTimeout(() => {
                     if (editMode) {
                       values["id"] = Number(id);
-                      setInitialValues(values);
                       context.editBlog(values);
+                      setInitialValues(values);
                     } else {
                       context.createBlog(values);
                       actions.resetForm({});
                     }
+                    history.push("/");
+
                     actions.setSubmitting(false);
                     const text = editMode
                       ? "Blog post updated successfully"
