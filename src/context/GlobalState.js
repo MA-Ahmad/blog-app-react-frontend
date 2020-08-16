@@ -49,7 +49,7 @@ const GlobalState = props => {
   // }, []);
   const makeRequest = (url, data, type) => {
     fetch(url, {
-      method: "POST",
+      method: type === EDIT_BLOG ? "PUT" : "POST",
       headers: {
         "Content-Type": "application/json"
       },
@@ -78,7 +78,14 @@ const GlobalState = props => {
   };
 
   const editBlog = blog => {
-    dispatch({ type: EDIT_BLOG, blog: blog });
+    const url = `http://localhost:3001/api/v1/blogs/update/${blog.id};`;
+    const body = {
+      title: blog.title,
+      authorName: blog.authorName,
+      content: blog.content.replace(/\n/g, "<br> <br>")
+    };
+    makeRequest(url, body, EDIT_BLOG);
+    // dispatch({ type: EDIT_BLOG, blog: blog });
   };
 
   const deleteBlog = blogId => {

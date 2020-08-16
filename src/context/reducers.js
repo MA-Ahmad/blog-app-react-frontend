@@ -9,16 +9,16 @@ const createBlog = (blog, state) => {
   return { ...state, blogs: state_blogs };
 };
 
-// const editBlog = (blog, state) => {
-//   const state_blogs = [...state.blogs];
-//   const blogIndex = getBlogIndex(state, blog.id);
-//   state_blogs[blogIndex] = blog;
-//   return { ...state, blogs: state_blogs };
-// };
+const editBlog = (blog, state) => {
+  const state_blogs = [...state.blogs];
+  const blogIndex = getBlogIndex(state, blog.id);
+  state_blogs[blogIndex] = blog;
+  return { ...state, blogs: state_blogs };
+};
 
-// const getBlogIndex = (state, blogId) => {
-//   return state.blogs.findIndex(blog => blog.id === blogId);
-// };
+const getBlogIndex = (state, blogId) => {
+  return state.blogs.findIndex(blog => blog.id === blogId);
+};
 
 // const deleteBlog = (blogId, state) => {
 //   const state_blogs = [...state.blogs];
@@ -27,19 +27,17 @@ const createBlog = (blog, state) => {
 
 const loadBlog = (blogs, empty_state) => {
   const state = { blogs: blogs };
-  // {new_state: {…}, blogs: Array(12)}
   return { state, blogs: blogs };
 };
 
 export const blogReducer = (state, action) => {
-  console.log(state);
   switch (action.type) {
     case LOAD_BLOG:
       return loadBlog(action.blogs, state);
     case CREATE_BLOG:
       return createBlog(action.blog, state);
-    // case EDIT_BLOG:
-    //   return editBlog(action.blog, state);
+    case EDIT_BLOG:
+      return editBlog(action.blog, state);
     // case DELETE_BLOG:
     //   return deleteBlog(action.blogId, state);
     default:
