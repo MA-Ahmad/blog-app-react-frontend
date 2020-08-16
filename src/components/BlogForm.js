@@ -22,14 +22,13 @@ const BlogForm = ({ match, history, editMode }) => {
     authorName: "",
     content: ""
   });
-  const [id, setId] = useState(match.params.id);
   const context = useContext(BlogContext);
   const toast = useToast();
 
   useEffect(() => {
     if (editMode) {
       const selectedBlog = context.blogs.filter(
-        blog => blog.id === Number(id)
+        blog => blog.id === Number(match.params.id)
       )[0];
       setInitialValues(selectedBlog);
     } else {
@@ -93,7 +92,7 @@ const BlogForm = ({ match, history, editMode }) => {
                 onSubmit={(values, actions) => {
                   setTimeout(() => {
                     if (editMode) {
-                      values["id"] = Number(id);
+                      values["id"] = Number(match.params.id);
                       context.editBlog(values);
                       setInitialValues(values);
                     } else {

@@ -1,7 +1,12 @@
+export const LOAD_BLOGS = "LOAD_BLOGS";
 export const CREATE_BLOG = "CREATE_BLOG";
 export const EDIT_BLOG = "EDIT_BLOG";
 export const DELETE_BLOG = "DELETE_BLOG";
-export const LOAD_BLOG = "LOAD_BLOG";
+
+const loadBlogs = blogs => {
+  const state = { blogs: blogs };
+  return { state, blogs: blogs };
+};
 
 const createBlog = (blog, state) => {
   const state_blogs = [...state.blogs];
@@ -25,15 +30,10 @@ const deleteBlog = (blogId, state) => {
   return { ...state, blogs: state_blogs.filter(blog => blog.id !== blogId) };
 };
 
-const loadBlog = (blogs, empty_state) => {
-  const state = { blogs: blogs };
-  return { state, blogs: blogs };
-};
-
 export const blogReducer = (state, action) => {
   switch (action.type) {
-    case LOAD_BLOG:
-      return loadBlog(action.blogs, state);
+    case LOAD_BLOGS:
+      return loadBlogs(action.blogs);
     case CREATE_BLOG:
       return createBlog(action.blog, state);
     case EDIT_BLOG:

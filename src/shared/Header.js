@@ -1,14 +1,8 @@
 import React from "react";
-import { Box, Heading, Flex, Text, Button, Link } from "@chakra-ui/core";
+import { Box, Heading, Flex, Button, Link } from "@chakra-ui/core";
 import { NavLink } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import "../App.css";
-
-const MenuItems = ({ children }) => (
-  <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
-    {children}
-  </Text>
-);
 
 // Note: This code could be better, so I'd recommend you to understand how I solved and you could write yours better :)
 const Header = props => {
