@@ -2,10 +2,10 @@
   "name": "blog",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "npm": "6.9.0",
-    "node": "12.5.0"
-  },
+  "engines": {
+    "npm": "6.9.0",
+    "node": "12.5.0"
+  },
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^10.0.28",
