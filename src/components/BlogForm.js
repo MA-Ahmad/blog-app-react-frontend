@@ -90,30 +90,28 @@ const BlogForm = ({ match, history, editMode }) => {
                 enableReinitialize
                 initialValues={initialValues}
                 onSubmit={(values, actions) => {
-                  setTimeout(() => {
-                    if (editMode) {
-                      values["id"] = Number(match.params.id);
-                      context.editBlog(values);
-                      setInitialValues(values);
-                    } else {
-                      context.createBlog(values);
-                      actions.resetForm({});
-                    }
-                    history.push("/");
+                  if (editMode) {
+                    values["id"] = Number(match.params.id);
+                    context.editBlog(values);
+                    setInitialValues(values);
+                  } else {
+                    context.createBlog(values);
+                    actions.resetForm({});
+                  }
+                  history.push("/");
 
-                    actions.setSubmitting(false);
-                    const text = editMode
-                      ? "Blog post updated successfully"
-                      : "You've successfully created a blog post.";
-                    toast({
-                      position: "bottom",
-                      title: "Notification",
-                      description: text,
-                      status: "success",
-                      duration: 2000,
-                      isClosable: true
-                    });
-                  }, 200);
+                  actions.setSubmitting(false);
+                  const text = editMode
+                    ? "Blog post updated successfully"
+                    : "You've successfully created a blog post.";
+                  toast({
+                    position: "bottom",
+                    title: "Notification",
+                    description: text,
+                    status: "success",
+                    duration: 2000,
+                    isClosable: true
+                  });
                 }}
               >
                 {({ values, handleChange, handleSubmit, isSubmitting }) => {
