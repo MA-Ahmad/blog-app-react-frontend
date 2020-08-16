@@ -10,6 +10,19 @@ const Home = () => {
   const context = useContext(BlogContext);
   const [blogId, setBlogId] = useState("");
   const toast = useToast();
+  console.log("cccc", context);
+  // console.log("context", context.blogs);
+  // useEffect(() => {
+  //   const url = "http://localhost:3001/api/v1/blogs";
+  //   fetch(url, {
+  //     withCredentials: true
+  //   })
+  //     .then(response => response.json())
+  //     .then(response => {
+  //       setBlogs(response);
+  //     })
+  //     .catch(error => console.log(error));
+  // }, [context.blogs]);
 
   useEffect(() => {
     context.deleteBlog(blogId);
