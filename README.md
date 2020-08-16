@@ -1,11 +1,11 @@
-<h3 align="center">React Blogs</h3>
+<h3 align="center">React Blog App</h3>
 
 <div align="center">
 
 [![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/muhammad-ahmad20/)
 [![Gmail](https://img.shields.io/badge/-Gmail-c14438?style=flat&logo=Gmail&logoColor=white)](mailto:muhammad.ahmad8043@gmail.com)
 </div>
-<p align="center">This app shows you how to create a CRUD app with react by using ChakraUI.</p>
+<p align="center">This app shows you how to create a CRUD app with react on front-end, ROR on back-end and for styling ChakraUI.</p>
 
 ![Home Page](/public/home_page.png) 
 
@@ -27,10 +27,20 @@
 
 ## Setup
 
-- Clone the repository
-- Use `cd <repository-path>`
-- Run `npm install`
-- Run `npm start`
+* ### Back-end Part
+    - Clone the [rails backend repository](https://github.com/MA-Ahmad/blog-app-rails-backend)
+    - Use `cd <repository-path>`
+    - Run `bundle install`
+    - Run `rails db:create`
+    - Run `rails db:migrate`
+    - Run `rails db:seed`
+    - Run `rails s -p 3001`
+* ### Front-end Part
+    - Clone this repository
+    - Use `cd <repository-path>`
+    - Run `npm install`
+    - Run `npm start`
+Now check it on browser `localhost:300`
 
 ## Author
 
