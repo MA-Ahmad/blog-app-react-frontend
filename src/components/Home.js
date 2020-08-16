@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Box, Badge, SimpleGrid, useToast } from "@chakra-ui/core";
 import Dotdotdot from "react-dotdotdot";
 import BlogContext from "../context/blog-context";
@@ -8,27 +8,11 @@ import { Img } from "react-image";
 
 const Home = () => {
   const context = useContext(BlogContext);
-  const [blogId, setBlogId] = useState("");
   const toast = useToast();
-  console.log("cccc", context);
-  // console.log("context", context.blogs);
-  // useEffect(() => {
-  //   const url = "http://localhost:3001/api/v1/blogs";
-  //   fetch(url, {
-  //     withCredentials: true
-  //   })
-  //     .then(response => response.json())
-  //     .then(response => {
-  //       setBlogs(response);
-  //     })
-  //     .catch(error => console.log(error));
-  // }, [context.blogs]);
-
-  useEffect(() => {
-    context.deleteBlog(blogId);
-  }, [blogId]);
 
   const handleDelete = id => {
+    context.deleteBlog(id);
+
     toast({
       position: "bottom",
       title: "Notification",
@@ -37,7 +21,6 @@ const Home = () => {
       duration: 2000,
       isClosable: true
     });
-    setBlogId(id);
   };
   return (
     <Box
