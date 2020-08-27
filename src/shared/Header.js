@@ -64,7 +64,7 @@ const Header = props => {
         mt={{ base: 4, md: 0 }}
       >
         <Link
-          href="https://github.com/MA-Ahmad/reactBlog"
+          href="https://github.com/MA-Ahmad/blog-app-react-frontend"
           isExternal
           style={{ textDecoration: "none" }}
         >
