@@ -5,7 +5,7 @@
 [![Linkedin](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/muhammad-ahmad20/)
 [![Gmail](https://img.shields.io/badge/-Gmail-c14438?style=flat&logo=Gmail&logoColor=white)](mailto:muhammad.ahmad8043@gmail.com)
 </div>
-<p align="center">This app shows you how to create a CRUD app with react on front-end, ROR on back-end and for styling ChakraUI.</p>
+<p align="center">This app shows you how to create a CRUD app with ChakraUI, react on front-end and ROR on back-end</p>
 
 ![Home Page](/public/home_page.png) 
 
