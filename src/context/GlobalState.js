@@ -121,26 +121,29 @@ const GlobalState = props => {
           message = "Email " + response.data.message["email"][0];
           error = true;
         }
-        toast({
-          position: "bottom",
-          email: "Notification",
-          description: message,
-          status: error ? "error" : "success",
-          duration: 2000,
-          isClosable: true
-        });
+        // toast({
+        //   position: "bottom",
+        //   email: "Notification",
+        //   description: message,
+        //   status: error ? "error" : "success",
+        //   duration: 2000,
+        //   isClosable: true
+        // });
+        showToast(message, error);
       })
       .catch(error => {
         console.log("error", error);
       });
   };
 
-  const logout = e => {
+  const logout = history => {
     axios
       .delete(`${baseUrl}/sessions/logout`, { withCredentials: true })
       .then(resp => {
         setIsAuth(false);
-        window.location.href = "/";
+        showToast("Logged out successfully");
+        history.push("/");
+        // window.location.href = "/";
       })
       .catch(err => console.log(err));
   };
@@ -167,18 +170,30 @@ const GlobalState = props => {
           message = "Credentials are wrong";
           error = true;
         }
-        toast({
-          position: "bottom",
-          email: "Notification",
-          description: message,
-          status: error ? "error" : "success",
-          duration: 2000,
-          isClosable: true
-        });
+        // toast({
+        //   position: "bottom",
+        //   email: "Notification",
+        //   description: message,
+        //   status: error ? "error" : "success",
+        //   duration: 2000,
+        //   isClosable: true
+        // });
+        showToast(message, error);
       })
       .catch(error => {
         console.log("login error", error);
       });
+  };
+
+  const showToast = (message, error = false) => {
+    toast({
+      position: "bottom",
+      email: "Notification",
+      description: message,
+      status: error ? "error" : "success",
+      duration: 2000,
+      isClosable: true
+    });
   };
 
   return (

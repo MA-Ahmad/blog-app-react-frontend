@@ -84,7 +84,7 @@ const Header = props => {
             <Box ml={{ sm: "0", md: "3" }}>
               <Heading
                 fontSize="20px"
-                onClick={() => context.logout()}
+                onClick={() => context.logout(props.history)}
                 cursor="pointer"
               >
                 Sign Out
