@@ -5,7 +5,6 @@ import { FaGithub } from "react-icons/fa";
 import "../App.css";
 import BlogContext from "../context/blog-context";
 
-// Note: This code could be better, so I'd recommend you to understand how I solved and you could write yours better :)
 const Header = props => {
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
