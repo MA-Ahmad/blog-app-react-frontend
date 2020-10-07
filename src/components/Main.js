@@ -5,16 +5,26 @@ import BlogForm from "./BlogForm";
 import Home from "./Home";
 import Register from "./Auth/Register";
 import AuthForm from "./Auth/AuthForm";
+import Blog from "./Blog";
 import BlogContext from "../context/blog-context";
 
 const Main = () => {
   const context = useContext(BlogContext);
 
+  console.log(context.isAuth);
   return (
     <React.Fragment>
       <Header />
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route
+          exact
+          path="/blogs/:id"
+          render={props => {
+            return <Blog {...props} />;
+          }}
+        />
+
         {context.isAuth ? (
           <>
             {" "}
