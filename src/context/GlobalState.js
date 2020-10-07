@@ -7,10 +7,24 @@ import { useToast } from "@chakra-ui/core";
 const GlobalState = props => {
   const baseUrl = "http://localhost:3001/api/v1";
   // const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
-  const [blogState, dispatch] = useReducer(blogReducer, { blogs: [] });
+  const [blogState, dispatch] = useReducer(blogReducer, {
+    blogs: []
+  });
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState({});
   const toast = useToast();
+
+  useEffect(() => {
+    const url = `${baseUrl}/blogs`;
+    fetch(url, {
+      withCredentials: true
+    })
+      .then(response => response.json())
+      .then(response => {
+        dispatch({ type: "LOAD_BLOGS", blogs: response });
+      })
+      .catch(error => console.log(error));
+  }, []);
 
   useEffect(() => {
     Authenticate(baseUrl)
@@ -24,36 +38,51 @@ const GlobalState = props => {
         console.log(response);
       })
       .catch(err => console.log(err));
-
-    const url = `${baseUrl}/blogs`;
-    fetch(url, {
-      withCredentials: true
-    })
-      .then(response => response.json())
-      .then(response => {
-        dispatch({ type: "LOAD_BLOGS", blogs: response });
-      })
-      .catch(error => console.log(error));
-  }, []);
+  }, [user !== {}]);
 
   const createBlog = blog => {
-    const body = {
+    const url = `${baseUrl}/blogs/create`;
+    const data = {
       title: blog.title,
       authorName: blog.authorName,
+      user_id: user.id,
       content: blog.content.replace(/\n/g, "<br> <br>")
     };
-    const url = `${baseUrl}/blogs/create`;
-    requestCreateUpdate(url, body, CREATE_BLOG);
+    axios
+      .post(
+        url,
+        {
+          blog: data
+        },
+        { withCredentials: true }
+      )
+      .then(response => {
+        dispatch({ type: CREATE_BLOG, blog: response.data });
+      })
+      .catch(err => console.log(err));
+    // requestCreateUpdate(url, body, CREATE_BLOG);
   };
 
   const editBlog = blog => {
     const url = `${baseUrl}/blogs/update/${blog.id};`;
-    const body = {
+    const data = {
       title: blog.title,
       authorName: blog.authorName,
       content: blog.content.replace(/\n/g, "<br> <br>")
     };
-    requestCreateUpdate(url, body, EDIT_BLOG);
+    axios
+      .put(
+        url,
+        {
+          blog: data
+        },
+        { withCredentials: true }
+      )
+      .then(response => {
+        dispatch({ type: EDIT_BLOG, blog: response.data });
+      })
+      .catch(err => console.log(err));
+    // requestCreateUpdate(url, body, EDIT_BLOG);
   };
 
   const deleteBlog = blogId => {
@@ -61,43 +90,43 @@ const GlobalState = props => {
   };
 
   const requestCreateUpdate = (url, data, type) => {
-    fetch(url, {
-      method: type === EDIT_BLOG ? "PUT" : "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then(response => {
-        dispatch({ type: type, blog: response });
-      })
-      .catch(error => console.log(error.message));
+    if (type === EDIT_BLOG) {
+      axios
+        .put(
+          url,
+          {
+            blog: data
+          },
+          { withCredentials: true }
+        )
+        .then(response => {
+          dispatch({ type: type, blog: response.data });
+        })
+        .catch(err => console.log(err));
+    } else {
+      axios
+        .post(
+          url,
+          {
+            blog: data
+          },
+          { withCredentials: true }
+        )
+        .then(response => {
+          dispatch({ type: type, blog: response.data });
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   const requestDelete = blogId => {
     const url = `${baseUrl}/blogs/destroy/${blogId}`;
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then(response => {
+    axios
+      .delete(url, { withCredentials: true })
+      .then(resp => {
         dispatch({ type: DELETE_BLOG, blogId: blogId });
       })
-      .catch(error => console.log(error.message));
+      .catch(err => console.log(err));
   };
 
   const registerUser = (user, history) => {
@@ -141,6 +170,7 @@ const GlobalState = props => {
       .delete(`${baseUrl}/sessions/logout`, { withCredentials: true })
       .then(resp => {
         setIsAuth(false);
+        setUser({});
         showToast("Logged out successfully");
         history.push("/");
         // window.location.href = "/";
@@ -158,26 +188,19 @@ const GlobalState = props => {
         { withCredentials: true }
       )
       .then(response => {
-        console.log(response);
         let message = "",
           error = false;
         if (response.data.logged_in) {
           setIsAuth(true);
+          setUser(response.data.user);
           history.push("/");
+          // window.location.href = "/";
           message = "Logged in successfully";
           error = false;
         } else {
           message = "Credentials are wrong";
           error = true;
         }
-        // toast({
-        //   position: "bottom",
-        //   email: "Notification",
-        //   description: message,
-        //   status: error ? "error" : "success",
-        //   duration: 2000,
-        //   isClosable: true
-        // });
         showToast(message, error);
       })
       .catch(error => {
