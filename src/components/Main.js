@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "../shared/Header";
 import BlogForm from "./BlogForm";
 import Home from "./Home";
-import Register from "./Auth/Register";
 import AuthForm from "./Auth/AuthForm";
 import Blog from "./Blog";
 import BlogContext from "../context/blog-context";
