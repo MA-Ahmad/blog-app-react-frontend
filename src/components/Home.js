@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Badge, SimpleGrid, useToast } from "@chakra-ui/core";
+import { Box, Badge, SimpleGrid, useToast, Flex } from "@chakra-ui/core";
 import Dotdotdot from "react-dotdotdot";
 import BlogContext from "../context/blog-context";
 import { Link } from "react-router-dom";
@@ -22,6 +22,7 @@ const Home = () => {
       isClosable: true
     });
   };
+
   return (
     <Box
       maxWidth="1200px"
@@ -34,72 +35,117 @@ const Home = () => {
         {context.blogs.map(blog => {
           return (
             <Box position="relative" key={blog.id}>
-              <Box
-                as="span"
-                fontSize="sm"
-                position="absolute"
-                right="5px"
-                margin="5px"
-                zIndex="1"
-              >
-                <Badge
-                  rounded="full"
-                  p="2px 8px"
-                  variantColor="red"
-                  as="button"
-                  onClick={() => handleDelete(blog.id)}
-                >
-                  Delete
-                </Badge>
-              </Box>
-              <Link to={`/edit/${blog.id}`}>
+              {/* {context.isAuth && context.user.id === blog.user_id ? (
                 <Box
-                  maxW="sm"
-                  borderWidth="1px"
-                  shadow="md"
-                  rounded="lg"
-                  overflow="hidden"
-                  position="relative"
+                  as="span"
+                  fontSize="sm"
+                  position="absolute"
+                  right="5px"
+                  margin="5px"
+                  zIndex="1"
                 >
+                  <Badge
+                    rounded="full"
+                    p="2px 8px"
+                    variantColor="red"
+                    as="button"
+                    onClick={() => handleDelete(blog.id)}
+                  >
+                    Delete
+                  </Badge>
+                </Box>
+              ) : (
+                ""
+              )} */}
+              {/* <Link to={`/edit/${blog.id}`}> */}
+              <Box
+                maxW="sm"
+                borderWidth="1px"
+                shadow="md"
+                rounded="lg"
+                overflow="hidden"
+                position="relative"
+              >
+                <Link to={`/blogs/${blog.id}`}>
                   <Img
                     src={"https://bit.ly/2Z4KKcF"}
                     alt="Blog image"
                     loader={<PageLoader />}
                   />
-                  <Box p="6">
-                    <Box d="flex" alignItems="baseline">
-                      <Box
-                        fontWeight="semibold"
-                        as="h2"
-                        letterSpacing="wide"
-                        textTransform="uppercase"
-                        ml="2"
-                      >
-                        {blog.title}
-                      </Box>
+                </Link>
+                <Box p="5">
+                  <Box d="flex" alignItems="baseline">
+                    <Box
+                      fontWeight="semibold"
+                      as="h2"
+                      letterSpacing="wide"
+                      textTransform="uppercase"
+                      ml="2"
+                    >
+                      {blog.title}
                     </Box>
-                    <Box>
-                      <Box as="span" color="gray.600" fontSize="sm">
-                        <Badge rounded="full" px="2" variantColor="teal">
-                          {blog.authorName}
-                        </Badge>
-                      </Box>
-                    </Box>
-                    <Dotdotdot clamp={3}>
-                      <Box
-                        mt="1"
-                        fontWeight="semibold"
-                        as="p"
-                        lineHeight="tight"
+                  </Box>
+                  <Box m="2px 0px">
+                    {/* <Box
+                        as="span"
                         color="gray.600"
                         fontSize="sm"
-                      >
-                        {blog.content}
-                      </Box>
-                    </Dotdotdot>
+                      > */}
+                    <Flex
+                      as="div"
+                      align="center"
+                      justify="space-between"
+                      wrap="wrap"
+                      color="white"
+                    >
+                      <Badge rounded="full" px="2" py="1" variantColor="teal">
+                        {blog.authorName}
+                      </Badge>
+                      {context.isAuth && context.user.id === blog.user_id ? (
+                        <Box>
+                          <Link to={`/edit/${blog.id}`}>
+                            <Badge
+                              rounded="full"
+                              px="2"
+                              py="1"
+                              mr="2"
+                              variantColor="gray"
+                            >
+                              Edit
+                            </Badge>
+                          </Link>
+                          <Badge
+                            rounded="full"
+                            px="2"
+                            py="1"
+                            variantColor="red"
+                            as="button"
+                            onClick={() => handleDelete(blog.id)}
+                          >
+                            Delete
+                          </Badge>
+                        </Box>
+                      ) : (
+                        ""
+                      )}
+                    </Flex>
+                    {/* </Box> */}
                   </Box>
+                  <Dotdotdot clamp={3}>
+                    <Box
+                      mt="1"
+                      fontWeight="semibold"
+                      as="p"
+                      lineHeight="tight"
+                      color="gray.600"
+                      fontSize="sm"
+                    >
+                      {blog.content}
+                    </Box>
+                  </Dotdotdot>
                 </Box>
-              </Link>
+              </Box>
+              {/* </Link> */}
             </Box>
           );
         })}
