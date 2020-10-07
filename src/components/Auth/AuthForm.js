@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import {
   Box,
   Flex,
@@ -8,25 +8,18 @@ import {
   InputGroup,
   InputRightElement,
   Stack,
-  Textarea,
   Button,
   Heading,
-  useToast,
   FormErrorMessage
 } from "@chakra-ui/core";
 import BlogContext from "../../context/blog-context";
 import { Formik, Field } from "formik";
 import { FadeTransform } from "react-animation-components";
 
-const AuthForm = ({ match, history, formType }) => {
-  const [initialValues, setInitialValues] = useState({
-    email: "",
-    password: ""
-  });
+const AuthForm = ({ history, formType }) => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const context = useContext(BlogContext);
-  const toast = useToast();
 
   function validateEmail(value) {
     let error;
@@ -47,6 +40,9 @@ const AuthForm = ({ match, history, formType }) => {
     }
     return error;
   }
+
+  console.log("formType");
+  console.log(formType);
 
   return (
     <FadeTransform
@@ -76,7 +72,7 @@ const AuthForm = ({ match, history, formType }) => {
             <Stack isInline spacing={8} align="center">
               <Formik
                 enableReinitialize
-                initialValues={initialValues}
+                initialValues={{ email: "", password: "" }}
                 onSubmit={(values, actions) => {
                   formType === "login"
                     ? context.loginUser(values, history)
