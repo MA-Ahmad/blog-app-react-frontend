@@ -12,14 +12,14 @@ import {
   Heading,
   FormErrorMessage
 } from "@chakra-ui/core";
-import BlogContext from "../../context/blog-context";
 import { Formik, Field } from "formik";
 import { FadeTransform } from "react-animation-components";
+import { AuthContext } from "../../context/AuthContext";
 
 const AuthForm = ({ history, formType }) => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  const context = useContext(BlogContext);
+  const authContext = useContext(AuthContext);
 
   function validateEmail(value) {
     let error;
@@ -75,8 +75,8 @@ const AuthForm = ({ history, formType }) => {
                 initialValues={{ email: "", password: "" }}
                 onSubmit={(values, actions) => {
                   formType === "login"
-                    ? context.loginUser(values, history)
-                    : context.registerUser(values, history);
+                    ? authContext.loginUser(values, history)
+                    : authContext.registerUser(values, history);
                   actions.setSubmitting(false);
                 }}
               >
