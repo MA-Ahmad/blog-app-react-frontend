@@ -1,15 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Main from "./components/Main";
-import GlobalState from "./context/GlobalState";
+import { AuthProvider } from "./context/AuthContext";
+import { BlogProvider } from "./context/BlogContext";
 
 function App() {
   return (
-    <GlobalState>
-      <Router>
-        <Main />
-      </Router>
-    </GlobalState>
+    <AuthProvider>
+      <BlogProvider>
+        <Router>
+          <Main />
+        </Router>
+      </BlogProvider>
+    </AuthProvider>
   );
 }
 
