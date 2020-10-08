@@ -5,12 +5,12 @@ import BlogForm from "./BlogForm";
 import Home from "./Home";
 import AuthForm from "./Auth/AuthForm";
 import Blog from "./Blog";
-import BlogContext from "../context/blog-context";
+import { BlogContext } from "../context/BlogContext";
+import UnprotectedRoute from "../UnprotectedRoute";
+import ProtectedRoute from "../ProtectedRoute";
+import Profile from "./Profile";
 
 const Main = () => {
-  const context = useContext(BlogContext);
-
-  console.log(context.isAuth);
   return (
     <React.Fragment>
       <Header />
@@ -24,29 +24,44 @@ const Main = () => {
           }}
         />
 
-        {context.isAuth ? (
-          <>
-            {" "}
-            <Route
-              exact
-              path="/new"
-              render={props => {
-                return <BlogForm {...props} editMode={false} />;
-              }}
-            />
-            <Route
-              exact
-              path="/edit/:id"
-              render={props => {
-                return <BlogForm {...props} editMode={true} />;
-              }}
-            />
-          </>
-        ) : (
-          ""
-        )}
-
         <Route
+          exact
+          path="/profile"
+          render={props => {
+            return <Profile {...props} />;
+          }}
+        />
+        <ProtectedRoute
+          path="/new"
+          component={props => <BlogForm {...props} editMode={false} />}
+        />
+        <ProtectedRoute
+          path="/edit/:id"
+          component={props => <BlogForm {...props} editMode={true} />}
+        />
+        <UnprotectedRoute
+          path="/register"
+          component={props => <AuthForm {...props} formType={"signup"} />}
+        />
+        <UnprotectedRoute
+          path="/login"
+          component={props => <AuthForm {...props} formType={"login"} />}
+        />
+        {/* <Route
+          exact
+          path="/new"
+          render={props => {
+            return <BlogForm {...props} editMode={false} />;
+          }}
+        /> */}
+        {/* <Route
+          exact
+          path="/edit/:id"
+          render={props => {
+            return <BlogForm {...props} editMode={true} />;
+          }}
+        /> */}
+        {/* <Route
           exact
           path="/register"
           render={props => {
@@ -59,7 +74,7 @@ const Main = () => {
           render={props => {
             return <AuthForm {...props} formType={"login"} />;
           }}
-        />
+        /> */}
         <Redirect to="/" />
       </Switch>
     </React.Fragment>
