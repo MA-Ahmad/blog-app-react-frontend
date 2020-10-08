@@ -14,6 +14,8 @@ const Blog = ({ match }) => {
     image_url: ""
   });
   const context = useContext(BlogContext);
+  // const baseUrl = "http://localhost:3001/api/v1";
+  const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
 
   useEffect(() => {
     if (context.blogs === []) {
@@ -23,7 +25,7 @@ const Blog = ({ match }) => {
       setInitialValues(selectedBlog);
     } else {
       axios
-        .get(`http://localhost:3001/api/v1/blogs/${Number(match.params.id)}`, {
+        .get(`${baseUrl}/blogs/${Number(match.params.id)}`, {
           withCredentials: true
         })
         .then(response => {
