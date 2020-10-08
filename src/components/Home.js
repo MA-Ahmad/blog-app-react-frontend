@@ -1,27 +1,28 @@
-import React, { useContext } from "react";
-import { Box, Badge, SimpleGrid, useToast, Flex } from "@chakra-ui/core";
+import React, { useEffect, useContext } from "react";
+import {
+  Box,
+  Badge,
+  SimpleGrid,
+  Flex,
+  Tag,
+  Avatar,
+  TagLabel
+} from "@chakra-ui/core";
 import Dotdotdot from "react-dotdotdot";
-import BlogContext from "../context/blog-context";
+import { BlogContext } from "../context/BlogContext";
+import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import PageLoader from "./PageLoader";
 import { Img } from "react-image";
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 const Home = () => {
   const context = useContext(BlogContext);
-  const toast = useToast();
+  const authContext = useContext(AuthContext);
 
-  const handleDelete = id => {
-    context.deleteBlog(id);
-
-    toast({
-      position: "bottom",
-      title: "Notification",
-      description: "Blog deleted successfully",
-      status: "success",
-      duration: 2000,
-      isClosable: true
-    });
-  };
+  useEffect(() => {
+    context.fetchBlogs();
+  }, []);
 
   return (
     <Box
@@ -35,29 +36,6 @@ const Home = () => {
         {context.blogs.map(blog => {
           return (
             <Box position="relative" key={blog.id}>
-              {/* {context.isAuth && context.user.id === blog.user_id ? (
-                <Box
-                  as="span"
-                  fontSize="sm"
-                  position="absolute"
-                  right="5px"
-                  margin="5px"
-                  zIndex="1"
-                >
-                  <Badge
-                    rounded="full"
-                    p="2px 8px"
-                    variantColor="red"
-                    as="button"
-                    onClick={() => handleDelete(blog.id)}
-                  >
-                    Delete
-                  </Badge>
-                </Box>
-              ) : (
-                ""
-              )} */}
-              {/* <Link to={`/edit/${blog.id}`}> */}
               <Box
                 maxW="sm"
                 borderWidth="1px"
@@ -68,7 +46,14 @@ const Home = () => {
               >
                 <Link to={`/blogs/${blog.id}`}>
                   <Img
-                    src={"https://bit.ly/2Z4KKcF"}
+                    style={{
+                      height: "30vh",
+                      width: "100%",
+                      objectFit: "cover"
+                    }}
+                    src={
+                      blog.image_url ? blog.image_url : "https://bit.ly/2Z4KKcF"
+                    }
                     alt="Blog image"
                     loader={<PageLoader />}
                   />
@@ -80,17 +65,12 @@ const Home = () => {
                       as="h2"
                       letterSpacing="wide"
                       textTransform="uppercase"
-                      ml="2"
+                      // ml="2"
                     >
                       {blog.title}
                     </Box>
                   </Box>
                   <Box m="2px 0px">
-                    {/* <Box
-                        as="span"
-                        color="gray.600"
-                        fontSize="sm"
-                      > */}
                     <Flex
                       as="div"
                       align="center"
@@ -98,13 +78,39 @@ const Home = () => {
                       wrap="wrap"
                       color="white"
                     >
-                      <Badge rounded="full" px="2" py="1" variantColor="teal">
-                        {blog.authorName}
-                      </Badge>
-                      {context.isAuth && context.user.id === blog.user_id ? (
+                      {/* <Badge rounded="full" px="2" py="1" variantColor="teal">
+                        {blog.user.name}
+                      </Badge> */}
+                      {blog.user &&
+                        (blog.user.name ? (
+                          <Tag variantColor="teal" rounded="full">
+                            <Avatar
+                              src={
+                                blog.user.image_url ? blog.user.image_url : ""
+                              }
+                              size="xs"
+                              name={blog.user.name}
+                              ml={-1}
+                              mr={2}
+                            />
+                            <TagLabel>{blog.user.name}</TagLabel>
+                          </Tag>
+                        ) : (
+                          <Avatar
+                            src={blog.user.image_url ? blog.user.image_url : ""}
+                            size="xs"
+                            name={"profile pic"}
+                          />
+                        ))}
+
+                      {authContext.isAuth &&
+                      authContext.user.id === blog.user_id ? (
                         <Box>
                           <Link to={`/edit/${blog.id}`}>
-                            <Badge
+                            <Tag size={"sm"} variantColor="cyan">
+                              <AiOutlineEdit />
+                            </Tag>
+                            {/* <Badge
                               rounded="full"
                               px="2"
                               py="1"
@@ -112,9 +118,19 @@ const Home = () => {
                               variantColor="gray"
                             >
                               Edit
-                            </Badge>
+                            </Badge> */}
                           </Link>
-                          <Badge
+
+                          <Tag
+                            as="button"
+                            onClick={() => context.deleteBlog(blog.id)}
+                            size={"sm"}
+                            variantColor="red"
+                            ml={1}
+                          >
+                            <AiOutlineDelete />
+                          </Tag>
+                          {/* <Badge
                             rounded="full"
                             px="2"
                             py="1"
@@ -123,13 +139,12 @@ const Home = () => {
                             onClick={() => handleDelete(blog.id)}
                           >
                             Delete
-                          </Badge>
+                          </Badge> */}
                         </Box>
                       ) : (
                         ""
                       )}
                     </Flex>
-                    {/* </Box> */}
                   </Box>
                   <Dotdotdot clamp={3}>
                     <Box
@@ -145,7 +160,6 @@ const Home = () => {
                   </Dotdotdot>
                 </Box>
               </Box>
-              {/* </Link> */}
             </Box>
           );
         })}
