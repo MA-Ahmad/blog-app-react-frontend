@@ -25,7 +25,7 @@ const Main = () => {
         />
 
         <ProtectedRoute
-          path="/new"
+          path="/profile"
           component={props => <Profile {...props} />}
         />
         <ProtectedRoute
