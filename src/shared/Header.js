@@ -1,14 +1,28 @@
 import React, { useContext } from "react";
-import { Box, Heading, Flex, Button, Link } from "@chakra-ui/core";
-import { NavLink } from "react-router-dom";
+import {
+  Box,
+  Heading,
+  Flex,
+  Button,
+  Link,
+  Avatar,
+  AvatarBadge,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuDivider,
+  MenuGroup,
+  MenuItem
+} from "@chakra-ui/core";
+import { NavLink, Link as ReachLink } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import "../App.css";
-import BlogContext from "../context/blog-context";
+import { AuthContext } from "../context/AuthContext";
 
 const Header = props => {
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
-  const context = useContext(BlogContext);
+  const authContext = useContext(AuthContext);
 
   return (
     <Flex
@@ -46,7 +60,7 @@ const Header = props => {
         alignItems="center"
         flexGrow={1}
       >
-        {context.isAuth ? (
+        {authContext.isAuth ? (
           <Box>
             <Heading fontSize="20px">
               <NavLink to="/new" activeClassName="active">
@@ -57,14 +71,6 @@ const Header = props => {
         ) : (
           ""
         )}
-
-        {/* <Box ml={{ sm: "0", md: "3" }}>
-          <Heading fontSize="20px">
-            <NavLink exact to="/" activeClassName="active">
-              List
-            </NavLink>
-          </Heading>
-        </Box> */}
       </Box>
 
       <Box
@@ -79,50 +85,82 @@ const Header = props => {
           flexGrow={1}
           mr={5}
         >
-          {context.isAuth ? (
+          {authContext.isAuth ? (
             <Box ml={{ sm: "0", md: "3" }}>
-              <Heading
-                fontSize="20px"
-                onClick={() => context.logout(props.history)}
-                cursor="pointer"
-              >
-                Sign Out
-              </Heading>
+              <Menu>
+                <MenuButton outline="none">
+                  <Avatar src={authContext.user.image_url}>
+                    <AvatarBadge size="1.25em" bg="green.500" />
+                  </Avatar>
+                </MenuButton>
+                <MenuList color="#000">
+                  <MenuGroup
+                    title={
+                      authContext.user.name ? authContext.user.name : "Profile"
+                    }
+                  >
+                    <Link
+                      as={ReachLink}
+                      to="/profile"
+                      _hover={{ textDecoration: "none" }}
+                    >
+                      <MenuItem>My Account</MenuItem>
+                    </Link>
+
+                    <Link
+                      href="https://github.com/MA-Ahmad/blog-app-react-frontend"
+                      isExternal
+                      style={{ textDecoration: "none" }}
+                      _hover={{ color: "black" }}
+                    >
+                      <MenuItem>View Source</MenuItem>
+                    </Link>
+                  </MenuGroup>
+                  <MenuDivider />
+                  <MenuItem onClick={() => authContext.logout(props.history)}>
+                    Signout
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Box>
           ) : (
             <>
               <Box ml={{ sm: "0", md: "3" }}>
                 <Heading fontSize="20px">
                   <NavLink exact to="/login" activeClassName="active">
-                    Sign In
+                    Login
                   </NavLink>
                 </Heading>
               </Box>
               <Box ml={{ sm: "0", md: "3" }}>
                 <Heading fontSize="20px">
                   <NavLink exact to="/register" activeClassName="active">
-                    Sign Up
+                    Signup
                   </NavLink>
                 </Heading>
               </Box>
             </>
           )}
         </Box>
-        <Link
-          href="https://github.com/MA-Ahmad/blog-app-react-frontend"
-          isExternal
-          style={{ textDecoration: "none" }}
-          _hover={{ color: "black" }}
-        >
-          <Button
-            leftIcon={FaGithub}
-            bg="transparent"
-            border="1px"
-            mt={{ sm: "2", md: "0" }}
+        {!authContext.isAuth ? (
+          <Link
+            href="https://github.com/MA-Ahmad/blog-app-react-frontend"
+            isExternal
+            style={{ textDecoration: "none" }}
+            _hover={{ color: "black" }}
           >
-            View Source
-          </Button>
-        </Link>
+            <Button
+              leftIcon={FaGithub}
+              bg="transparent"
+              border="1px"
+              mt={{ sm: "2", md: "0" }}
+            >
+              View Source
+            </Button>
+          </Link>
+        ) : (
+          ""
+        )}
       </Box>
     </Flex>
   );
