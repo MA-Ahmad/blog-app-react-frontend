@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Box,
   Heading,
@@ -23,6 +23,10 @@ const Header = props => {
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
   const authContext = useContext(AuthContext);
+
+  useEffect(() => {
+    authContext.authenticateUser();
+  }, []);
 
   return (
     <Flex
