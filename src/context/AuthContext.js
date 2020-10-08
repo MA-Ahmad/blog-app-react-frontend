@@ -14,6 +14,10 @@ const AuthProvider = props => {
   const toast = useToast();
 
   useEffect(() => {
+    authenticateUser();
+  }, []);
+
+  const authenticateUser = () => {
     Authenticate(baseUrl)
       .then(response => {
         if (response.isAuth) {
@@ -25,7 +29,7 @@ const AuthProvider = props => {
         console.log(response);
       })
       .catch(err => console.log(err));
-  }, []);
+  };
 
   const updateUser = (user, file, history) => {
     const url = `${baseUrl}/users/${user.id}`;
@@ -138,6 +142,7 @@ const AuthProvider = props => {
       value={{
         isAuth: isAuth,
         user: user,
+        authenticateUser: authenticateUser,
         updateUser: updateUser,
         registerUser: registerUser,
         loginUser: loginUser,
