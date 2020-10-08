@@ -25,6 +25,7 @@ const Header = props => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
+    console.log(authContext.user);
     authContext.authenticateUser();
   }, []);
 
