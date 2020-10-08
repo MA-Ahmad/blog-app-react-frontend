@@ -34,7 +34,8 @@ const AuthProvider = props => {
       .then(response => response.json())
       .then(response => {
         console.log(response);
-
+        setIsAuth(response.logged_in);
+        setUser(response.user);
         if (response.logged_in) {
           setIsAuth(response.logged_in);
           setUser(response.user);
