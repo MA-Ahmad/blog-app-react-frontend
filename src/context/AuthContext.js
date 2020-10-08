@@ -6,7 +6,9 @@ import { useToast } from "@chakra-ui/core";
 const AuthContext = createContext();
 
 const AuthProvider = props => {
-  const baseUrl = "http://localhost:3001/api/v1";
+  // const baseUrl = "http://localhost:3001/api/v1";
+  const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
+
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState({});
   const toast = useToast();

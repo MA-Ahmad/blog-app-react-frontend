@@ -12,8 +12,8 @@ const BlogContext = createContext({
 });
 
 const BlogProvider = props => {
-  const baseUrl = "http://localhost:3001/api/v1";
-  // const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
+  // const baseUrl = "http://localhost:3001/api/v1";
+  const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
   const [blogState, dispatch] = useReducer(blogReducer, {
     blogs: []
   });
