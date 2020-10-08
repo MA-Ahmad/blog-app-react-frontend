@@ -24,12 +24,9 @@ const Main = () => {
           }}
         />
 
-        <Route
-          exact
-          path="/profile"
-          render={props => {
-            return <Profile {...props} />;
-          }}
+        <ProtectedRoute
+          path="/new"
+          component={props => <Profile {...props} />}
         />
         <ProtectedRoute
           path="/new"
