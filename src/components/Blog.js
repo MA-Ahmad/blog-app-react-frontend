@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Box, Flex, Heading, Grid, Text } from "@chakra-ui/core";
-import BlogContext from "../context/blog-context";
+import { BlogContext } from "../context/BlogContext";
 import { FadeTransform } from "react-animation-components";
 import { Img } from "react-image";
 import PageLoader from "./PageLoader";
@@ -10,7 +10,8 @@ const Blog = ({ match }) => {
   const [initialValues, setInitialValues] = useState({
     title: "",
     authorName: "",
-    content: ""
+    content: "",
+    image_url: ""
   });
   const context = useContext(BlogContext);
 
@@ -50,25 +51,33 @@ const Blog = ({ match }) => {
         <Grid templateColumns="repeat(2, 1fr)" gap={2}>
           <Box w="100%" h="100%" bg="blue.500">
             <Img
-              src={"https://bit.ly/2Z4KKcF"}
+              src={
+                initialValues && initialValues.image_url
+                  ? initialValues.image_url
+                  : "https://bit.ly/2Z4KKcF"
+              }
               alt="Blog image"
               loader={<PageLoader />}
-              style={{ borderRadius: "5px" }}
+              style={{
+                height: "70vh",
+                objectFit: "cover",
+                borderRadius: "5px"
+              }}
             />
           </Box>
           <Box w="100%" h="100%">
             <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
               Title
             </Heading>
-            <Text>{initialValues && initialValues.title}</Text>
+            <Text pl={1}>{initialValues && initialValues.title}</Text>
             <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
               Author
             </Heading>
-            <Text>{initialValues && initialValues.authorName}</Text>
+            <Text pl={1}>{initialValues && initialValues.authorName}</Text>
             <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
               Content
             </Heading>
-            <Text>{initialValues && initialValues.content}</Text>
+            <Text pl={1}>{initialValues && initialValues.content}</Text>
           </Box>
         </Grid>
       </Flex>
