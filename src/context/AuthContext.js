@@ -28,7 +28,7 @@ const AuthProvider = props => {
   }, []);
 
   const updateUser = (user, file, history) => {
-    const url = `${baseUrl}/users/${user.id};`;
+    const url = `${baseUrl}/users/${user.id}`;
     const formData = new FormData();
     if (file) {
       formData.append("image", file, file.name);
