@@ -10,27 +10,33 @@ import {
   Button,
   Heading,
   useToast,
+  Image,
   FormErrorMessage
 } from "@chakra-ui/core";
-import BlogContext from "../context/blog-context";
+import { BlogContext } from "../context/BlogContext";
 import { Formik, Field } from "formik";
 import { FadeTransform } from "react-animation-components";
+import { AiOutlineUpload } from "react-icons/ai";
 
 const BlogForm = ({ match, history, editMode }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const [initialValues, setInitialValues] = useState({
     title: "",
     authorName: "",
     content: ""
   });
+  const hiddenFileInput = React.useRef(null);
   const context = useContext(BlogContext);
-  const toast = useToast();
 
+  console.log(context.blogs);
   useEffect(() => {
     if (editMode) {
       const selectedBlog = context.blogs.filter(
         blog => blog.id === Number(match.params.id)
       )[0];
       setInitialValues(selectedBlog);
+      setImageUrl(selectedBlog.image_url);
     } else {
       setInitialValues({
         title: "",
@@ -39,6 +45,17 @@ const BlogForm = ({ match, history, editMode }) => {
       });
     }
   }, [editMode]);
+
+  const fileChangedHandler = event => {
+    setSelectedFile(event.target.files[0]);
+    setImageUrl(URL.createObjectURL(event.target.files[0]));
+
+    // const temp_initialValues = {
+    //   image_url: URL.createObjectURL(event.target.files[0]),
+    //   ...initialValues
+    // };
+    // setInitialValues(temp_initialValues);
+  };
 
   function validateTitle(value) {
     let error;
@@ -92,26 +109,13 @@ const BlogForm = ({ match, history, editMode }) => {
                 onSubmit={(values, actions) => {
                   if (editMode) {
                     values["id"] = Number(match.params.id);
-                    context.editBlog(values);
-                    setInitialValues(values);
+                    context.editBlog(values, selectedFile, history);
+                    // setInitialValues(values);
                   } else {
-                    context.createBlog(values);
-                    actions.resetForm({});
+                    context.createBlog(values, selectedFile, history);
                   }
-                  history.push("/");
-
+                  // history.push("/");
                   actions.setSubmitting(false);
-                  const text = editMode
-                    ? "Blog post updated successfully"
-                    : "You've successfully created a blog post.";
-                  toast({
-                    position: "bottom",
-                    title: "Notification",
-                    description: text,
-                    status: "success",
-                    duration: 2000,
-                    isClosable: true
-                  });
                 }}
               >
                 {({ values, handleChange, handleSubmit, isSubmitting }) => {
@@ -181,6 +185,33 @@ const BlogForm = ({ match, history, editMode }) => {
                           onChange={handleChange}
                         />
                       </Box>
+                      <Box paddingBottom={5} height="2.5rem">
+                        <input
+                          style={{ display: "none" }}
+                          type="file"
+                          id="fileItem"
+                          onChange={fileChangedHandler}
+                          ref={hiddenFileInput}
+                        />
+                        <Button
+                          leftIcon={AiOutlineUpload}
+                          variantColor="teal"
+                          float="left"
+                          onClick={() => hiddenFileInput.current.click()}
+                        >
+                          Upload Image
+                        </Button>
+                      </Box>
+                      {imageUrl && (
+                        <Stack marginTop="5px">
+                          <Image
+                            size="100px"
+                            objectFit="cover"
+                            src={imageUrl}
+                            alt="Profile image"
+                          />
+                        </Stack>
+                      )}
                       <Button
                         mt={4}
                         variantColor="teal"
