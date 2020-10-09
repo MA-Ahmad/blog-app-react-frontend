@@ -47,7 +47,7 @@ const Home = () => {
                   position="relative"
                 >
                   <Link to={`/blogs/${blog.id}`}>
-                    <Image
+                    <Img
                       style={{
                         height: "30vh",
                         width: "100%",
@@ -59,6 +59,7 @@ const Home = () => {
                           : "https://bit.ly/2Z4KKcF"
                       }
                       alt="Blog image"
+                      loader={<PageLoader />}
                     />
                   </Link>
                   <Box p="5">
