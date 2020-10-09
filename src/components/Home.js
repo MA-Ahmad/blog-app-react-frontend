@@ -83,9 +83,8 @@ const Home = () => {
                             <Tag variantColor="teal" rounded="full">
                               <Avatar
                                 src={
-                                  blog.user.image
-                                    ? `${baseUrl}${blog.user.image.url}`
-                                    : ""
+                                  blog.user.image &&
+                                  `${baseUrl}${blog.user.image.url}`
                                 }
                                 size="xs"
                                 name={blog.user.name}
@@ -97,9 +96,8 @@ const Home = () => {
                           ) : (
                             <Avatar
                               src={
-                                blog.user.image
-                                  ? `${baseUrl}${blog.user.image.url}`
-                                  : ""
+                                blog.user.image &&
+                                `${baseUrl}${blog.user.image.url}`
                               }
                               size="xs"
                               name={"profile pic"}
