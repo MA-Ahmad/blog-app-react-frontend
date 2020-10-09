@@ -12,10 +12,13 @@ import {
   MenuList,
   MenuDivider,
   MenuGroup,
-  MenuItem
+  MenuItem,
+  Text
 } from "@chakra-ui/core";
 import { NavLink, Link as ReachLink } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
+import { AiOutlineGithub, AiOutlineLogout } from "react-icons/ai";
+import { RiAccountBoxLine } from "react-icons/ri";
 import "../App.css";
 import { AuthContext } from "../context/AuthContext";
 
@@ -104,7 +107,12 @@ const Header = props => {
                       to="/profile"
                       _hover={{ textDecoration: "none" }}
                     >
-                      <MenuItem>My Account</MenuItem>
+                      <MenuItem>
+                        <RiAccountBoxLine />
+                        <Text as="span" pl={2}>
+                          My Account
+                        </Text>
+                      </MenuItem>
                     </Link>
 
                     <Link
@@ -113,12 +121,20 @@ const Header = props => {
                       style={{ textDecoration: "none" }}
                       _hover={{ color: "black" }}
                     >
-                      <MenuItem>View Source</MenuItem>
+                      <MenuItem>
+                        <AiOutlineGithub />
+                        <Text as="span" pl={2}>
+                          View Source
+                        </Text>
+                      </MenuItem>
                     </Link>
                   </MenuGroup>
                   <MenuDivider />
                   <MenuItem onClick={() => authContext.logout(props.history)}>
-                    Signout
+                    <AiOutlineLogout />
+                    <Text as="span" pl={2}>
+                      Signout
+                    </Text>
                   </MenuItem>
                 </MenuList>
               </Menu>
