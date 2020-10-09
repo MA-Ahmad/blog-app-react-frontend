@@ -40,10 +40,12 @@ const Blog = ({ match }) => {
             <Box w="100%" h="100%" bg="blue.500">
               <Image
                 src={blog.image_url && `${baseUrl}${blog.image_url}`}
-                fallbackSrc="https://bit.ly/2Z4KKcF"
+                fallbackSrc="https://via.placeholder.com/500/3f58b5/ffffff/?text=BlogImage"
+                // fallbackSrc="https://bit.ly/2Z4KKcF"
                 alt="Blog image"
                 style={{
-                  height: "70vh",
+                  height: blog.image_url ? "70vh" : "55vh",
+                  width: "100%",
                   objectFit: "cover",
                   borderRadius: "5px"
                 }}

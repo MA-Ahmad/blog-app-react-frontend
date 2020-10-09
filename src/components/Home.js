@@ -54,7 +54,7 @@ const Home = () => {
                         objectFit: "cover"
                       }}
                       src={blog.image_url && `${baseUrl}${blog.image_url}`}
-                      fallbackSrc="https://bit.ly/2Z4KKcF"
+                      fallbackSrc="https://via.placeholder.com/500/3f58b5/ffffff/?text=BlogImage"
                       alt="Blog image"
                       // loader={<PageLoader />}
                     />
