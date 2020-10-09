@@ -49,28 +49,12 @@ const BlogForm = ({ match, history, editMode }) => {
   const fileChangedHandler = event => {
     setSelectedFile(event.target.files[0]);
     setImageUrl(URL.createObjectURL(event.target.files[0]));
-
-    // const temp_initialValues = {
-    //   image_url: URL.createObjectURL(event.target.files[0]),
-    //   ...initialValues
-    // };
-    // setInitialValues(temp_initialValues);
   };
 
-  function validateTitle(value) {
+  function validateField(value) {
     let error;
     if (!value) {
-      error = "Title is required";
-    } else if (value.length < 5) {
-      error = "Must be 5 characters or more";
-    }
-    return error;
-  }
-
-  function validateAuthorName(value) {
-    let error;
-    if (!value) {
-      error = "Name is required";
+      error = "Required";
     } else if (value.length < 5) {
       error = "Must be 5 characters or more";
     }
@@ -110,11 +94,9 @@ const BlogForm = ({ match, history, editMode }) => {
                   if (editMode) {
                     values["id"] = Number(match.params.id);
                     context.editBlog(values, selectedFile, history);
-                    // setInitialValues(values);
                   } else {
                     context.createBlog(values, selectedFile, history);
                   }
-                  // history.push("/");
                   actions.setSubmitting(false);
                 }}
               >
@@ -124,7 +106,7 @@ const BlogForm = ({ match, history, editMode }) => {
                       <Box paddingBottom={3}>
                         <Field
                           name="title"
-                          validate={validateTitle}
+                          validate={validateField}
                           width={"100%"}
                         >
                           {({ field, form }) => (
@@ -148,7 +130,7 @@ const BlogForm = ({ match, history, editMode }) => {
                           )}
                         </Field>
                       </Box>
-                      <Box paddingBottom={3}>
+                      {/* <Box paddingBottom={3}>
                         <Field
                           name="authorName"
                           validate={validateAuthorName}
@@ -175,8 +157,35 @@ const BlogForm = ({ match, history, editMode }) => {
                             </FormControl>
                           )}
                         </Field>
+                      </Box> */}
+                      <Box paddingBottom={3}>
+                        <Field
+                          name="content"
+                          validate={validateField}
+                          width={"100%"}
+                        >
+                          {({ field, form }) => (
+                            <FormControl
+                              isInvalid={
+                                form.errors.content && form.touched.content
+                              }
+                            >
+                              <FormLabel htmlFor="content">Content</FormLabel>
+                              <Textarea
+                                {...field}
+                                height={"20vh"}
+                                id="content"
+                                value={values.content}
+                                onChange={handleChange}
+                              />
+                              <FormErrorMessage>
+                                {form.errors.content}
+                              </FormErrorMessage>
+                            </FormControl>
+                          )}
+                        </Field>
                       </Box>
-                      <Box paddingBottom={5}>
+                      {/* <Box paddingBottom={5}>
                         <FormLabel htmlFor="content">Content</FormLabel>
                         <Textarea
                           height={"20vh"}
@@ -184,7 +193,7 @@ const BlogForm = ({ match, history, editMode }) => {
                           value={values.content}
                           onChange={handleChange}
                         />
-                      </Box>
+                      </Box> */}
                       <Box paddingBottom={5} height="2.5rem">
                         <input
                           style={{ display: "none" }}
