@@ -84,7 +84,7 @@ const Home = () => {
                               <Avatar
                                 src={
                                   blog.user.image
-                                    ? `${baseUrl}${blog.user.image}`
+                                    ? `${baseUrl}${blog.user.image.url}`
                                     : ""
                                 }
                                 size="xs"
@@ -98,7 +98,7 @@ const Home = () => {
                             <Avatar
                               src={
                                 blog.user.image
-                                  ? `${baseUrl}${blog.user.image}`
+                                  ? `${baseUrl}${blog.user.image.url}`
                                   : ""
                               }
                               size="xs"
