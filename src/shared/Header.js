@@ -21,6 +21,7 @@ import { AiOutlineGithub, AiOutlineLogout } from "react-icons/ai";
 import { RiAccountBoxLine } from "react-icons/ri";
 import "../App.css";
 import { AuthContext } from "../context/AuthContext";
+import { baseUrl } from "../utils/Cons/Constants";
 
 const Header = props => {
   const [show, setShow] = React.useState(false);
@@ -92,7 +93,7 @@ const Header = props => {
             <Box ml={{ sm: "0", md: "3" }}>
               <Menu>
                 <MenuButton outline="none">
-                  <Avatar src={authContext.user.image_url}>
+                  <Avatar src={`${baseUrl}${authContext.user.image_url}`}>
                     <AvatarBadge size="1.25em" bg="green.500" />
                   </Avatar>
                 </MenuButton>
