@@ -2,13 +2,11 @@ import React, { useEffect, useState, createContext } from "react";
 import Authenticate from "../utils/Auth/Authenticate";
 import axios from "axios";
 import { useToast } from "@chakra-ui/core";
+import { apiHost } from "../utils/Cons/Constants";
 
 const AuthContext = createContext();
 
 const AuthProvider = props => {
-  // const baseUrl = "http://localhost:3001/api/v1";
-  const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
-
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState({});
   const toast = useToast();
@@ -18,7 +16,7 @@ const AuthProvider = props => {
   }, []);
 
   const authenticateUser = () => {
-    Authenticate(baseUrl)
+    Authenticate(apiHost)
       .then(response => {
         if (response.isAuth) {
           setIsAuth(response.isAuth);
@@ -31,7 +29,7 @@ const AuthProvider = props => {
   };
 
   const updateUser = (user, file, history) => {
-    const url = `${baseUrl}/users/${user.id}`;
+    const url = `${apiHost}/users/${user.id}`;
     const formData = new FormData();
     if (file) {
       formData.append("image", file, file.name);
@@ -59,7 +57,7 @@ const AuthProvider = props => {
   const registerUser = (user, history) => {
     axios
       .post(
-        `${baseUrl}/registrations`,
+        `${apiHost}/registrations`,
         {
           user: user
         },
@@ -86,7 +84,7 @@ const AuthProvider = props => {
 
   const logout = history => {
     axios
-      .delete(`${baseUrl}/sessions/logout`, { withCredentials: true })
+      .delete(`${apiHost}/sessions/logout`, { withCredentials: true })
       .then(resp => {
         setIsAuth(false);
         setUser({});
@@ -99,7 +97,7 @@ const AuthProvider = props => {
 
   const loginUser = (user, history) => {
     axios
-      .post(`${baseUrl}/sessions`, { user: user }, { withCredentials: true })
+      .post(`${apiHost}/sessions`, { user: user }, { withCredentials: true })
       .then(response => {
         let message = "",
           status = "";

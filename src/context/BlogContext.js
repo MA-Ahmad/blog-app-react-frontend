@@ -2,7 +2,7 @@ import React, { useReducer, useEffect, useState, createContext } from "react";
 import { blogReducer, CREATE_BLOG, EDIT_BLOG, DELETE_BLOG } from "./reducers";
 import axios from "axios";
 import { useToast } from "@chakra-ui/core";
-
+import { apiHost } from "../utils/Cons/Constants";
 const BlogContext = createContext({
   blogs: [],
   blog: {},
@@ -12,8 +12,6 @@ const BlogContext = createContext({
 });
 
 const BlogProvider = props => {
-  // const baseUrl = "http://localhost:3001/api/v1";
-  const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
   const [blogState, dispatch] = useReducer(blogReducer, {
     blogs: []
   });
@@ -25,7 +23,7 @@ const BlogProvider = props => {
   }, []);
 
   const fetchBlogs = () => {
-    const url = `${baseUrl}/blogs`;
+    const url = `${apiHost}/blogs`;
     fetch(url, {
       withCredentials: true
     })
@@ -37,7 +35,7 @@ const BlogProvider = props => {
   };
 
   const createBlog = (blog, file, history) => {
-    const url = `${baseUrl}/blogs`;
+    const url = `${apiHost}/blogs`;
     const data = {
       title: blog.title,
       authorName: blog.authorName,
@@ -67,7 +65,7 @@ const BlogProvider = props => {
   };
 
   const editBlog = (blog, file, history) => {
-    const url = `${baseUrl}/blogs/${blog.id}`;
+    const url = `${apiHost}/blogs/${blog.id}`;
     const data = {
       title: blog.title,
       authorName: blog.authorName,
@@ -97,7 +95,7 @@ const BlogProvider = props => {
   };
 
   const deleteBlog = blogId => {
-    const url = `${baseUrl}/blogs/${blogId}`;
+    const url = `${apiHost}/blogs/${blogId}`;
     axios
       .delete(url, { withCredentials: true })
       .then(resp => {
@@ -108,7 +106,7 @@ const BlogProvider = props => {
   };
 
   // const requestDelete = blogId => {
-  //   const url = `${baseUrl}/blogs/destroy/${blogId}`;
+  //   const url = `${apiHost}/blogs/destroy/${blogId}`;
   //   axios
   //     .delete(url, { withCredentials: true })
   //     .then(resp => {
