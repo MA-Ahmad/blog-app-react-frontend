@@ -1,19 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Box, Flex, Heading, Grid, Text } from "@chakra-ui/core";
-import { BlogContext } from "../context/BlogContext";
+import React, { useState, useEffect } from "react";
+import { Box, Flex, Heading, Grid, Text, Image } from "@chakra-ui/core";
 import { FadeTransform } from "react-animation-components";
-import { Img } from "react-image";
 import PageLoader from "./PageLoader";
 import axios from "axios";
+import { apiHost, baseUrl } from "../utils/Cons/Constants";
 
 const Blog = ({ match }) => {
   const [blog, setBlog] = useState({});
-  // const baseUrl = "http://localhost:3001/api/v1";
-  const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}/blogs/${Number(match.params.id)}`, {
+      .get(`${apiHost}/blogs/${Number(match.params.id)}`, {
         withCredentials: true
       })
       .then(response => {
@@ -40,10 +37,13 @@ const Blog = ({ match }) => {
         >
           <Grid templateColumns="repeat(2, 1fr)" gap={2}>
             <Box w="100%" h="100%" bg="blue.500">
-              <Img
-                src={blog.image_url ? blog.image_url : "https://bit.ly/2Z4KKcF"}
+              <Image
+                src={
+                  blog.image_url
+                    ? `${baseUrl}${blog.image_url}`
+                    : "https://bit.ly/2Z4KKcF"
+                }
                 alt="Blog image"
-                loader={<PageLoader />}
                 style={{
                   height: "70vh",
                   objectFit: "cover",
