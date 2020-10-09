@@ -24,11 +24,6 @@ const Header = props => {
   const handleToggle = () => setShow(!show);
   const authContext = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log(authContext.user);
-    authContext.authenticateUser();
-  }, []);
-
   return (
     <Flex
       as="nav"
