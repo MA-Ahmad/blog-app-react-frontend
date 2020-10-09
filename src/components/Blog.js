@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Heading, Grid, Text, Image } from "@chakra-ui/core";
+import { Box, Flex, Heading, Grid, Text } from "@chakra-ui/core";
 import { FadeTransform } from "react-animation-components";
 import PageLoader from "./PageLoader";
+import { Img } from "react-image";
 import axios from "axios";
 import { apiHost, baseUrl } from "../utils/Cons/Constants";
 
@@ -37,7 +38,7 @@ const Blog = ({ match }) => {
         >
           <Grid templateColumns="repeat(2, 1fr)" gap={2}>
             <Box w="100%" h="100%" bg="blue.500">
-              <Image
+              <Img
                 src={
                   blog.image_url
                     ? `${baseUrl}${blog.image_url}`
@@ -49,6 +50,7 @@ const Blog = ({ match }) => {
                   objectFit: "cover",
                   borderRadius: "5px"
                 }}
+                loader={<PageLoader />}
               />
             </Box>
             <Box w="100%" h="100%">
