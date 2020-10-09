@@ -38,7 +38,7 @@ const Blog = ({ match }) => {
         >
           <Grid templateColumns="repeat(2, 1fr)" gap={2}>
             <Box w="100%" h="100%" bg="blue.500">
-              <Img
+              <Image
                 src={blog.image_url && `${baseUrl}${blog.image_url}`}
                 fallbackSrc="https://bit.ly/2Z4KKcF"
                 alt="Blog image"
