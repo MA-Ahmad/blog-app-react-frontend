@@ -18,12 +18,7 @@ const Blog = ({ match }) => {
   const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
 
   useEffect(() => {
-    if (context.blogs === []) {
-      const selectedBlog = context.blogs.filter(
-        blog => blog.id === Number(match.params.id)
-      )[0];
-      setInitialValues(selectedBlog);
-    } else {
+    if (context.blogs.length) {
       axios
         .get(`${baseUrl}/blogs/${Number(match.params.id)}`, {
           withCredentials: true
@@ -32,6 +27,11 @@ const Blog = ({ match }) => {
           setInitialValues(response.data);
         })
         .catch(err => console.log(err));
+    } else {
+      const selectedBlog = context.blogs.filter(
+        blog => blog.id === Number(match.params.id)
+      )[0];
+      setInitialValues(selectedBlog);
     }
   }, []);
 
