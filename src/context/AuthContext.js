@@ -26,7 +26,6 @@ const AuthProvider = props => {
         } else {
           setIsAuth(false);
         }
-        console.log(response);
       })
       .catch(err => console.log(err));
   };
@@ -56,6 +55,7 @@ const AuthProvider = props => {
       })
       .catch(err => console.log(err));
   };
+
   const registerUser = (user, history) => {
     axios
       .post(
@@ -91,7 +91,8 @@ const AuthProvider = props => {
         setIsAuth(false);
         setUser({});
         showToast("Logged out successfully", "success");
-        history.push("/");
+        // history.push("/");
+        window.location.href = "/";
       })
       .catch(err => console.log(err));
   };
