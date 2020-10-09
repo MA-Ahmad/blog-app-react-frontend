@@ -40,7 +40,6 @@ const Blog = ({ match }) => {
             <Box w="100%" h="100%" bg="blue.500">
               <Image
                 src={blog.image && `${baseUrl}${blog.image.url}`}
-                // 3f58b5
                 fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
                 // fallbackSrc="https://bit.ly/2Z4KKcF"
                 alt="Blog image"

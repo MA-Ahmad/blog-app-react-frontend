@@ -15,6 +15,7 @@ import { Formik, Field } from "formik";
 import { FadeTransform } from "react-animation-components";
 import { AiOutlineUpload } from "react-icons/ai";
 import { baseUrl } from "../utils/Cons/Constants";
+import PageLoader from "./PageLoader";
 
 const Profile = ({ history }) => {
   const authContext = useContext(AuthContext);
@@ -27,6 +28,7 @@ const Profile = ({ history }) => {
     image: ""
   });
   const [upload, setUpload] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const hiddenFileInput = React.useRef(null);
   const toast = useToast();
 
@@ -67,6 +69,7 @@ const Profile = ({ history }) => {
         exitTransform: "scale(0.5) translateX(-50%)"
       }}
     >
+      {showLoader && <PageLoader />}
       <Box
         maxWidth="1200px"
         mx="auto"
@@ -91,9 +94,8 @@ const Profile = ({ history }) => {
                 initialValues={initialValues}
                 onSubmit={(values, actions) => {
                   values["id"] = Number(authContext.user.id);
-                  //   if (selectedFile) {
+                  setShowLoader(true);
                   authContext.updateUser(values, selectedFile, history);
-                  //   }
                   actions.setSubmitting(false);
                 }}
               >

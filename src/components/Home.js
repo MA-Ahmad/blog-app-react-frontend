@@ -56,7 +56,6 @@ const Home = () => {
                       src={blog.image.url && `${baseUrl}${blog.image.url}`}
                       fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
                       alt="Blog image"
-                      // loader={<PageLoader />}
                     />
                   </Link>
                   <Box p="5">
