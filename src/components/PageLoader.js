@@ -10,7 +10,8 @@ const PageLoader = () => {
       top={0}
       alignItems="center"
       justifyContent="center"
-      bg="white"
+      // bg="white"
+      bg="rgba(255, 255, 255, 0.68)"
       zIndex={999}
     >
       <Spinner thickness="4px" color="gray.400" />
