@@ -36,9 +36,6 @@ const Profile = ({ history }) => {
   }, [authContext.user]);
 
   const fileChangedHandler = event => {
-    // setSelectedFile(event.target.files[0]);
-    // setImageUrl(URL.createObjectURL(event.target.files[0]));
-    // setUpload(true);
     const file = event.target.files[0];
     const fileType = file["type"];
     const validImageTypes = [
