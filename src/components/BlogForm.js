@@ -199,9 +199,10 @@ const BlogForm = ({ match, history, editMode }) => {
                         </Button>
                       </Box>
                       {imageUrl && (
-                        <Stack marginTop="5px">
+                        <Stack marginTop="5px" width="100%">
                           <Image
                             size="100px"
+                            width="100%"
                             objectFit="cover"
                             src={upload ? imageUrl : `${baseUrl}${imageUrl}`}
                             alt="Profile image"
