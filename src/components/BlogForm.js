@@ -18,6 +18,7 @@ import { Formik, Field } from "formik";
 import { FadeTransform } from "react-animation-components";
 import { AiOutlineUpload } from "react-icons/ai";
 import { baseUrl } from "../utils/Cons/Constants";
+import PageLoader from "./PageLoader";
 
 const BlogForm = ({ match, history, editMode }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -28,6 +29,7 @@ const BlogForm = ({ match, history, editMode }) => {
     content: ""
   });
   const [upload, setUpload] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const hiddenFileInput = React.useRef(null);
   const context = useContext(BlogContext);
   const toast = useToast();
@@ -91,6 +93,7 @@ const BlogForm = ({ match, history, editMode }) => {
         exitTransform: "scale(0.5) translateX(-50%)"
       }}
     >
+      {showLoader && <PageLoader />}
       <Box
         maxWidth="1200px"
         mx="auto"
@@ -114,6 +117,7 @@ const BlogForm = ({ match, history, editMode }) => {
                 enableReinitialize
                 initialValues={initialValues}
                 onSubmit={(values, actions) => {
+                  setShowLoader(true);
                   if (editMode) {
                     values["id"] = Number(match.params.id);
                     context.editBlog(values, selectedFile, history);
