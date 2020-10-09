@@ -47,19 +47,16 @@ const Home = () => {
                   position="relative"
                 >
                   <Link to={`/blogs/${blog.id}`}>
-                    <Img
+                    <Image
                       style={{
                         height: "30vh",
                         width: "100%",
                         objectFit: "cover"
                       }}
-                      src={
-                        blog.image_url
-                          ? `${baseUrl}${blog.image_url}`
-                          : "https://bit.ly/2Z4KKcF"
-                      }
+                      src={blog.image_url && `${baseUrl}${blog.image_url}`}
+                      fallbackSrc="https://bit.ly/2Z4KKcF"
                       alt="Blog image"
-                      loader={<PageLoader />}
+                      // loader={<PageLoader />}
                     />
                   </Link>
                   <Box p="5">
