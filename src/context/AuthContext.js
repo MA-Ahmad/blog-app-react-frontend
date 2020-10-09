@@ -18,31 +18,29 @@ const AuthProvider = props => {
   }, []);
 
   const authenticateUser = () => {
-    // Authenticate(baseUrl)
-    //   .then(response => {
-    //     if (response.isAuth) {
-    //       setIsAuth(response.isAuth);
-    //       setUser(response.user);
-    //     } else {
-    //       setIsAuth(false);
-    //     }
-    //     console.log(response);
-    //   })
-    //   .catch(err => console.log(err));
-
-    fetch(`${baseUrl}/sessions/logged_in`, { credentials: "include" })
-      .then(response => response.json())
+    Authenticate(baseUrl)
       .then(response => {
-        console.log(response);
-        setIsAuth(response.logged_in);
-        setUser(response.user);
-        if (response.logged_in) {
-          setIsAuth(response.logged_in);
+        if (response.isAuth) {
+          setIsAuth(response.isAuth);
           setUser(response.user);
         } else {
           setIsAuth(false);
         }
-      });
+        console.log(response);
+      })
+      .catch(err => console.log(err));
+
+    // fetch(`${baseUrl}/sessions/logged_in`, { credentials: "include" })
+    //   .then(response => response.json())
+    //   .then(response => {
+    //     console.log(response);
+    //     if (response.logged_in) {
+    //       setIsAuth(response.logged_in);
+    //       setUser(response.user);
+    //     } else {
+    //       setIsAuth(false);
+    //     }
+    //   });
   };
 
   const updateUser = (user, file, history) => {
@@ -110,55 +108,55 @@ const AuthProvider = props => {
       .catch(err => console.log(err));
   };
 
-  // const loginUser = (user, history) => {
-  //   axios
-  //     .post(
-  //       `${baseUrl}/sessions`,
-  //       {
-  //         user: user
-  //       },
-  //       { withCredentials: true }
-  //     )
-  //     .then(response => {
-  //       let message = "",
-  //         status = "";
-  //       if (response.data.logged_in) {
-  //         setIsAuth(true);
-  //         setUser(response.data.user);
-  //         history.push("/");
-  //         // window.location.href = "/";
-  //         message = "Logged in successfully";
-  //         status = "success";
-  //       } else {
-  //         message = "Credentials are wrong";
-  //         status = "error";
-  //       }
-  //       showToast(message, status);
-  //     })
-  //     .catch(error => {
-  //       console.log("login error", error);
-  //     });
-  // };
-
   const loginUser = (user, history) => {
-    postData({ user: user }).then(data => {
-      console.log(data); // JSON data parsed by `data.json()` call
-      let message = "",
-        status = "";
-      if (data.logged_in) {
-        setIsAuth(true);
-        setUser(data.user);
-        history.push("/");
-        // window.location.href = "/";
-        message = "Logged in successfully";
-        status = "success";
-      } else {
-        message = "Credentials are wrong";
-        status = "error";
-      }
-      showToast(message, status);
-    });
+    axios
+      .post(
+        `${baseUrl}/sessions`,
+        {
+          user: user
+        },
+        { withCredentials: true }
+      )
+      .then(response => {
+        let message = "",
+          status = "";
+        if (response.data.logged_in) {
+          setIsAuth(true);
+          setUser(response.data.user);
+          history.push("/");
+          // window.location.href = "/";
+          message = "Logged in successfully";
+          status = "success";
+        } else {
+          message = "Credentials are wrong";
+          status = "error";
+        }
+        showToast(message, status);
+      })
+      .catch(error => {
+        console.log("login error", error);
+      });
   };
+
+  // const loginUser = (user, history) => {
+  //   postData({ user: user }).then(data => {
+  //     console.log(data); // JSON data parsed by `data.json()` call
+  //     let message = "",
+  //       status = "";
+  //     if (data.logged_in) {
+  //       setIsAuth(true);
+  //       setUser(data.user);
+  //       history.push("/");
+  //       // window.location.href = "/";
+  //       message = "Logged in successfully";
+  //       status = "success";
+  //     } else {
+  //       message = "Credentials are wrong";
+  //       status = "error";
+  //     }
+  //     showToast(message, status);
+  //   });
+  // };
 
   // Example POST method implementation:
   async function postData(data = {}) {
