@@ -7,32 +7,19 @@ import PageLoader from "./PageLoader";
 import axios from "axios";
 
 const Blog = ({ match }) => {
-  const [initialValues, setInitialValues] = useState({
-    title: "",
-    authorName: "",
-    content: "",
-    image_url: ""
-  });
-  const context = useContext(BlogContext);
+  const [blog, setBlog] = useState({});
   // const baseUrl = "http://localhost:3001/api/v1";
   const baseUrl = "https://blog-backend-rails.herokuapp.com/api/v1";
 
   useEffect(() => {
-    if (context.blogs.length) {
-      axios
-        .get(`${baseUrl}/blogs/${Number(match.params.id)}`, {
-          withCredentials: true
-        })
-        .then(response => {
-          setInitialValues(response.data);
-        })
-        .catch(err => console.log(err));
-    } else {
-      const selectedBlog = context.blogs.filter(
-        blog => blog.id === Number(match.params.id)
-      )[0];
-      setInitialValues(selectedBlog);
-    }
+    axios
+      .get(`${baseUrl}/blogs/${Number(match.params.id)}`, {
+        withCredentials: true
+      })
+      .then(response => {
+        setBlog(response.data);
+      })
+      .catch(err => console.log(err));
   }, []);
 
   return (
@@ -42,47 +29,51 @@ const Blog = ({ match }) => {
         exitTransform: "scale(0.5) translateX(-50%)"
       }}
     >
-      <Flex
-        as="div"
-        align="center"
-        justify="space-between"
-        wrap="wrap"
-        padding="1.5rem"
-        h="50vh"
-      >
-        <Grid templateColumns="repeat(2, 1fr)" gap={2}>
-          <Box w="100%" h="100%" bg="blue.500">
-            <Img
-              src={
-                initialValues && initialValues.image_url
-                  ? initialValues.image_url
-                  : "https://bit.ly/2Z4KKcF"
-              }
-              alt="Blog image"
-              loader={<PageLoader />}
-              style={{
-                height: "70vh",
-                objectFit: "cover",
-                borderRadius: "5px"
-              }}
-            />
-          </Box>
-          <Box w="100%" h="100%">
-            <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
-              Title
-            </Heading>
-            <Text pl={1}>{initialValues && initialValues.title}</Text>
-            <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
-              Author
-            </Heading>
-            <Text pl={1}>{initialValues && initialValues.authorName}</Text>
-            <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
-              Content
-            </Heading>
-            <Text pl={1}>{initialValues && initialValues.content}</Text>
-          </Box>
-        </Grid>
-      </Flex>
+      {blog ? (
+        <Flex
+          as="div"
+          align="center"
+          justify="space-between"
+          wrap="wrap"
+          padding="1.5rem"
+          h="50vh"
+        >
+          <Grid templateColumns="repeat(2, 1fr)" gap={2}>
+            <Box w="100%" h="100%" bg="blue.500">
+              <Img
+                src={blog.image_url ? blog.image_url : "https://bit.ly/2Z4KKcF"}
+                alt="Blog image"
+                loader={<PageLoader />}
+                style={{
+                  height: "70vh",
+                  objectFit: "cover",
+                  borderRadius: "5px"
+                }}
+              />
+            </Box>
+            <Box w="100%" h="100%">
+              <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
+                Title
+              </Heading>
+              <Text pl={1}>{blog.title}</Text>
+              {blog.user && blog.user.name && (
+                <>
+                  <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
+                    Author
+                  </Heading>
+                  <Text pl={1}>{blog.user.name}</Text>
+                </>
+              )}
+              <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
+                Content
+              </Heading>
+              <Text pl={1}>{blog.content}</Text>
+            </Box>
+          </Grid>
+        </Flex>
+      ) : (
+        <PageLoader />
+      )}
     </FadeTransform>
   );
 };
