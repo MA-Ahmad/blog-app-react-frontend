@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Heading, Grid, Text } from "@chakra-ui/core";
+import { Box, Flex, Heading, Grid, Text, Image } from "@chakra-ui/core";
 import { FadeTransform } from "react-animation-components";
 import PageLoader from "./PageLoader";
 import { Img } from "react-image";
