@@ -30,6 +30,7 @@ const BlogForm = ({ match, history, editMode }) => {
   const [upload, setUpload] = useState(false);
   const hiddenFileInput = React.useRef(null);
   const context = useContext(BlogContext);
+  const toast = useToast();
 
   console.log(context.blogs);
   useEffect(() => {
@@ -38,7 +39,7 @@ const BlogForm = ({ match, history, editMode }) => {
         blog => blog.id === Number(match.params.id)
       )[0];
       setInitialValues(selectedBlog);
-      setImageUrl(selectedBlog.image_url);
+      setImageUrl(selectedBlog.image.url);
     } else {
       setInitialValues({
         title: "",
@@ -49,9 +50,28 @@ const BlogForm = ({ match, history, editMode }) => {
   }, [editMode]);
 
   const fileChangedHandler = event => {
-    setSelectedFile(event.target.files[0]);
-    setImageUrl(URL.createObjectURL(event.target.files[0]));
-    setUpload(true);
+    const file = event.target.files[0];
+    const fileType = file["type"];
+    const validImageTypes = [
+      "image/gif",
+      "image/jpeg",
+      "image/jpg",
+      "image/png"
+    ];
+    if (validImageTypes.includes(fileType)) {
+      setSelectedFile(file);
+      setImageUrl(URL.createObjectURL(file));
+      setUpload(true);
+    } else {
+      toast({
+        position: "bottom",
+        email: "Notification",
+        description: "Invalid type",
+        status: "error",
+        duration: 2000,
+        isClosable: true
+      });
+    }
   };
 
   function validateField(value) {
@@ -167,6 +187,7 @@ const BlogForm = ({ match, history, editMode }) => {
                           id="fileItem"
                           onChange={fileChangedHandler}
                           ref={hiddenFileInput}
+                          accept="image/*"
                         />
                         <Button
                           leftIcon={AiOutlineUpload}

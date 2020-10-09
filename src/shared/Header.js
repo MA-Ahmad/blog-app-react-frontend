@@ -93,7 +93,12 @@ const Header = props => {
             <Box ml={{ sm: "0", md: "3" }}>
               <Menu>
                 <MenuButton outline="none">
-                  <Avatar src={`${baseUrl}${authContext.user.image_url}`}>
+                  <Avatar
+                    src={
+                      authContext.user.image &&
+                      `${baseUrl}${authContext.user.image.url}`
+                    }
+                  >
                     <AvatarBadge size="1.25em" bg="green.500" />
                   </Avatar>
                 </MenuButton>

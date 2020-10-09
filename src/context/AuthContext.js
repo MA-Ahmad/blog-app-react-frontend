@@ -36,7 +36,7 @@ const AuthProvider = props => {
     }
     const data = {
       name: user.name,
-      image_url: user.image_url
+      image: user.image
     };
     formData.append("user", JSON.stringify(data));
     axios

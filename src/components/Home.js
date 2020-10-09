@@ -53,7 +53,7 @@ const Home = () => {
                         width: "100%",
                         objectFit: "cover"
                       }}
-                      src={blog.image_url && `${baseUrl}${blog.image_url}`}
+                      src={blog.image.url && `${baseUrl}${blog.image.url}`}
                       fallbackSrc="https://via.placeholder.com/500/3f58b5/ffffff/?text=BlogImage"
                       alt="Blog image"
                       // loader={<PageLoader />}
@@ -83,8 +83,8 @@ const Home = () => {
                             <Tag variantColor="teal" rounded="full">
                               <Avatar
                                 src={
-                                  blog.user.image_url
-                                    ? `${baseUrl}${blog.user.image_url}`
+                                  blog.user.image
+                                    ? `${baseUrl}${blog.user.image}`
                                     : ""
                                 }
                                 size="xs"
@@ -97,8 +97,8 @@ const Home = () => {
                           ) : (
                             <Avatar
                               src={
-                                blog.user.image_url
-                                  ? `${baseUrl}${blog.user.image_url}`
+                                blog.user.image
+                                  ? `${baseUrl}${blog.user.image}`
                                   : ""
                               }
                               size="xs"

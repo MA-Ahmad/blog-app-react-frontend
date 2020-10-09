@@ -7,7 +7,8 @@ import {
   Stack,
   Button,
   Heading,
-  Image
+  Image,
+  useToast
 } from "@chakra-ui/core";
 import { AuthContext } from "../context/AuthContext";
 import { Formik, Field } from "formik";
@@ -23,20 +24,43 @@ const Profile = ({ history }) => {
   const [initialValues, setInitialValues] = useState({
     name: "",
     email: "",
-    image_url: ""
+    image: ""
   });
   const [upload, setUpload] = useState(false);
   const hiddenFileInput = React.useRef(null);
+  const toast = useToast();
 
   useEffect(() => {
     setInitialValues(authContext.user);
-    setImageUrl(authContext.user.image_url);
+    setImageUrl(authContext.user.image.url);
   }, [authContext.user]);
 
   const fileChangedHandler = event => {
-    setSelectedFile(event.target.files[0]);
-    setImageUrl(URL.createObjectURL(event.target.files[0]));
-    setUpload(true);
+    // setSelectedFile(event.target.files[0]);
+    // setImageUrl(URL.createObjectURL(event.target.files[0]));
+    // setUpload(true);
+    const file = event.target.files[0];
+    const fileType = file["type"];
+    const validImageTypes = [
+      "image/gif",
+      "image/jpeg",
+      "image/jpg",
+      "image/png"
+    ];
+    if (validImageTypes.includes(fileType)) {
+      setSelectedFile(file);
+      setImageUrl(URL.createObjectURL(file));
+      setUpload(true);
+    } else {
+      toast({
+        position: "bottom",
+        email: "Notification",
+        description: "Invalid type",
+        status: "error",
+        duration: 2000,
+        isClosable: true
+      });
+    }
   };
 
   return (
@@ -105,6 +129,7 @@ const Profile = ({ history }) => {
                           id="fileItem"
                           onChange={fileChangedHandler}
                           ref={hiddenFileInput}
+                          accept="image/*"
                         />
                         <Button
                           leftIcon={AiOutlineUpload}
