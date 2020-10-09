@@ -17,6 +17,7 @@ import { BlogContext } from "../context/BlogContext";
 import { Formik, Field } from "formik";
 import { FadeTransform } from "react-animation-components";
 import { AiOutlineUpload } from "react-icons/ai";
+import { baseUrl } from "../utils/Cons/Constants";
 
 const BlogForm = ({ match, history, editMode }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -26,6 +27,7 @@ const BlogForm = ({ match, history, editMode }) => {
     authorName: "",
     content: ""
   });
+  const [upload, setUpload] = useState(false);
   const hiddenFileInput = React.useRef(null);
   const context = useContext(BlogContext);
 
@@ -49,6 +51,7 @@ const BlogForm = ({ match, history, editMode }) => {
   const fileChangedHandler = event => {
     setSelectedFile(event.target.files[0]);
     setImageUrl(URL.createObjectURL(event.target.files[0]));
+    setUpload(true);
   };
 
   function validateField(value) {
@@ -130,34 +133,6 @@ const BlogForm = ({ match, history, editMode }) => {
                           )}
                         </Field>
                       </Box>
-                      {/* <Box paddingBottom={3}>
-                        <Field
-                          name="authorName"
-                          validate={validateAuthorName}
-                          width={"100%"}
-                        >
-                          {({ field, form }) => (
-                            <FormControl
-                              isInvalid={
-                                form.errors.authorName &&
-                                form.touched.authorName
-                              }
-                            >
-                              <FormLabel htmlFor="authorName">Name</FormLabel>
-                              <Input
-                                {...field}
-                                id="authorName"
-                                placeholder="Author Name"
-                                value={values.authorName}
-                                onChange={handleChange}
-                              />
-                              <FormErrorMessage>
-                                {form.errors.authorName}
-                              </FormErrorMessage>
-                            </FormControl>
-                          )}
-                        </Field>
-                      </Box> */}
                       <Box paddingBottom={3}>
                         <Field
                           name="content"
@@ -185,15 +160,6 @@ const BlogForm = ({ match, history, editMode }) => {
                           )}
                         </Field>
                       </Box>
-                      {/* <Box paddingBottom={5}>
-                        <FormLabel htmlFor="content">Content</FormLabel>
-                        <Textarea
-                          height={"20vh"}
-                          name="content"
-                          value={values.content}
-                          onChange={handleChange}
-                        />
-                      </Box> */}
                       <Box paddingBottom={5} height="2.5rem">
                         <input
                           style={{ display: "none" }}
@@ -216,7 +182,7 @@ const BlogForm = ({ match, history, editMode }) => {
                           <Image
                             size="100px"
                             objectFit="cover"
-                            src={imageUrl}
+                            src={upload ? imageUrl : `${baseUrl}${imageUrl}`}
                             alt="Profile image"
                           />
                         </Stack>

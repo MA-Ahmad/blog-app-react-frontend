@@ -13,6 +13,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Formik, Field } from "formik";
 import { FadeTransform } from "react-animation-components";
 import { AiOutlineUpload } from "react-icons/ai";
+import { baseUrl } from "../utils/Cons/Constants";
 
 const Profile = ({ history }) => {
   const authContext = useContext(AuthContext);
@@ -24,6 +25,7 @@ const Profile = ({ history }) => {
     email: "",
     image_url: ""
   });
+  const [upload, setUpload] = useState(false);
   const hiddenFileInput = React.useRef(null);
 
   useEffect(() => {
@@ -34,6 +36,7 @@ const Profile = ({ history }) => {
   const fileChangedHandler = event => {
     setSelectedFile(event.target.files[0]);
     setImageUrl(URL.createObjectURL(event.target.files[0]));
+    setUpload(true);
   };
 
   return (
@@ -117,7 +120,7 @@ const Profile = ({ history }) => {
                           <Image
                             size="100px"
                             objectFit="cover"
-                            src={imageUrl}
+                            src={upload ? imageUrl : `${baseUrl}${imageUrl}`}
                             alt="Profile image"
                           />
                         </Stack>

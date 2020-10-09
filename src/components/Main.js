@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "../shared/Header";
 import BlogForm from "./BlogForm";
 import Home from "./Home";
 import AuthForm from "./Auth/AuthForm";
 import Blog from "./Blog";
-import { BlogContext } from "../context/BlogContext";
 import UnprotectedRoute from "../UnprotectedRoute";
 import ProtectedRoute from "../ProtectedRoute";
 import Profile from "./Profile";
@@ -44,34 +43,6 @@ const Main = () => {
           path="/login"
           component={props => <AuthForm {...props} formType={"login"} />}
         />
-        {/* <Route
-          exact
-          path="/new"
-          render={props => {
-            return <BlogForm {...props} editMode={false} />;
-          }}
-        /> */}
-        {/* <Route
-          exact
-          path="/edit/:id"
-          render={props => {
-            return <BlogForm {...props} editMode={true} />;
-          }}
-        /> */}
-        {/* <Route
-          exact
-          path="/register"
-          render={props => {
-            return <AuthForm {...props} formType={"signup"} />;
-          }}
-        />
-        <Route
-          exact
-          path="/login"
-          render={props => {
-            return <AuthForm {...props} formType={"login"} />;
-          }}
-        /> */}
         <Redirect to="/" />
       </Switch>
     </React.Fragment>
