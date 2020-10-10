@@ -25,8 +25,6 @@ const Home = () => {
     context.fetchBlogs();
   }, []);
 
-  console.log("blogs");
-  console.log(context.blogs);
   return (
     <Box
       maxWidth="1200px"
