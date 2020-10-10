@@ -18,7 +18,6 @@ const BlogProvider = props => {
   const toast = useToast();
 
   useEffect(() => {
-    console.log("blogssss");
     fetchBlogs();
   }, []);
 
@@ -104,17 +103,6 @@ const BlogProvider = props => {
       })
       .catch(err => console.log(err));
   };
-
-  // const requestDelete = blogId => {
-  //   const url = `${apiHost}/blogs/destroy/${blogId}`;
-  //   axios
-  //     .delete(url, { withCredentials: true })
-  //     .then(resp => {
-  //       dispatch({ type: DELETE_BLOG, blogId: blogId });
-  //       showToast("Blog deleted successfully", "success");
-  //     })
-  //     .catch(err => console.log(err));
-  // };
 
   const showToast = (message, status) => {
     toast({

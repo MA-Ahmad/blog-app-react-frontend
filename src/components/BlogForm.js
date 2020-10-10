@@ -34,7 +34,6 @@ const BlogForm = ({ match, history, editMode }) => {
   const context = useContext(BlogContext);
   const toast = useToast();
 
-  console.log(context.blogs);
   useEffect(() => {
     if (editMode) {
       const selectedBlog = context.blogs.filter(

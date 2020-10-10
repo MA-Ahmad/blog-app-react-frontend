@@ -41,9 +41,6 @@ const AuthForm = ({ history, formType }) => {
     return error;
   }
 
-  console.log("formType");
-  console.log(formType);
-
   return (
     <FadeTransform
       in
