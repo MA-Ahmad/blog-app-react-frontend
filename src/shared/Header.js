@@ -96,6 +96,7 @@ const Header = props => {
                   <Avatar
                     src={
                       authContext.user.image &&
+                      authContext.user.image.url &&
                       `${baseUrl}${authContext.user.image.url}`
                     }
                   >

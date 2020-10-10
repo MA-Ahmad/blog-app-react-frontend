@@ -53,7 +53,11 @@ const Home = () => {
                         width: "100%",
                         objectFit: "cover"
                       }}
-                      src={blog.image.url && `${baseUrl}${blog.image.url}`}
+                      src={
+                        blog.image &&
+                        blog.image.url &&
+                        `${baseUrl}${blog.image.url}`
+                      }
                       fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
                       alt="Blog image"
                     />

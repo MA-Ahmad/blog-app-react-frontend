@@ -39,7 +39,9 @@ const Blog = ({ match }) => {
           <Grid templateColumns="repeat(2, 1fr)" gap={2}>
             <Box w="100%" h="100%" bg="blue.500">
               <Image
-                src={blog.image && `${baseUrl}${blog.image.url}`}
+                src={
+                  blog.image && blog.image.url && `${baseUrl}${blog.image.url}`
+                }
                 fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
                 // fallbackSrc="https://bit.ly/2Z4KKcF"
                 alt="Blog image"
