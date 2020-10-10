@@ -34,7 +34,7 @@ const Profile = ({ history }) => {
 
   useEffect(() => {
     setInitialValues(authContext.user);
-    setImageUrl(authContext.user.image.url);
+    setImageUrl(authContext.user.image);
   }, [authContext.user]);
 
   const fileChangedHandler = event => {

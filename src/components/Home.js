@@ -25,6 +25,8 @@ const Home = () => {
     context.fetchBlogs();
   }, []);
 
+  console.log("blogs");
+  console.log(context.blogs);
   return (
     <Box
       maxWidth="1200px"
@@ -53,11 +55,7 @@ const Home = () => {
                         width: "100%",
                         objectFit: "cover"
                       }}
-                      src={
-                        blog.image &&
-                        blog.image.url &&
-                        `${baseUrl}${blog.image.url}`
-                      }
+                      src={blog.image && `${baseUrl}${blog.image}`}
                       fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
                       alt="Blog image"
                     />
@@ -87,8 +85,7 @@ const Home = () => {
                               <Avatar
                                 src={
                                   blog.user.image &&
-                                  blog.user.image.url &&
-                                  `${baseUrl}${blog.user.image.url}`
+                                  `${baseUrl}${blog.user.image}`
                                 }
                                 size="xs"
                                 name={blog.user.name}
@@ -101,8 +98,7 @@ const Home = () => {
                             <Avatar
                               src={
                                 blog.user.image &&
-                                blog.user.image.url &&
-                                `${baseUrl}${blog.user.image.url}`
+                                `${baseUrl}${blog.user.image}`
                               }
                               size="xs"
                               name={"profile pic"}

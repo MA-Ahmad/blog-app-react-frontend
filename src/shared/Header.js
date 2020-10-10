@@ -96,8 +96,7 @@ const Header = props => {
                   <Avatar
                     src={
                       authContext.user.image &&
-                      authContext.user.image.url &&
-                      `${baseUrl}${authContext.user.image.url}`
+                      `${baseUrl}${authContext.user.image}`
                     }
                   >
                     <AvatarBadge size="1.25em" bg="green.500" />

@@ -40,7 +40,7 @@ const BlogForm = ({ match, history, editMode }) => {
         blog => blog.id === Number(match.params.id)
       )[0];
       setInitialValues(selectedBlog);
-      setImageUrl(selectedBlog.image.url);
+      setImageUrl(selectedBlog.image);
     } else {
       setInitialValues({
         title: "",
