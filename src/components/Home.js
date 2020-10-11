@@ -16,12 +16,20 @@ import PageLoader from "./PageLoader";
 import { Img } from "react-image";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { baseUrl } from "../utils/Cons/Constants";
+import ahoy from "ahoy.js";
 
+ahoy.configure({
+  urlPrefix: "",
+  visitsUrl: `${baseUrl}/ahoy/visits`,
+  eventsUrl: `${baseUrl}/ahoy/events`,
+  withCredentials: true
+});
 const Home = () => {
   const context = useContext(BlogContext);
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
+    ahoy.trackAll();
     context.fetchBlogs();
   }, []);
 
