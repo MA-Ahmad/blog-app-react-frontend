@@ -33,23 +33,19 @@ const BlogProvider = props => {
       .catch(error => console.log(error));
   };
 
-  const createBlog = (blog, file, history) => {
+  const createBlog = (data, file, history) => {
     const url = `${apiHost}/blogs`;
-    const data = {
-      title: blog.title,
-      authorName: blog.authorName,
-      content: blog.content.replace(/\n/g, "<br> <br>")
-    };
     const formData = new FormData();
     if (file) {
-      formData.append("image", file, file.name);
+      formData.append("blog[image_file]", file);
     }
-    formData.append("blog", JSON.stringify(data));
-    // {
-    //   blog: data
-    // }
+    formData.append("blog[title]", data.title);
+    formData.append("blog[content]", data.content.replace(/\n/g, "<br> <br>"));
     axios
       .post(url, formData, {
+        headers: {
+          "Content-Type": "application/json"
+        },
         withCredentials: true,
         onUploadProgress: progressEvent => {
           console.log(progressEvent.loaded / progressEvent.total);
