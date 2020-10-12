@@ -32,15 +32,14 @@ const AuthProvider = props => {
     const url = `${apiHost}/users/${user.id}`;
     const formData = new FormData();
     if (file) {
-      formData.append("image", file, file.name);
+      formData.append("user[image_file]", file);
     }
-    const data = {
-      name: user.name,
-      image: user.image
-    };
-    formData.append("user", JSON.stringify(data));
+    formData.append("user[name]", user.name);
     axios
       .put(url, formData, {
+        headers: {
+          "Content-Type": "application/json"
+        },
         withCredentials: true,
         onUploadProgress: progressEvent => {
           console.log(progressEvent.loaded / progressEvent.total);
