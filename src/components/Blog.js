@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -7,17 +7,36 @@ import {
   Text,
   Image,
   Stack,
-  SimpleGrid
+  SimpleGrid,
+  Avatar,
+  AvatarBadge,
+  IconButton
 } from "@chakra-ui/core";
 import { FadeTransform } from "react-animation-components";
 import PageLoader from "./PageLoader";
 import { Img } from "react-image";
 import axios from "axios";
 import { apiHost, baseUrl } from "../utils/Cons/Constants";
+import { AuthContext } from "../context/AuthContext";
+import { RiHeart2Line } from "react-icons/ri";
+import { BsBookmarkPlus } from "react-icons/bs";
+
+// const iconProps = {
+//   variant: "ghost",
+//   size: "lg",
+//   isRound: true
+// };
+
+const iconProps = {
+  variant: "outline",
+  size: "lg",
+  isRound: true
+};
 
 const Blog = ({ match }) => {
   const [blog, setBlog] = useState({});
   const [user, setUser] = useState({});
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     axios
@@ -47,21 +66,40 @@ const Blog = ({ match }) => {
           justifyContent="center"
         >
           <Box
-            // width={{ base: 1, sm: "100%", md: "10rem" }}
             width={{ base: 1, sm: "100%", md: "10rem" }}
-            // px={2}
-            border="1px solid red"
+            height="max-content"
             m={{ base: "0 auto" }}
             mx={2}
+            p={"12px"}
             display={{ sm: "none", md: "block", lg: "block" }}
           >
-            one
+            <Stack spacing={5} align="center">
+              <IconButton
+                aria-label="like icon"
+                fontSize="20px"
+                isRound={true}
+                icon={() => <RiHeart2Line />}
+                variantColor="red"
+                {...iconProps}
+              />
+              <IconButton
+                aria-label="like icon"
+                fontSize="20px"
+                isRound={true}
+                icon={() => <BsBookmarkPlus />}
+                variantColor="red"
+                {...iconProps}
+              />
+            </Stack>
           </Box>
           <Box
             width={{ base: 1, sm: "35rem", md: "75rem" }}
-            // px={2}
+            height="max-content"
+            shadow="md"
+            borderWidth="1px"
+            borderRadius=""
+            rounded="md"
             mx={2}
-            border="1px solid red"
             m={{ sm: "0 auto" }}
           >
             <>
@@ -70,86 +108,107 @@ const Blog = ({ match }) => {
                 fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
                 alt="Blog image"
                 w="100%"
+                objectFit="cover"
+                borderRadius="5px 5px 0 0"
                 style={{
-                  height: blog.image ? "60vh" : "53vh",
-                  objectFit: "cover",
-                  borderRadius: "5px"
+                  height: blog.image ? "60vh" : "53vh"
                 }}
               />
-              <Box w="100%" h="100%">
+              <Box
+                w="100%"
+                h="100%"
+                bg="#fff"
+                p="25px"
+                borderRadius="0 0 5px 5px"
+              >
                 <Stack spacing={3}>
                   <Heading as="h1" size="2xl">
                     {blog.title}
                   </Heading>
-                  <Heading as="h2" size="xl">
-                    {user.name}
-                  </Heading>
+
+                  <Stack isInline spacing={3} align="center">
+                    <Avatar
+                      src={user.image && `${baseUrl}${user.image}`}
+                    ></Avatar>
+                    <Box>
+                      <Heading as="h1" size="md">
+                        {user.name}
+                      </Heading>
+                    </Box>
+                    <Box>
+                      <Text fontSize="xs" mt="0.3em">
+                        9 Oct
+                      </Text>
+                    </Box>
+                  </Stack>
                 </Stack>
-                <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
-                  {blog.content}
-                </Heading>
+                <Text mt={4} fontWeight="450" fontSize="1.2rem">
+                  The future can be even brighter but a goal without a plan is
+                  just a wish
+                </Text>
               </Box>
             </>
           </Box>
           <Box
             width={{ base: 1, sm: 1 / 2, md: 2 / 4 }}
+            height="max-content"
             display={{ sm: "none", md: "none", lg: "block" }}
-            // px={2}
+            shadow="md"
+            borderWidth="1px"
+            // flex="1"
+            rounded="md"
+            p={"12px"}
+            bg="#fff"
             mx={2}
-            border="1px solid red"
           >
-            three
+            <Stack isInline spacing={3} align="center">
+              <Avatar
+                size="lg"
+                src={
+                  authContext.isAuth && `${baseUrl}${authContext.user.image}`
+                }
+              ></Avatar>
+              <Box>
+                <Heading as="h1" size="md">
+                  {authContext.isAuth && authContext.user.name}
+                </Heading>
+              </Box>
+            </Stack>
+            <Stack spacing={2}>
+              <Text mt={4} fontWeight="450">
+                The future can be even brighter but a goal without a plan is
+                just a wish
+              </Text>
+              <Box>
+                <Box color="gray.400" fontWeight="450">
+                  Work
+                </Box>
+                <Stack isInline align="center">
+                  <Box fontWeight="450">Software Engineer at self-employed</Box>
+                </Stack>
+              </Box>
+              <Box>
+                <Box color="gray.400" fontWeight="450">
+                  Location
+                </Box>
+                <Box>
+                  <Text fontWeight="450">Pakistan</Text>
+                </Box>
+              </Box>
+              <Box>
+                <Box color="gray.400" fontWeight="450">
+                  Joined
+                </Box>
+                <Box>
+                  <Text fontWeight="450">20 Apr 2020</Text>
+                </Box>
+              </Box>
+            </Stack>
           </Box>
         </Flex>
       ) : (
         <PageLoader />
       )}
-      {/* {blog ? (
-        <Flex
-          as="div"
-          align="center"
-          justify="space-between"
-          wrap="wrap"
-          padding="1.5rem"
-          h="50vh"
-        >
-          <Grid templateColumns="repeat(1, 1fr)" gap={2} m={"0 auto"}>
-            <Box w="100%" h="100%" bg="blue.500">
-              <Image
-                src={blog.image && `${baseUrl}${blog.image}`}
-                fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
-                alt="Blog image"
-                style={{
-                  height: blog.image ? "60vh" : "53vh",
-                  objectFit: "cover",
-                  borderRadius: "5px"
-                }}
-                // loader={<PageLoader />}
-              />
-            </Box>
-            <Box w="100%" h="100%">
-              <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
-                Title
-              </Heading>
-              <Text pl={1}>{blog.title}</Text>
-              {blog.user && blog.user.name && (
-                <>
-                  <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
-                    Author
-                  </Heading>
-                  <Text pl={1}>{blog.user.name}</Text>
-                </>
-              )}
-              <Heading as="h1" size="md" letterSpacing={"-.1rem"}>
-                Content
-              </Heading>
-              <Text pl={1}>{blog.content}</Text>
-            </Box>
-          </Grid>
-        </Flex>
-      ) : (
-        <PageLoader />
-      )} */}
     </FadeTransform>
   );
 };
