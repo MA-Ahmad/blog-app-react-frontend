@@ -87,7 +87,14 @@ const Profile = ({ history }) => {
             User Profile
           </Heading>
 
-          <Box p={5} shadow="md" borderWidth="1px" rounded="md" width={"40%"}>
+          <Box
+            p={5}
+            shadow="md"
+            borderWidth="1px"
+            rounded="md"
+            width={"40%"}
+            bg="#fff"
+          >
             <Stack isInline spacing={8} align="center">
               <Formik
                 enableReinitialize
