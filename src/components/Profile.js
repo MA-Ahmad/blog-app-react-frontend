@@ -8,7 +8,11 @@ import {
   Button,
   Heading,
   Image,
-  useToast
+  useToast,
+  PseudoBox,
+  Text,
+  List,
+  ListItem
 } from "@chakra-ui/core";
 import { AuthContext } from "../context/AuthContext";
 import { Formik, Field } from "formik";
@@ -63,62 +67,334 @@ const Profile = ({ history }) => {
   };
 
   return (
-    <FadeTransform
-      in
-      transformProps={{
-        exitTransform: "scale(0.5) translateX(-50%)"
-      }}
-    >
-      {showLoader && <PageLoader />}
-      <Box
-        maxWidth="1200px"
-        mx="auto"
-        my="auto"
-        paddingTop="20px"
-        paddingBottom="20px"
-        height={"100%"}
+    <>
+      <Flex
+        maxWidth="1150px"
+        margin="0 auto"
+        p="20px"
+        // display={{ sm: "block", md: "" }}
+        justifyContent="flex-start"
       >
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          flexDirection="column"
+        <Heading as="h1" size="lg">
+          Settings for{" "}
+          <Text as="span" color="teal.500">
+            @m_ahmad
+          </Text>
+        </Heading>
+      </Flex>
+      {/* <Flex
+        maxWidth="1150px"
+        margin="0 auto"
+        p="20px"
+        display={{ sm: "block", md: "flex" }}
+        justifyContent="center"
+      > */}
+      <Stack isInline maxWidth="1150px" margin="0 auto" p="10px" spacing={8}>
+        <Box
+          width={{ base: 1, sm: "100%", md: "30%" }}
+          display={{ sm: "none", md: "block", lg: "block" }}
+          rounded="md"
         >
-          <Heading as="h1" color="teal.500" size="lg" p={5}>
-            User Profile
-          </Heading>
+          <List>
+            <PseudoBox
+              as="li"
+              fontWeight="semibold"
+              py={2}
+              px={2}
+              rounded="md"
+              bg="#fbfdff"
+              _active={{ bg: "#fbfdff", rounded: "md" }}
+              _hover={{
+                bg: "#e3e8ea",
+                color: "blue.400",
+                shadow: "md",
+                rounded: "md"
+              }}
+              // _focus={{ boxShadow: "outline" }}
+            >
+              Profile
+            </PseudoBox>
+            <PseudoBox
+              as="li"
+              fontWeight="semibold"
+              py={2}
+              px={2}
+              rounded="md"
+              _active={{ bg: "#fbfdff", rounded: "md" }}
+              _hover={{
+                bg: "#e3e8ea",
+                color: "blue.400",
+                shadow: "md",
+                rounded: "md"
+              }}
+              // _focus={{ boxShadow: "outline" }}
+            >
+              Account
+            </PseudoBox>
 
-          <Box
-            p={5}
-            shadow="md"
-            borderWidth="1px"
-            rounded="md"
-            width={"40%"}
-            bg="#fff"
-          >
-            <Stack isInline spacing={8} align="center">
-              <Formik
-                enableReinitialize
-                initialValues={initialValues}
-                onSubmit={(values, actions) => {
-                  values["id"] = Number(authContext.user.id);
-                  setShowLoader(true);
-                  authContext.updateUser(values, selectedFile, history);
-                  actions.setSubmitting(false);
-                }}
-              >
-                {({ values, handleChange, handleSubmit, isSubmitting }) => {
-                  return (
-                    <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-                      <Box paddingBottom={5}>
-                        <FormLabel htmlFor="name">Name</FormLabel>
-                        <Input
+            <ListItem
+              _hover={{
+                bg: "#e3e8ea",
+                color: "blue.400",
+                shadow: "md",
+                rounded: "md"
+              }}
+              padding={2}
+              fontWeight="500"
+            >
+              Terms
+            </ListItem>
+            <ListItem
+              _hover={{
+                bg: "#e3e8ea",
+                color: "blue.400",
+                shadow: "md",
+                rounded: "md"
+              }}
+              padding={2}
+              fontWeight="500"
+            >
+              Privay Policy
+            </ListItem>
+          </List>
+        </Box>
+        <Box
+          width={{ base: 1, sm: "35rem", md: "50rem", lg: "60rem" }}
+          mx={2}
+          m={{ sm: "0 auto" }}
+        >
+          <Box>
+            <Box
+              p={5}
+              shadow="md"
+              borderWidth="1px"
+              rounded="md"
+              // width={"40%"}
+              bg="#fbfdff"
+            >
+              <Stack isInline spacing={8} align="center">
+                <Formik
+                  enableReinitialize
+                  initialValues={initialValues}
+                  onSubmit={(values, actions) => {
+                    values["id"] = Number(authContext.user.id);
+                    setShowLoader(true);
+                    authContext.updateUser(values, selectedFile, history);
+                    actions.setSubmitting(false);
+                  }}
+                >
+                  {({ values, handleChange, handleSubmit, isSubmitting }) => {
+                    return (
+                      <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+                        <Stack spacing={3}>
+                          <Box>
+                            <FormLabel htmlFor="email">Email</FormLabel>
+                            <PseudoBox
+                              as="input"
+                              display="block"
+                              placeholder="Email"
+                              value={values.email}
+                              onChange={handleChange}
+                              type="email"
+                              flex="1"
+                              py={2}
+                              px={4}
+                              width="100%"
+                              rounded="md"
+                              bg="gray.50"
+                              borderWidth="1px"
+                              borderColor="gray.300"
+                              _focus={{
+                                bg: "white",
+                                borderColor: "gray.300"
+                              }}
+                            />
+                          </Box>
+                          <Box>
+                            <FormLabel htmlFor="name">Name</FormLabel>
+                            {/* <Input
                           id="name"
                           placeholder="Name"
                           value={values.name}
                           onChange={handleChange}
-                        />
-                      </Box>
-                      <Box paddingBottom={3}>
+                        /> */}
+                            <PseudoBox
+                              as="input"
+                              display="block"
+                              placeholder="Name"
+                              value={values.name}
+                              onChange={handleChange}
+                              type="text"
+                              flex="1"
+                              py={2}
+                              px={4}
+                              width="100%"
+                              rounded="md"
+                              bg="gray.50"
+                              borderWidth="1px"
+                              borderColor="gray.300"
+                              _focus={{
+                                bg: "white",
+                                borderColor: "gray.300"
+                              }}
+                            />
+                          </Box>
+                          <Box>
+                            <FormLabel htmlFor="name">Username</FormLabel>
+                            <PseudoBox
+                              as="input"
+                              display="block"
+                              placeholder="Username"
+                              type="text"
+                              flex="1"
+                              py={2}
+                              px={4}
+                              width="100%"
+                              rounded="md"
+                              bg="gray.50"
+                              borderWidth="1px"
+                              borderColor="gray.300"
+                              _focus={{
+                                bg: "white",
+                                borderColor: "gray.300"
+                              }}
+                            />
+                          </Box>
+                          <Box>
+                            <FormLabel htmlFor="name">Summary</FormLabel>
+                            <PseudoBox
+                              as="textarea"
+                              display="block"
+                              placeholder="Summary"
+                              type="text"
+                              flex="1"
+                              py={2}
+                              px={4}
+                              width="100%"
+                              height="5rem"
+                              rounded="md"
+                              bg="gray.50"
+                              borderWidth="1px"
+                              borderColor="gray.300"
+                              _focus={{
+                                bg: "white",
+                                borderColor: "gray.300"
+                              }}
+                            />
+                          </Box>
+                          <Box>
+                            <FormLabel htmlFor="name">Location</FormLabel>
+                            <PseudoBox
+                              as="input"
+                              display="block"
+                              placeholder="Location"
+                              type="text"
+                              flex="1"
+                              py={2}
+                              px={4}
+                              width="100%"
+                              rounded="md"
+                              bg="gray.50"
+                              borderWidth="1px"
+                              borderColor="gray.300"
+                              _focus={{
+                                bg: "white",
+                                borderColor: "gray.300"
+                              }}
+                            />
+                          </Box>
+                          <Box>
+                            <FormLabel htmlFor="name">Education</FormLabel>
+                            <PseudoBox
+                              as="input"
+                              display="block"
+                              placeholder="Education"
+                              type="text"
+                              flex="1"
+                              py={2}
+                              px={4}
+                              width="100%"
+                              rounded="md"
+                              bg="gray.50"
+                              borderWidth="1px"
+                              borderColor="gray.300"
+                              _focus={{
+                                bg: "white",
+                                borderColor: "gray.300"
+                              }}
+                            />
+                          </Box>
+                          <Box>
+                            <FormLabel htmlFor="name">
+                              Skills/Languages
+                            </FormLabel>
+                            <PseudoBox
+                              as="textarea"
+                              display="block"
+                              placeholder="Skills/languages"
+                              type="text"
+                              flex="1"
+                              py={2}
+                              px={4}
+                              width="100%"
+                              height="7rem"
+                              rounded="md"
+                              bg="gray.50"
+                              borderWidth="1px"
+                              borderColor="gray.300"
+                              _focus={{
+                                bg: "white",
+                                borderColor: "gray.300"
+                              }}
+                            />
+                          </Box>
+                          <Box>
+                            <FormLabel htmlFor="name">Employer name</FormLabel>
+                            <PseudoBox
+                              as="input"
+                              display="block"
+                              placeholder="Employer name"
+                              type="text"
+                              flex="1"
+                              py={2}
+                              px={4}
+                              width="100%"
+                              rounded="md"
+                              bg="gray.50"
+                              borderWidth="1px"
+                              borderColor="gray.300"
+                              _focus={{
+                                bg: "white",
+                                borderColor: "gray.300"
+                              }}
+                            />
+                          </Box>
+                          <Box>
+                            <FormLabel htmlFor="name">
+                              Employment title
+                            </FormLabel>
+                            <PseudoBox
+                              as="input"
+                              display="block"
+                              placeholder="Employer title"
+                              type="text"
+                              flex="1"
+                              py={2}
+                              px={4}
+                              width="100%"
+                              rounded="md"
+                              bg="gray.50"
+                              borderWidth="1px"
+                              borderColor="gray.300"
+                              _focus={{
+                                bg: "white",
+                                borderColor: "gray.300"
+                              }}
+                            />
+                          </Box>
+                        </Stack>
+
+                        {/* <Box paddingBottom={3}>
                         <FormLabel htmlFor="email">Email</FormLabel>
                         <Input
                           isDisabled={true}
@@ -127,53 +403,55 @@ const Profile = ({ history }) => {
                           value={values.email}
                           onChange={handleChange}
                         />
-                      </Box>
-                      <Box paddingBottom={5} height="2.5rem">
-                        <input
-                          style={{ display: "none" }}
-                          type="file"
-                          id="fileItem"
-                          onChange={fileChangedHandler}
-                          ref={hiddenFileInput}
-                          accept="image/*"
-                        />
-                        <Button
-                          leftIcon={AiOutlineUpload}
-                          variantColor="teal"
-                          float="left"
-                          onClick={() => hiddenFileInput.current.click()}
-                        >
-                          Upload Image
-                        </Button>
-                      </Box>
-                      {imageUrl && (
-                        <Stack marginTop="5px">
-                          <Image
-                            size="100px"
-                            objectFit="cover"
-                            src={upload ? imageUrl : `${baseUrl}${imageUrl}`}
-                            alt="Profile image"
+                      </Box> */}
+                        <Box paddingBottom={5} height="2.5rem" mt={3}>
+                          <input
+                            style={{ display: "none" }}
+                            type="file"
+                            id="fileItem"
+                            onChange={fileChangedHandler}
+                            ref={hiddenFileInput}
+                            accept="image/*"
                           />
-                        </Stack>
-                      )}
-                      <Button
-                        mt={4}
-                        variantColor="teal"
-                        isLoading={isSubmitting}
-                        type="submit"
-                        float="right"
-                      >
-                        Update
-                      </Button>
-                    </form>
-                  );
-                }}
-              </Formik>
-            </Stack>
+                          <Button
+                            leftIcon={AiOutlineUpload}
+                            variantColor="teal"
+                            float="left"
+                            onClick={() => hiddenFileInput.current.click()}
+                          >
+                            Upload Image
+                          </Button>
+                        </Box>
+                        {imageUrl && (
+                          <Stack marginTop="5px">
+                            <Image
+                              size="100px"
+                              objectFit="cover"
+                              src={upload ? imageUrl : `${baseUrl}${imageUrl}`}
+                              alt="Profile image"
+                            />
+                          </Stack>
+                        )}
+                        <Button
+                          mt={4}
+                          variantColor="teal"
+                          isLoading={isSubmitting}
+                          type="submit"
+                          float="right"
+                        >
+                          Update
+                        </Button>
+                      </form>
+                    );
+                  }}
+                </Formik>
+              </Stack>
+            </Box>
           </Box>
-        </Flex>
-      </Box>
-    </FadeTransform>
+        </Box>
+      </Stack>
+      {/* </Flex> */}
+    </>
   );
 };
 
