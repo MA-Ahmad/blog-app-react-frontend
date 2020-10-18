@@ -71,8 +71,8 @@ const Profile = ({ history }) => {
       <Flex
         maxWidth="1150px"
         margin="0 auto"
-        p="20px"
-        // display={{ sm: "block", md: "" }}
+        pt="10px"
+        p="10px"
         justifyContent="flex-start"
       >
         <Heading as="h1" size="lg">
@@ -82,16 +82,9 @@ const Profile = ({ history }) => {
           </Text>
         </Heading>
       </Flex>
-      {/* <Flex
-        maxWidth="1150px"
-        margin="0 auto"
-        p="20px"
-        display={{ sm: "block", md: "flex" }}
-        justifyContent="center"
-      > */}
-      <Stack isInline maxWidth="1150px" margin="0 auto" p="10px" spacing={8}>
+      <Stack isInline maxWidth="1150px" margin="0 auto" p="10px" spacing={5}>
         <Box
-          width={{ base: 1, sm: "100%", md: "30%" }}
+          width={{ base: 1, sm: "100%", md: "25%" }}
           display={{ sm: "none", md: "block", lg: "block" }}
           rounded="md"
         >
@@ -104,17 +97,16 @@ const Profile = ({ history }) => {
               rounded="md"
               bg="#fbfdff"
               _active={{ bg: "#fbfdff", rounded: "md" }}
-              _hover={{
-                bg: "#e3e8ea",
-                color: "blue.400",
-                shadow: "md",
-                rounded: "md"
-              }}
-              // _focus={{ boxShadow: "outline" }}
+              // _hover={{
+              //   bg: "#e3e8ea",
+              //   color: "blue.400",
+              //   shadow: "md",
+              //   rounded: "md"
+              // }}
             >
               Profile
             </PseudoBox>
-            <PseudoBox
+            {/* <PseudoBox
               as="li"
               fontWeight="semibold"
               py={2}
@@ -127,7 +119,6 @@ const Profile = ({ history }) => {
                 shadow: "md",
                 rounded: "md"
               }}
-              // _focus={{ boxShadow: "outline" }}
             >
               Account
             </PseudoBox>
@@ -155,7 +146,7 @@ const Profile = ({ history }) => {
               fontWeight="500"
             >
               Privay Policy
-            </ListItem>
+            </ListItem> */}
           </List>
         </Box>
         <Box
@@ -221,7 +212,7 @@ const Profile = ({ history }) => {
                             <PseudoBox
                               as="input"
                               display="block"
-                              placeholder="Name"
+                              placeholder="Muhammad Ahmad"
                               value={values.name}
                               onChange={handleChange}
                               type="text"
@@ -244,7 +235,7 @@ const Profile = ({ history }) => {
                             <PseudoBox
                               as="input"
                               display="block"
-                              placeholder="Username"
+                              placeholder="m_ahmad"
                               type="text"
                               flex="1"
                               py={2}
@@ -265,7 +256,7 @@ const Profile = ({ history }) => {
                             <PseudoBox
                               as="textarea"
                               display="block"
-                              placeholder="Summary"
+                              placeholder="A short bio..."
                               type="text"
                               flex="1"
                               py={2}
@@ -287,7 +278,7 @@ const Profile = ({ history }) => {
                             <PseudoBox
                               as="input"
                               display="block"
-                              placeholder="Location"
+                              placeholder="Lahore, Pakistan"
                               type="text"
                               flex="1"
                               py={2}
@@ -308,7 +299,7 @@ const Profile = ({ history }) => {
                             <PseudoBox
                               as="input"
                               display="block"
-                              placeholder="Education"
+                              placeholder="Bachelor's degree CS"
                               type="text"
                               flex="1"
                               py={2}
@@ -331,7 +322,7 @@ const Profile = ({ history }) => {
                             <PseudoBox
                               as="textarea"
                               display="block"
-                              placeholder="Skills/languages"
+                              placeholder="Javascript, Ruby"
                               type="text"
                               flex="1"
                               py={2}
@@ -353,7 +344,7 @@ const Profile = ({ history }) => {
                             <PseudoBox
                               as="input"
                               display="block"
-                              placeholder="Employer name"
+                              placeholder="Inspex Inc."
                               type="text"
                               flex="1"
                               py={2}
@@ -376,7 +367,7 @@ const Profile = ({ history }) => {
                             <PseudoBox
                               as="input"
                               display="block"
-                              placeholder="Employer title"
+                              placeholder="Backend Engineer"
                               type="text"
                               flex="1"
                               py={2}
