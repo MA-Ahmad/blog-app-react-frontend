@@ -35,6 +35,15 @@ const AuthProvider = props => {
       formData.append("user[image_file]", file);
     }
     formData.append("user[name]", user.name);
+    formData.append("user[email]", user.email);
+    formData.append("user[username]", user.username);
+    formData.append("user[location]", user.location);
+    formData.append("user[summary]", user.summary);
+    formData.append("user[education]", user.education);
+    formData.append("user[emp_name]", user.emp_name);
+    formData.append("user[emp_title]", user.emp_title);
+    formData.append("user[skills]", user.skills);
+
     axios
       .put(url, formData, {
         headers: {

@@ -12,6 +12,8 @@ import {
   PseudoBox,
   Text,
   List,
+  FormControl,
+  FormErrorMessage,
   ListItem
 } from "@chakra-ui/core";
 import { AuthContext } from "../context/AuthContext";
@@ -27,9 +29,16 @@ const Profile = ({ history }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [initialValues, setInitialValues] = useState({
-    name: "",
     email: "",
-    image: ""
+    name: "",
+    image: "",
+    username: "",
+    summary: "",
+    location: "",
+    education: "",
+    emp_name: "",
+    emp_title: "",
+    skills: ""
   });
   const [upload, setUpload] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -65,6 +74,16 @@ const Profile = ({ history }) => {
       });
     }
   };
+
+  function validateEmail(email) {
+    let error;
+    if (!email) {
+      error = "Required";
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+      error = "Invalid email address";
+    }
+    return error;
+  }
 
   return (
     <>
@@ -179,7 +198,7 @@ const Profile = ({ history }) => {
                       <form onSubmit={handleSubmit} style={{ width: "100%" }}>
                         <Stack spacing={3}>
                           <Box>
-                            <FormLabel htmlFor="email">Email</FormLabel>
+                            {/* <FormLabel htmlFor="email">Email</FormLabel>
                             <PseudoBox
                               as="input"
                               display="block"
@@ -199,20 +218,62 @@ const Profile = ({ history }) => {
                                 bg: "white",
                                 borderColor: "gray.300"
                               }}
-                            />
+                            /> */}
+                            <Field
+                              name="email"
+                              validate={validateEmail}
+                              width={"100%"}
+                            >
+                              {({ field, form }) => (
+                                <FormControl
+                                  isInvalid={
+                                    form.errors.email && form.touched.email
+                                  }
+                                >
+                                  <FormLabel htmlFor="email">Email</FormLabel>
+                                  {/* <Input
+                                    {...field}
+                                    id="title"
+                                    placeholder="Title"
+                                    value={values.title}
+                                    onChange={handleChange}
+                                  /> */}
+                                  <PseudoBox
+                                    {...field}
+                                    as="input"
+                                    display="block"
+                                    placeholder="Email"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    type="email"
+                                    flex="1"
+                                    py={2}
+                                    px={4}
+                                    width="100%"
+                                    rounded="md"
+                                    bg="gray.50"
+                                    borderWidth="1px"
+                                    borderColor="gray.300"
+                                    _focus={{
+                                      bg: "white",
+                                      borderColor: "gray.300"
+                                    }}
+                                  />
+                                  <FormErrorMessage>
+                                    {form.errors.email}
+                                  </FormErrorMessage>
+                                </FormControl>
+                              )}
+                            </Field>
                           </Box>
                           <Box>
                             <FormLabel htmlFor="name">Name</FormLabel>
-                            {/* <Input
-                          id="name"
-                          placeholder="Name"
-                          value={values.name}
-                          onChange={handleChange}
-                        /> */}
+
                             <PseudoBox
                               as="input"
                               display="block"
                               placeholder="Muhammad Ahmad"
+                              id="name"
                               value={values.name}
                               onChange={handleChange}
                               type="text"
@@ -233,9 +294,12 @@ const Profile = ({ history }) => {
                           <Box>
                             <FormLabel htmlFor="name">Username</FormLabel>
                             <PseudoBox
+                              id="username"
                               as="input"
                               display="block"
                               placeholder="m_ahmad"
+                              value={values.username}
+                              onChange={handleChange}
                               type="text"
                               flex="1"
                               py={2}
@@ -254,9 +318,12 @@ const Profile = ({ history }) => {
                           <Box>
                             <FormLabel htmlFor="name">Summary</FormLabel>
                             <PseudoBox
+                              id="summary"
                               as="textarea"
                               display="block"
                               placeholder="A short bio..."
+                              value={values.summary}
+                              onChange={handleChange}
                               type="text"
                               flex="1"
                               py={2}
@@ -276,9 +343,12 @@ const Profile = ({ history }) => {
                           <Box>
                             <FormLabel htmlFor="name">Location</FormLabel>
                             <PseudoBox
+                              id="location"
                               as="input"
                               display="block"
                               placeholder="Lahore, Pakistan"
+                              value={values.location}
+                              onChange={handleChange}
                               type="text"
                               flex="1"
                               py={2}
@@ -297,9 +367,12 @@ const Profile = ({ history }) => {
                           <Box>
                             <FormLabel htmlFor="name">Education</FormLabel>
                             <PseudoBox
+                              id="education"
                               as="input"
                               display="block"
                               placeholder="Bachelor's degree CS"
+                              value={values.education}
+                              onChange={handleChange}
                               type="text"
                               flex="1"
                               py={2}
@@ -320,9 +393,12 @@ const Profile = ({ history }) => {
                               Skills/Languages
                             </FormLabel>
                             <PseudoBox
+                              id="skills"
                               as="textarea"
                               display="block"
                               placeholder="Javascript, Ruby"
+                              value={values.skills}
+                              onChange={handleChange}
                               type="text"
                               flex="1"
                               py={2}
@@ -342,9 +418,12 @@ const Profile = ({ history }) => {
                           <Box>
                             <FormLabel htmlFor="name">Employer name</FormLabel>
                             <PseudoBox
+                              id="emp_name"
                               as="input"
                               display="block"
                               placeholder="Inspex Inc."
+                              value={values.emp_name}
+                              onChange={handleChange}
                               type="text"
                               flex="1"
                               py={2}
@@ -365,9 +444,12 @@ const Profile = ({ history }) => {
                               Employment title
                             </FormLabel>
                             <PseudoBox
+                              id="emp_title"
                               as="input"
                               display="block"
                               placeholder="Backend Engineer"
+                              value={values.emp_title}
+                              onChange={handleChange}
                               type="text"
                               flex="1"
                               py={2}
@@ -385,16 +467,6 @@ const Profile = ({ history }) => {
                           </Box>
                         </Stack>
 
-                        {/* <Box paddingBottom={3}>
-                        <FormLabel htmlFor="email">Email</FormLabel>
-                        <Input
-                          isDisabled={true}
-                          id="email"
-                          placeholder="Email"
-                          value={values.email}
-                          onChange={handleChange}
-                        />
-                      </Box> */}
                         <Box paddingBottom={5} height="2.5rem" mt={3}>
                           <input
                             style={{ display: "none" }}
