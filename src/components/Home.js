@@ -49,7 +49,7 @@ const Home = () => {
     <>
       {context.blogs ? (
         <Flex
-          maxWidth="1200px"
+          maxWidth="1150px"
           margin="0 auto"
           p="20px"
           display={{ sm: "block", md: "flex" }}
@@ -131,31 +131,32 @@ const Home = () => {
               {context.blogs.map(blog => {
                 return (
                   <Box
-                    p={5}
-                    isExternal
+                    key={blog.id}
                     as={Link}
                     to={`/blogs/${blog.id}`}
-                    _hover={{ shadow: "md", textDecoration: "none" }}
+                    // _hover={{ shadow: "md", textDecoration: "none" }}
                     cursor="pointer"
                     borderWidth="1px"
-                    bg="gray.50"
+                    shadow="md"
+                    bg="#fbfdff"
                     position="relative"
                     rounded="md"
+                    borderRadius="5px"
                   >
                     {blog.image && (
                       <Image
                         src={blog.image && `${baseUrl}${blog.image}`}
-                        fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
-                        alt="Blog image"
+                        // fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
+                        // alt="Blog image"
                         w="100%"
                         objectFit="cover"
                         borderRadius="5px 5px 0 0"
                         style={{
-                          height: "30vh"
+                          height: "35vh"
                         }}
                       />
                     )}
-                    <Stack isInline justifyContent="space-between" mt={2}>
+                    <Stack isInline justifyContent="space-between" mt={2} p={5}>
                       <Box width="100%">
                         <Stack isInline align="center" marginBottom="0">
                           <Avatar
@@ -184,7 +185,6 @@ const Home = () => {
                                 padding="0 3px"
                                 key={tag}
                                 color="#4299E1"
-                                // bgColor={`mode.${colorMode}.tagBG`}
                               >
                                 {tag}
                               </Tag>
@@ -268,24 +268,18 @@ const Home = () => {
             width={{ base: 1, sm: 1 / 2, md: "40%" }}
             height="max-content"
             display={{ sm: "none", md: "none", lg: "block" }}
-            // shadow="md"
-            // borderWidth="1px"
-            // flex="1"
             rounded="md"
-            // p={"12px"}
-            bg="gray.50"
+            // bg="gray.50"
+            bg="#f9fbfd"
             mx={2}
           >
             <Image
               src="bg_ph.jpg"
-              fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
-              alt="Blog image"
+              // fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
+              // alt="Blog image"
               w="100%"
               objectFit="cover"
               borderRadius="5px 5px 0 0"
-              // style={{
-              //   height: "30vh"
-              // }}
             />
             <Box shadow="md" p={"12px"}>
               <Stack isInline spacing={3} align="center">
