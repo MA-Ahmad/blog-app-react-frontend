@@ -97,7 +97,9 @@ const Profile = ({ history }) => {
         <Heading as="h1" size="lg">
           Settings for{" "}
           <Text as="span" color="teal.500">
-            @m_ahmad
+            {initialValues.username
+              ? `@${initialValues.username}`
+              : initialValues.email}
           </Text>
         </Heading>
       </Flex>
@@ -416,13 +418,15 @@ const Profile = ({ history }) => {
                             />
                           </Box>
                           <Box>
-                            <FormLabel htmlFor="name">Employer name</FormLabel>
+                            <FormLabel htmlFor="name">
+                              Employment title
+                            </FormLabel>
                             <PseudoBox
-                              id="emp_name"
+                              id="emp_title"
                               as="input"
                               display="block"
-                              placeholder="Inspex Inc."
-                              value={values.emp_name}
+                              placeholder="Backend Engineer"
+                              value={values.emp_title}
                               onChange={handleChange}
                               type="text"
                               flex="1"
@@ -440,15 +444,13 @@ const Profile = ({ history }) => {
                             />
                           </Box>
                           <Box>
-                            <FormLabel htmlFor="name">
-                              Employment title
-                            </FormLabel>
+                            <FormLabel htmlFor="name">Employer name</FormLabel>
                             <PseudoBox
-                              id="emp_title"
+                              id="emp_name"
                               as="input"
                               display="block"
-                              placeholder="Backend Engineer"
-                              value={values.emp_title}
+                              placeholder="Inspex Inc."
+                              value={values.emp_name}
                               onChange={handleChange}
                               type="text"
                               flex="1"
@@ -482,12 +484,13 @@ const Profile = ({ history }) => {
                             float="left"
                             onClick={() => hiddenFileInput.current.click()}
                           >
-                            Upload Image
+                            Profile Image
                           </Button>
                         </Box>
                         {imageUrl && (
                           <Stack marginTop="5px">
                             <Image
+                              rounded="full"
                               size="100px"
                               objectFit="cover"
                               src={upload ? imageUrl : `${baseUrl}${imageUrl}`}
