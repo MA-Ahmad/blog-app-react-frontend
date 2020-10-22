@@ -103,17 +103,19 @@ const Blog = ({ match }) => {
             m={{ sm: "0 auto" }}
           >
             <>
-              <Image
-                src={blog.image && `${baseUrl}${blog.image}`}
-                fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
-                alt="Blog image"
-                w="100%"
-                objectFit="cover"
-                borderRadius="5px 5px 0 0"
-                style={{
-                  height: blog.image ? "60vh" : "53vh"
-                }}
-              />
+              {blog.image && (
+                <Image
+                  src={`${baseUrl}${blog.image}`}
+                  // fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
+                  // alt="Blog image"
+                  w="100%"
+                  objectFit="cover"
+                  borderRadius="5px 5px 0 0"
+                  style={{
+                    height: "45vh"
+                  }}
+                />
+              )}
               <Box
                 w="100%"
                 h="100%"
