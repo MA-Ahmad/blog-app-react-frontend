@@ -12,7 +12,8 @@ import {
   IconButton,
   List,
   ListItem,
-  ListIcon
+  ListIcon,
+  Skeleton
 } from "@chakra-ui/core";
 
 import { FiBookmark, FiGithub } from "react-icons/fi";
@@ -38,97 +39,101 @@ ahoy.configure({
 const Home = () => {
   const context = useContext(BlogContext);
   const authContext = useContext(AuthContext);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+
   const [tags, setTags] = useState(["ruby", "rails", "react", "formik"]);
 
   useEffect(() => {
     ahoy.trackAll();
-    context.fetchBlogs();
+    setDataLoaded(context.fetchBlogs());
   }, []);
 
+  const handleImageLoaded = () => {
+    setImgLoaded(true);
+  };
   return (
     <>
-      {context.blogs ? (
-        <Flex
-          maxWidth="1150px"
-          margin="0 auto"
-          p="20px"
-          display={{ sm: "block", md: "flex" }}
-          justifyContent="center"
+      <Flex
+        maxWidth="1300px"
+        margin="0 auto"
+        p="20px"
+        display={{ sm: "block", md: "flex" }}
+        justifyContent="center"
+      >
+        <Box
+          width={{ base: 1, sm: "100%", md: "38%" }}
+          m={{ base: "0 auto" }}
+          height="max-content"
+          display={{ sm: "none", md: "block", lg: "block" }}
+          rounded="md"
+          p={"12px"}
+          mx={2}
         >
-          <Box
-            width={{ base: 1, sm: "100%", md: "30%" }}
-            m={{ base: "0 auto" }}
-            height="max-content"
-            display={{ sm: "none", md: "block", lg: "block" }}
-            rounded="md"
-            p={"12px"}
-            mx={2}
-          >
-            <Stack isInline spacing={3} align="center">
-              <Avatar
-                size="lg"
-                src={
-                  authContext.isAuth && `${baseUrl}${authContext.user.image}`
-                }
-              ></Avatar>
-              <Box>
-                <Heading as="h1" size="md">
-                  {authContext.isAuth && authContext.user.name}
-                </Heading>
-                <Text fontSize="xs">@m_ahmad</Text>
-              </Box>
-            </Stack>
-            <List mt={2}>
-              <ListItem
-                _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
-                padding={2}
-                fontWeight="500"
-              >
-                <ListIcon icon={BsFilePost} color="rgb(33, 150, 243)" />
-                My Posts
-              </ListItem>
-              <ListItem
-                _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
-                padding={2}
-                fontWeight="500"
-              >
-                <ListIcon icon={FaTags} color="rgb(33, 150, 243)" />
-                My Tags
-              </ListItem>
-              <ListItem
-                _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
-                padding={2}
-                fontWeight="500"
-              >
-                <ListIcon icon={FcAbout} />
-                About
-              </ListItem>
-              <ListItem
-                _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
-                padding={2}
-                fontWeight="500"
-              >
-                <ListIcon icon={FcRules} />
-                Terms
-              </ListItem>
-              <ListItem
-                _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
-                padding={2}
-                fontWeight="500"
-              >
-                <ListIcon icon={FcPrivacy} />
-                Privay Policy
-              </ListItem>
-            </List>
-          </Box>
+          <Stack isInline spacing={3} align="center">
+            <Avatar
+              size="lg"
+              src={authContext.isAuth && `${baseUrl}${authContext.user.image}`}
+            ></Avatar>
+            <Box>
+              <Heading as="h1" size="md">
+                {authContext.isAuth && authContext.user.name}
+              </Heading>
+              <Text fontSize="xs">@m_ahmad</Text>
+            </Box>
+          </Stack>
+          <List mt={2}>
+            <ListItem
+              _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
+              padding={2}
+              fontWeight="500"
+            >
+              <ListIcon icon={BsFilePost} color="rgb(33, 150, 243)" />
+              My Posts
+            </ListItem>
+            <ListItem
+              _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
+              padding={2}
+              fontWeight="500"
+            >
+              <ListIcon icon={FaTags} color="rgb(33, 150, 243)" />
+              My Tags
+            </ListItem>
+            <ListItem
+              _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
+              padding={2}
+              fontWeight="500"
+            >
+              <ListIcon icon={FcAbout} />
+              About
+            </ListItem>
+            <ListItem
+              _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
+              padding={2}
+              fontWeight="500"
+            >
+              <ListIcon icon={FcRules} />
+              Terms
+            </ListItem>
+            <ListItem
+              _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
+              padding={2}
+              fontWeight="500"
+            >
+              <ListIcon icon={FcPrivacy} />
+              Privay Policy
+            </ListItem>
+          </List>
+        </Box>
 
-          <Box
-            width={{ base: 1, sm: "35rem", md: "50rem", lg: "60rem" }}
-            mx={2}
-            m={{ sm: "0 auto" }}
-          >
-            <Stack spacing={2}>
-              {context.blogs.map(blog => {
+        <Box
+          width={{ base: 1, sm: "35rem", md: "50rem", lg: "60rem" }}
+          mx={2}
+          m={{ sm: "0 auto" }}
+        >
+          <Stack spacing={2}>
+            {context.blogs ? (
+              context.blogs.map(blog => {
                 return (
                   <Box
                     key={blog.id}
@@ -142,73 +147,127 @@ const Home = () => {
                     position="relative"
                     rounded="md"
                     borderRadius="5px"
+                    height="10 rem"
                   >
                     {blog.image && (
-                      <Image
-                        src={blog.image && `${baseUrl}${blog.image}`}
-                        // fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
-                        // alt="Blog image"
-                        w="100%"
-                        objectFit="cover"
-                        borderRadius="5px 5px 0 0"
-                        style={{
-                          height: "35vh"
-                        }}
-                      />
+                      <>
+                        <Image
+                          src={blog.image && `${baseUrl}${blog.image}`}
+                          // fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
+                          onLoad={handleImageLoaded}
+                          // alt="Blog image"
+                          w="100%"
+                          objectFit="cover"
+                          borderRadius="5px 5px 0 0"
+                          style={{
+                            height: "35vh",
+                            display: imgLoaded ? "block" : "none"
+                          }}
+                        />
+                        <Skeleton
+                          height="35vh"
+                          borderRadius="5px 5px 0 0"
+                          width="100%"
+                          style={{
+                            display: imgLoaded ? "none" : "block"
+                          }}
+                        />
+                      </>
                     )}
                     <Stack isInline justifyContent="space-between" mt={2} p={5}>
                       <Box width="100%">
-                        <Stack isInline align="center" marginBottom="0">
-                          <Avatar
-                            src={blog.user && `${baseUrl}${blog.user.image}`}
-                            size="sm"
-                          ></Avatar>
+                        <Stack isInline align="center" marginBottom="5px">
+                          {blog.user && (
+                            <Box>
+                              <Avatar
+                                src={
+                                  blog.user && `${baseUrl}${blog.user.image}`
+                                }
+                                onLoad={handleImageLoaded}
+                                style={{
+                                  display: imgLoaded ? "block" : "none"
+                                }}
+                                size="sm"
+                              ></Avatar>
+                              <Skeleton
+                                size="sm"
+                                width="2em"
+                                height="2em"
+                                borderRadius="50%"
+                                style={{
+                                  display: imgLoaded ? "none" : "block"
+                                }}
+                              />
+                            </Box>
+                          )}
                           <Box>
                             <Heading as="h1" size="sm">
-                              {/* {blog.user.name} */}
                               Ali Umar
                             </Heading>
                             <Text fontSize="xs">9 Oct</Text>
                           </Box>
                         </Stack>
                         <Box pl="2.5em">
-                          <Heading fontSize="xl">{blog.title}</Heading>
-                          <Stack
-                            spacing={2}
-                            mt={1}
-                            isInline
-                            alignItems="center"
+                          <Heading
+                            fontSize="xl"
+                            style={{
+                              display: dataLoaded ? "block" : "none"
+                            }}
                           >
-                            {tags.map(tag => (
-                              <Tag
-                                size="sm"
-                                padding="0 3px"
-                                key={tag}
-                                color="#4299E1"
-                              >
-                                {tag}
-                              </Tag>
-                            ))}
-                            <div
-                              style={{
-                                marginLeft: "5px",
-                                paddingBottom: "3px"
-                              }}
+                            {blog.title}
+                          </Heading>
+                          <Skeleton
+                            height="17px"
+                            width="100%"
+                            style={{
+                              display: dataLoaded ? "none" : "block"
+                            }}
+                          />
+                          {dataLoaded ? (
+                            <Stack
+                              spacing={2}
+                              mt={1}
+                              isInline
+                              alignItems="center"
                             >
-                              <Tooltip label="Source Code" placement="right">
-                                <IconButton
-                                  aria-label="Github Link"
-                                  size="lg"
-                                  icon={() => <FiGithub />}
-                                  // color={`mode.${colorMode}.text`}
-                                  variant="unstyled"
-                                  height="auto"
-                                  minWidth="auto"
-                                  // onClick={e => openUrl(e, github_url)}
-                                />
-                              </Tooltip>
-                            </div>
-                          </Stack>
+                              {tags.map(tag => (
+                                <Tag
+                                  size="sm"
+                                  padding="0 3px"
+                                  key={tag}
+                                  color="#4299E1"
+                                >
+                                  {tag}
+                                </Tag>
+                              ))}
+                              <div
+                                style={{
+                                  marginLeft: "5px",
+                                  paddingBottom: "3px"
+                                }}
+                              >
+                                <Tooltip label="Source Code" placement="right">
+                                  <IconButton
+                                    aria-label="Github Link"
+                                    size="lg"
+                                    icon={() => <FiGithub />}
+                                    variant="unstyled"
+                                    height="auto"
+                                    minWidth="auto"
+                                  />
+                                </Tooltip>
+                              </div>
+                            </Stack>
+                          ) : (
+                            <Stack
+                              spacing={2}
+                              mt={1}
+                              isInline
+                              alignItems="center"
+                            >
+                              <Skeleton height="15px" width="80%" />
+                            </Stack>
+                          )}
                           <Dotdotdot clamp={2}>
                             <Box
                               mt={2}
@@ -218,24 +277,20 @@ const Home = () => {
                               color="gray.600"
                               fontSize="sm"
                             >
-                              {blog.content}
+                              {dataLoaded ? (
+                                blog.content
+                              ) : (
+                                <>
+                                  <Skeleton height="10px" width="100%" my={1} />
+                                  <Skeleton height="10px" width="100%" my={1} />
+                                  <Skeleton height="10px" width="100%" my={1} />
+                                </>
+                              )}
                             </Box>
                           </Dotdotdot>
                         </Box>
                       </Box>
                       <Box>
-                        {/* <Box
-                            as={FiBookmark}
-                            size="25px"
-                            width="1.5rem"
-                            height="1.5rem"
-                            // position="absolute"
-                            color="#cbd5e0"
-                            // fill={`mode.${colorMode}.background`}
-                            right="0.5rem"
-                            top="2px"
-                            marginBottom="1rem"
-                          /> */}
                         <Stack spacing={5} align="center">
                           <IconButton
                             aria-label="like icon"
@@ -261,35 +316,40 @@ const Home = () => {
                     </Stack>
                   </Box>
                 );
-              })}
+              })
+            ) : (
+              <Flex>
+                <Heading as="h1">There is No Blog</Heading>
+              </Flex>
+            )}
+          </Stack>
+        </Box>
+        <Box
+          width={{ base: 1, sm: 1 / 2, md: "40%" }}
+          height="max-content"
+          display={{ sm: "none", md: "none", lg: "block" }}
+          rounded="md"
+          // bg="gray.50"
+          bg="#f9fbfd"
+          mx={2}
+        >
+          <Image
+            src="bg_ph.jpg"
+            // fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
+            // alt="Blog image"
+            w="100%"
+            objectFit="cover"
+            borderRadius="5px 5px 0 0"
+          />
+          <Box shadow="md" p={"12px"}>
+            <Stack isInline spacing={3} align="center">
+              <Text fontWeight="450">
+                The future can be even brighter but a goal without a plan is
+                just a wish.
+              </Text>
             </Stack>
           </Box>
-          <Box
-            width={{ base: 1, sm: 1 / 2, md: "40%" }}
-            height="max-content"
-            display={{ sm: "none", md: "none", lg: "block" }}
-            rounded="md"
-            // bg="gray.50"
-            bg="#f9fbfd"
-            mx={2}
-          >
-            <Image
-              src="bg_ph.jpg"
-              // fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
-              // alt="Blog image"
-              w="100%"
-              objectFit="cover"
-              borderRadius="5px 5px 0 0"
-            />
-            <Box shadow="md" p={"12px"}>
-              <Stack isInline spacing={3} align="center">
-                <Text fontWeight="450">
-                  The future can be even brighter but a goal without a plan is
-                  just a wish.
-                </Text>
-              </Stack>
-            </Box>
-            {/* <Stack isInline spacing={3} align="center">
+          {/* <Stack isInline spacing={3} align="center">
               <Avatar
                 size="lg"
                 src={
@@ -333,11 +393,21 @@ const Home = () => {
               </Box>
             </Stack>
            */}
-          </Box>
-        </Flex>
-      ) : (
-        <PageLoader />
-      )}
+        </Box>
+      </Flex>
+      {/* <div>
+          <Skeleton
+            rounded="full"
+            height="35px"
+            size="45px"
+            float="left"
+            mx="1rem"
+          />
+          <Skeleton height="15px" my="20px" mx="15%" width="25%" />
+          <Skeleton height="20px" my="10px" mx="15%" width="50%" />
+          <Skeleton height="15px" my="15px" mx="15%" width="35%" />
+        </div>
+        <PageLoader /> */}
     </>
   );
 };
