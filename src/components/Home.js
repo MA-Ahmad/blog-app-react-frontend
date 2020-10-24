@@ -16,6 +16,7 @@ import {
   Skeleton
 } from "@chakra-ui/core";
 
+import SkeletonFeed from "./Skeleton";
 import { FiBookmark, FiGithub } from "react-icons/fi";
 import Dotdotdot from "react-dotdotdot";
 import { BlogContext } from "../context/BlogContext";
@@ -39,14 +40,19 @@ ahoy.configure({
 const Home = () => {
   const context = useContext(BlogContext);
   const authContext = useContext(AuthContext);
-  const [dataLoaded, setDataLoaded] = useState(false);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [blogs, setBlogs] = useState([]);
   const [imgLoaded, setImgLoaded] = useState(false);
 
   const [tags, setTags] = useState(["ruby", "rails", "react", "formik"]);
 
   useEffect(() => {
     ahoy.trackAll();
-    setDataLoaded(context.fetchBlogs());
+    // setIsDataLoaded(context.fetchBlogs());
+    context.fetchBlogsAsync.then(res => {
+      setBlogs(res);
+      setIsDataLoaded(true);
+    });
   }, []);
 
   const handleImageLoaded = () => {
@@ -131,9 +137,9 @@ const Home = () => {
           mx={2}
           m={{ sm: "0 auto" }}
         >
-          <Stack spacing={2}>
-            {context.blogs ? (
-              context.blogs.map(blog => {
+          <Stack spacing={3}>
+            {isDataLoaded ? (
+              blogs.map(blog => {
                 return (
                   <Box
                     key={blog.id}
@@ -211,7 +217,7 @@ const Home = () => {
                           <Heading
                             fontSize="xl"
                             style={{
-                              display: dataLoaded ? "block" : "none"
+                              display: isDataLoaded ? "block" : "none"
                             }}
                           >
                             {blog.title}
@@ -220,10 +226,10 @@ const Home = () => {
                             height="17px"
                             width="100%"
                             style={{
-                              display: dataLoaded ? "none" : "block"
+                              display: isDataLoaded ? "none" : "block"
                             }}
                           />
-                          {dataLoaded ? (
+                          {isDataLoaded ? (
                             <Stack
                               spacing={2}
                               mt={1}
@@ -277,7 +283,7 @@ const Home = () => {
                               color="gray.600"
                               fontSize="sm"
                             >
-                              {dataLoaded ? (
+                              {isDataLoaded ? (
                                 blog.content
                               ) : (
                                 <>
@@ -318,12 +324,14 @@ const Home = () => {
                 );
               })
             ) : (
-              <Flex>
-                <Heading as="h1">There is No Blog</Heading>
-              </Flex>
+              // <Flex>
+              //   <Heading as="h1">There is No Blog</Heading>
+              // </Flex>
+              <SkeletonFeed />
             )}
           </Stack>
         </Box>
+
         <Box
           width={{ base: 1, sm: 1 / 2, md: "40%" }}
           height="max-content"
