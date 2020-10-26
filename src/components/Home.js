@@ -153,7 +153,6 @@ const Home = () => {
                     position="relative"
                     rounded="md"
                     borderRadius="5px"
-                    height="10 rem"
                   >
                     {blog.image && (
                       <>
