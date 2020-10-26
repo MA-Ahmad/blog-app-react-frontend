@@ -117,7 +117,7 @@ const BlogForm = ({ match, history, editMode }) => {
             borderRadius="5px"
             rounded="md"
             width={"40%"}
-            bg="#fff"
+            bg="#fbfdff"
           >
             <Stack isInline spacing={8} align="center">
               <Formik
@@ -153,6 +153,7 @@ const BlogForm = ({ match, history, editMode }) => {
                               <Input
                                 {...field}
                                 id="title"
+                                bg="gray.50"
                                 placeholder="Title"
                                 value={values.title}
                                 onChange={handleChange}
@@ -179,6 +180,7 @@ const BlogForm = ({ match, history, editMode }) => {
                               <FormLabel htmlFor="content">Content</FormLabel>
                               <Textarea
                                 {...field}
+                                bg="gray.50"
                                 height={"20vh"}
                                 id="content"
                                 value={values.content}
