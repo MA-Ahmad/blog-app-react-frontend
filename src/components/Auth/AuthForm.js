@@ -65,7 +65,14 @@ const AuthForm = ({ history, formType }) => {
             {formType === "login" ? "Sign In" : "Sign Up"}
           </Heading>
 
-          <Box p={5} shadow="md" borderWidth="1px" rounded="md" width={"40%"}>
+          <Box
+            p={5}
+            shadow="md"
+            borderWidth="1px"
+            rounded="md"
+            width={"40%"}
+            bg="#fbfdff"
+          >
             <Stack isInline spacing={8} align="center">
               <Formik
                 enableReinitialize
@@ -95,6 +102,7 @@ const AuthForm = ({ history, formType }) => {
                               <FormLabel htmlFor="email">Email</FormLabel>
                               <Input
                                 {...field}
+                                bg="gray.50"
                                 id="email"
                                 placeholder="Email"
                                 value={values.email}
@@ -125,6 +133,7 @@ const AuthForm = ({ history, formType }) => {
                                   {...field}
                                   id="password"
                                   pr="4.5rem"
+                                  bg="gray.50"
                                   type={show ? "text" : "password"}
                                   placeholder="Enter password"
                                   value={values.password}
