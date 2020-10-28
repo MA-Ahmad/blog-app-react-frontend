@@ -29,6 +29,7 @@ import { BsBookmarkPlus, BsFilePost } from "react-icons/bs";
 import { FcAbout, FcRules, FcPrivacy } from "react-icons/fc";
 import { FaTags } from "react-icons/fa";
 import ahoy from "ahoy.js";
+import { background } from "styled-system";
 
 ahoy.configure({
   urlPrefix: "",
@@ -43,6 +44,8 @@ const Home = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   const [tags, setTags] = useState(["ruby", "rails", "react", "formik"]);
 
@@ -50,14 +53,41 @@ const Home = () => {
     ahoy.trackAll();
     // setIsDataLoaded(context.fetchBlogs());
     context.fetchBlogsAsync.then(res => {
+      console.log("ressss", res);
       setBlogs(res);
       setIsDataLoaded(true);
     });
   }, []);
 
+  // useEffect(() => {
+  //   context.fetchBlogsAsync.then(res => {
+  //     setBlogs(res);
+  //     // setIsDataLoaded(true);
+  //   });
+  // }, [isLiked]);
+
   const handleImageLoaded = () => {
     setImgLoaded(true);
   };
+
+  const handleLike = (e, blogId) => {
+    context.likeContent(blogId).then(res => {
+      setBlogs(res);
+    });
+    e.preventDefault();
+  };
+
+  const handleBookmark = (e, blogId) => {
+    context.bookmarkContent(blogId).then(res => {
+      let temp_blogs = blogs;
+      let index = temp_blogs.map(t_b => t_b.id).indexOf(res.id);
+      temp_blogs.splice(index, 1, res);
+      setIsBookmarked(!isBookmarked);
+      setBlogs(temp_blogs);
+    });
+    e.preventDefault();
+  };
+
   return (
     <>
       <Flex
@@ -296,26 +326,73 @@ const Home = () => {
                         </Box>
                       </Box>
                       <Box>
-                        <Stack spacing={5} align="center">
-                          <IconButton
-                            aria-label="like icon"
-                            size="sm"
-                            isRound={true}
-                            icon={() => <RiHeart2Line />}
-                            variantColor="red"
-                            variant="outline"
-                            isRound={true}
-                          />
-                          <IconButton
-                            aria-label="like icon"
-                            // fontSize="20px"
-                            size="sm"
-                            isRound={true}
-                            icon={() => <BsBookmarkPlus />}
-                            variantColor="red"
-                            variant="outline"
-                            isRound={true}
-                          />
+                        <Stack spacing={3} align="center">
+                          <Box textAlign="center">
+                            <IconButton
+                              aria-label="like icon"
+                              size="sm"
+                              isRound={true}
+                              icon={() => <RiHeart2Line />}
+                              variantColor={blog.likes.length ? "red" : "gray"}
+                              // variant={blog.likes.length ? "outline" : "ghost"}
+                              style={{
+                                color: blog.likes.length ? "#e53e3e" : "gray",
+                                background: blog.likes.length
+                                  ? "rgb(243 217 217)"
+                                  : "#efecec",
+                                border: blog.likes.length
+                                  ? "1px solid #e53e3e"
+                                  : "none"
+                              }}
+                              isRound={true}
+                              onClick={e => handleLike(e, blog.id)}
+                            />
+                            <Text
+                              style={{
+                                color: blog.likes.length ? "red" : "gray"
+                              }}
+                            >
+                              {blog.likes.length}
+                            </Text>
+                          </Box>
+                          <Box textAlign="center">
+                            <Tooltip hasArrow label="Bookmark" placement="top">
+                              <IconButton
+                                aria-label="like icon"
+                                // fontSize="20px"
+                                size="sm"
+                                isRound={true}
+                                icon={() => <BsBookmarkPlus />}
+                                // variantColor="red"
+                                // variantColor={
+                                //   blog.likes.length ? "green.200" : "gray"
+                                // }
+                                style={{
+                                  color: blog.bookmarks.length
+                                    ? "#68D391"
+                                    : "gray",
+                                  background: blog.bookmarks.length
+                                    ? "rgb(223 241 230)"
+                                    : "#efecec",
+                                  border: blog.bookmarks.length
+                                    ? "1px solid #68D391"
+                                    : "none"
+                                }}
+                                // variant="outline"
+                                isRound={true}
+                                onClick={e => handleBookmark(e, blog.id)}
+                              />
+                            </Tooltip>
+                            <Text
+                              style={{
+                                color: blog.bookmarks.length
+                                  ? "#68D391"
+                                  : "gray"
+                              }}
+                            >
+                              {blog.bookmarks.length}
+                            </Text>
+                          </Box>
                         </Stack>
                       </Box>
                     </Stack>
