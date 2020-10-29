@@ -31,6 +31,50 @@ const BlogProvider = props => {
         dispatch({ type: "LOAD_BLOGS", blogs: response });
       })
       .catch(error => console.log(error));
+    return true;
+  };
+
+  const fetchBlogsAsync = async () => {
+    const url = `${apiHost}/blogs`;
+    const response = await fetch(url, {
+      withCredentials: true
+    });
+    const data = await response.json();
+
+    if (response.status >= 400) {
+      console.log(response.status);
+    }
+    return data;
+  };
+
+  const likeContent = async id => {
+    const url = `${apiHost}/likes`;
+    const formData = new FormData();
+    formData.append("like[reference_type]", "Blog");
+    formData.append("like[reference_id]", id);
+    const response = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      withCredentials: true
+    });
+    const data = await response.data;
+    return data;
+  };
+
+  const bookmarkContent = async id => {
+    const url = `${apiHost}/bookmarks`;
+    const formData = new FormData();
+    formData.append("bookmark[reference_type]", "Bookmark");
+    formData.append("bookmark[reference_id]", id);
+    const response = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      withCredentials: true
+    });
+    const data = await response.data;
+    return data;
   };
 
   const createBlog = (data, file, history) => {
@@ -112,7 +156,10 @@ const BlogProvider = props => {
       value={{
         blogs: blogState.blogs,
         fetchBlogs: fetchBlogs,
+        fetchBlogsAsync: fetchBlogsAsync(),
         createBlog: createBlog,
+        likeContent: likeContent,
+        bookmarkContent: bookmarkContent,
         editBlog: editBlog,
         deleteBlog: deleteBlog
       }}
