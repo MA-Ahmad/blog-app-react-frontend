@@ -61,12 +61,12 @@ const SkeletonFeed = () => {
                         rounded="full"
                         my={1}
                       />
-                      <Skeleton
+                      {/* <Skeleton
                         height="8px"
                         width="100%"
                         rounded="full"
                         my={1}
-                      />
+                      /> */}
                     </Box>
                   </Dotdotdot>
                 </Box>
