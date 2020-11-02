@@ -64,6 +64,7 @@ const Blog = ({ match }) => {
           p="20px"
           display={{ sm: "block", md: "flex" }}
           justifyContent="center"
+          mt="5em"
         >
           <Box
             width={{ base: 1, sm: "100%", md: "10rem" }}
@@ -121,7 +122,7 @@ const Blog = ({ match }) => {
                 h="100%"
                 bg="#fff"
                 p="25px"
-                borderRadius="0 0 5px 5px"
+                borderRadius={blog.image ? "0 0 5px 5px" : "5px"}
               >
                 <Stack spacing={3}>
                   <Heading as="h1" size="2xl">
