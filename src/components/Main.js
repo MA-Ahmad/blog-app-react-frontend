@@ -8,6 +8,7 @@ import Blog from "./Blog";
 import UnprotectedRoute from "../UnprotectedRoute";
 import ProtectedRoute from "../ProtectedRoute";
 import Profile from "./Profile";
+import Footer from "../shared/Footer";
 
 const Main = () => {
   return (
@@ -45,6 +46,7 @@ const Main = () => {
         />
         <Redirect to="/" />
       </Switch>
+      <Footer />
     </React.Fragment>
   );
 };
