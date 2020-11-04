@@ -20,7 +20,7 @@ import { apiHost, baseUrl } from "../utils/Cons/Constants";
 import { AuthContext } from "../context/AuthContext";
 import { RiHeart2Line } from "react-icons/ri";
 import { BsBookmarkPlus } from "react-icons/bs";
-
+import { motion } from "framer-motion";
 // const iconProps = {
 //   variant: "ghost",
 //   size: "lg",
@@ -33,9 +33,15 @@ const iconProps = {
   isRound: true
 };
 
+const variants = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 }
+};
+
 const Blog = ({ match }) => {
   const [blog, setBlog] = useState({});
   const [user, setUser] = useState({});
+  const [isVisible, setIsVisible] = useState(false);
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
@@ -46,17 +52,15 @@ const Blog = ({ match }) => {
       .then(response => {
         setBlog(response.data);
         setUser(response.data.user);
+        setIsVisible(true);
       })
       .catch(err => console.log(err));
+    window.scrollTo(0, 0);
   }, []);
 
   return (
-    <FadeTransform
-      in
-      transformProps={{
-        exitTransform: "scale(0.5) translateX(-50%)"
-      }}
-    >
+    <>
+      {/* <motion.div animate={{ scale: 1.5 }} transition={{ duration: 0.5 }}> */}
       {blog ? (
         <Flex
           maxWidth="1200px"
@@ -212,7 +216,8 @@ const Blog = ({ match }) => {
       ) : (
         <PageLoader />
       )}
-    </FadeTransform>
+      {/* </motion.div> */}
+    </>
   );
 };
 
