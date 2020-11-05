@@ -13,7 +13,11 @@ import {
   List,
   ListItem,
   ListIcon,
-  Skeleton
+  Skeleton,
+  Link as ChakraLink,
+  SimpleGrid,
+  Input,
+  Button
 } from "@chakra-ui/core";
 
 import SkeletonFeed from "./Skeleton";
@@ -28,8 +32,14 @@ import { RiHeart2Line } from "react-icons/ri";
 import { BsBookmarkPlus, BsFilePost } from "react-icons/bs";
 import { FcAbout, FcRules, FcPrivacy } from "react-icons/fc";
 import { FaTags } from "react-icons/fa";
+// import Header from "../shared/Header";
 import ahoy from "ahoy.js";
-import { background } from "styled-system";
+import {
+  motion,
+  AnimatePresence,
+  useViewportScroll,
+  useAnimation
+} from "framer-motion";
 
 ahoy.configure({
   urlPrefix: "",
@@ -38,33 +48,36 @@ ahoy.configure({
   withCredentials: true
 });
 
-const Home = () => {
+const Home = ({ location }) => {
   const context = useContext(BlogContext);
   const authContext = useContext(AuthContext);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [isBlogsUpdated, setIsBlogsUpdated] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
-
   const [tags, setTags] = useState(["ruby", "rails", "react", "formik"]);
+  const [activeLink, setActiveLink] = useState("");
+
+  const { scrollYProgress } = useViewportScroll();
+  const controls = useAnimation();
 
   useEffect(() => {
+    controls.start(i => ({
+      opacity: 0,
+      x: 100,
+      transition: { delay: i * 0.3, opacity: 1 }
+    }));
     ahoy.trackAll();
-    // setIsDataLoaded(context.fetchBlogs());
+    console.log("use efect");
     context.fetchBlogsAsync.then(res => {
       console.log("ressss", res);
       setBlogs(res);
       setIsDataLoaded(true);
     });
-  }, []);
-
-  // useEffect(() => {
-  //   context.fetchBlogsAsync.then(res => {
-  //     setBlogs(res);
-  //     // setIsDataLoaded(true);
-  //   });
-  // }, [isLiked]);
+    window.scrollTo(0, 0);
+  }, [location.key]);
 
   const handleImageLoaded = () => {
     setImgLoaded(true);
@@ -88,23 +101,45 @@ const Home = () => {
     e.preventDefault();
   };
 
+  const myPosts = () => {
+    setActiveLink("my-posts");
+    setBlogs(blogs.filter(blog => blog.user_id === authContext.user.id));
+  };
+
   return (
     <>
-      <Flex
+      {/* <Flex
         maxWidth="1300px"
         margin="0 auto"
         p="20px"
         display={{ sm: "block", md: "flex" }}
         justifyContent="center"
+      > */}
+      {/* <Header /> */}
+      <SimpleGrid
+        flexDirection="column-reverse"
+        gridTemplateColumns={["1fr", "1fr 1fr", "1fr 1fr", "1fr 1fr 1fr"]}
+        // mt="70px"
+        // mb="100px"
+        // max: 1300px;
+        maxW="1300px"
+        margin="0 auto"
+        pt="20px"
+        // p="20px"
+        p={["20px", "30px", "30px", "20px"]}
+        mt="5em"
+        gridGap="1rem"
       >
         <Box
-          width={{ base: 1, sm: "100%", md: "38%" }}
-          m={{ base: "0 auto" }}
+          // width={{ base: 1, sm: "100%", md: "38%" }}
+          width={["5em", "auto", "auto", "100%"]}
+          display={["none", "block", "block", "block"]}
+          // m={{ base: "0 auto" }}
           height="max-content"
-          display={{ sm: "none", md: "block", lg: "block" }}
+          // display={{ sm: "none", md: "block", lg: "block" }}
           rounded="md"
-          p={"12px"}
-          mx={2}
+          // p={"12px"}
+          // mx={2}
         >
           <Stack isInline spacing={3} align="center">
             <Avatar
@@ -119,14 +154,22 @@ const Home = () => {
             </Box>
           </Stack>
           <List mt={2}>
-            <ListItem
-              _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
-              padding={2}
-              fontWeight="500"
-            >
-              <ListIcon icon={BsFilePost} color="rgb(33, 150, 243)" />
-              My Posts
-            </ListItem>
+            {authContext.isAuth && (
+              <ListItem
+                _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
+                // _active={{ bg: "gray.50", shadow: "md", rounded: "md" }}
+                bg={activeLink === "my-posts" && "gray.50"}
+                shadow={activeLink === "my-posts" && "md"}
+                rounded={activeLink === "my-posts" && "md"}
+                padding={2}
+                fontWeight="500"
+                cursor="pointer"
+                onClick={myPosts}
+              >
+                <ListIcon icon={BsFilePost} color="rgb(33, 150, 243)" />
+                My Posts
+              </ListItem>
+            )}
             <ListItem
               _hover={{ bg: "gray.50", shadow: "md", rounded: "md" }}
               padding={2}
@@ -163,239 +206,317 @@ const Home = () => {
         </Box>
 
         <Box
-          width={{ base: 1, sm: "35rem", md: "50rem", lg: "60rem" }}
-          mx={2}
+          // width={{ base: 1, sm: "35rem", md: "50rem", lg: "60rem" }}
+          // width={["25em", "25em", "40em", "100%"]}
+          // mx={2}
           m={{ sm: "0 auto" }}
         >
-          <Stack spacing={3}>
+          {/* <motion.div custom={5} animate={controls}> */}
+          <Stack spacing={3} width={["100%", "40em", "45em", "40em"]}>
             {isDataLoaded ? (
-              blogs.map(blog => {
+              blogs.map((blog, index) => {
                 return (
                   <Box
                     key={blog.id}
                     as={Link}
                     to={`/blogs/${blog.id}`}
                     // _hover={{ shadow: "md", textDecoration: "none" }}
-                    cursor="pointer"
-                    borderWidth="1px"
-                    shadow="md"
-                    bg="#fbfdff"
-                    position="relative"
-                    rounded="md"
-                    borderRadius="5px"
+                    // cursor="pointer"
+                    // borderWidth="1px"
+                    // shadow="md"
+                    // bg="#fbfdff"
+                    // position="relative"
+                    // rounded="md"
+                    // borderRadius="5px"
                   >
-                    {blog.image && (
-                      <>
-                        <Image
-                          src={blog.image && `${baseUrl}${blog.image}`}
-                          // fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
-                          onLoad={handleImageLoaded}
-                          // alt="Blog image"
-                          w="100%"
-                          objectFit="cover"
-                          borderRadius="5px 5px 0 0"
-                          style={{
-                            height: "35vh",
-                            display: imgLoaded ? "block" : "none"
-                          }}
-                        />
-                        <Skeleton
-                          height="35vh"
-                          borderRadius="5px 5px 0 0"
-                          width="100%"
-                          style={{
-                            display: imgLoaded ? "none" : "block"
-                          }}
-                        />
-                      </>
-                    )}
-                    <Stack isInline justifyContent="space-between" mt={2} p={5}>
-                      <Box width="100%">
-                        <Stack isInline align="center" marginBottom="5px">
-                          {blog.user && (
-                            <Box>
-                              <Avatar
-                                src={
-                                  blog.user && `${baseUrl}${blog.user.image}`
-                                }
-                                onLoad={handleImageLoaded}
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 1.05 }}
+                    >
+                      <Box
+                        cursor="pointer"
+                        borderWidth="1px"
+                        shadow="md"
+                        bg="#fbfdff"
+                        position="relative"
+                        rounded="md"
+                        borderRadius="5px"
+                      >
+                        {blog.image && (
+                          <>
+                            <Image
+                              src={blog.image && `${baseUrl}${blog.image}`}
+                              // fallbackSrc="https://via.placeholder.com/500/DCDFDF/ffffff/?text=BlogImage"
+                              onLoad={handleImageLoaded}
+                              // alt="Blog image"
+                              w="100%"
+                              objectFit="cover"
+                              borderRadius="5px 5px 0 0"
+                              style={{
+                                height: "35vh",
+                                display: imgLoaded ? "block" : "none"
+                              }}
+                            />
+                            <Skeleton
+                              height="35vh"
+                              borderRadius="5px 5px 0 0"
+                              width="100%"
+                              style={{
+                                display: imgLoaded ? "none" : "block"
+                              }}
+                            />
+                          </>
+                        )}
+
+                        <Stack isInline justifyContent="space-between" p={4}>
+                          <Box width="100%">
+                            <Stack isInline align="center" marginBottom="5px">
+                              {blog.user && (
+                                <Box>
+                                  <Avatar
+                                    src={
+                                      blog.user &&
+                                      `${baseUrl}${blog.user.image}`
+                                    }
+                                    onLoad={handleImageLoaded}
+                                    style={{
+                                      display: imgLoaded ? "block" : "none"
+                                    }}
+                                    size="sm"
+                                  ></Avatar>
+                                  <Skeleton
+                                    size="sm"
+                                    width="2em"
+                                    height="2em"
+                                    borderRadius="50%"
+                                    style={{
+                                      display: imgLoaded ? "none" : "block"
+                                    }}
+                                  />
+                                </Box>
+                              )}
+                              <Box>
+                                <Heading as="h1" size="sm">
+                                  Ali Umar
+                                </Heading>
+                                <Text fontSize="xs">9 Oct</Text>
+                              </Box>
+                            </Stack>
+                            <Box pl="2.5em">
+                              <Heading
+                                fontSize="xl"
                                 style={{
-                                  display: imgLoaded ? "block" : "none"
-                                }}
-                                size="sm"
-                              ></Avatar>
-                              <Skeleton
-                                size="sm"
-                                width="2em"
-                                height="2em"
-                                borderRadius="50%"
-                                style={{
-                                  display: imgLoaded ? "none" : "block"
-                                }}
-                              />
-                            </Box>
-                          )}
-                          <Box>
-                            <Heading as="h1" size="sm">
-                              Ali Umar
-                            </Heading>
-                            <Text fontSize="xs">9 Oct</Text>
-                          </Box>
-                        </Stack>
-                        <Box pl="2.5em">
-                          <Heading
-                            fontSize="xl"
-                            style={{
-                              display: isDataLoaded ? "block" : "none"
-                            }}
-                          >
-                            {blog.title}
-                          </Heading>
-                          <Skeleton
-                            height="17px"
-                            width="100%"
-                            style={{
-                              display: isDataLoaded ? "none" : "block"
-                            }}
-                          />
-                          {isDataLoaded ? (
-                            <Stack
-                              spacing={2}
-                              mt={1}
-                              isInline
-                              alignItems="center"
-                            >
-                              {tags.map(tag => (
-                                <Tag
-                                  size="sm"
-                                  padding="0 3px"
-                                  key={tag}
-                                  color="#4299E1"
-                                >
-                                  {tag}
-                                </Tag>
-                              ))}
-                              <div
-                                style={{
-                                  marginLeft: "5px",
-                                  paddingBottom: "3px"
+                                  display: isDataLoaded ? "block" : "none"
                                 }}
                               >
-                                <Tooltip label="Source Code" placement="right">
+                                {blog.title}
+                              </Heading>
+                              <Skeleton
+                                height="17px"
+                                width="100%"
+                                style={{
+                                  display: isDataLoaded ? "none" : "block"
+                                }}
+                              />
+                              {isDataLoaded ? (
+                                <Stack
+                                  spacing={2}
+                                  mt={1}
+                                  isInline
+                                  alignItems="center"
+                                >
+                                  {tags.map(tag => (
+                                    <Tag
+                                      size="sm"
+                                      padding="0 3px"
+                                      key={tag}
+                                      color="#4299E1"
+                                    >
+                                      {tag}
+                                    </Tag>
+                                  ))}
+                                  <div
+                                    style={{
+                                      marginLeft: "5px",
+                                      paddingBottom: "3px"
+                                    }}
+                                  >
+                                    <Tooltip
+                                      label="Source Code"
+                                      placement="right"
+                                    >
+                                      <IconButton
+                                        aria-label="Github Link"
+                                        size="lg"
+                                        icon={() => <FiGithub />}
+                                        variant="unstyled"
+                                        height="auto"
+                                        minWidth="auto"
+                                      />
+                                    </Tooltip>
+                                  </div>
+                                </Stack>
+                              ) : (
+                                <Stack
+                                  spacing={2}
+                                  mt={1}
+                                  isInline
+                                  alignItems="center"
+                                >
+                                  <Skeleton height="15px" width="80%" />
+                                </Stack>
+                              )}
+                              <Dotdotdot clamp={2}>
+                                <Box
+                                  mt={2}
+                                  fontWeight="semibold"
+                                  as="p"
+                                  lineHeight="tight"
+                                  color="gray.600"
+                                  fontSize="sm"
+                                >
+                                  {isDataLoaded ? (
+                                    blog.content
+                                  ) : (
+                                    <>
+                                      <Skeleton
+                                        height="10px"
+                                        width="100%"
+                                        my={1}
+                                      />
+                                      <Skeleton
+                                        height="10px"
+                                        width="100%"
+                                        my={1}
+                                      />
+                                      <Skeleton
+                                        height="10px"
+                                        width="100%"
+                                        my={1}
+                                      />
+                                    </>
+                                  )}
+                                </Box>
+                              </Dotdotdot>
+                            </Box>
+                          </Box>
+                          <Box>
+                            <Stack spacing={3} align="center">
+                              <Box
+                                textAlign="center"
+                                _hover={{
+                                  background: "rgb(243 217 217)",
+                                  color: "#e53e3e"
+                                }}
+                              >
+                                <IconButton
+                                  aria-label="like icon"
+                                  size="sm"
+                                  isRound={true}
+                                  icon={() => <RiHeart2Line />}
+                                  variantColor={
+                                    blog.likes.length ? "red" : "gray"
+                                  }
+                                  color={blog.likes.length ? "#e53e3e" : "gray"}
+                                  background={
+                                    blog.likes.length
+                                      ? "rgb(243 217 217)"
+                                      : "#efecec"
+                                  }
+                                  border={
+                                    blog.likes.length
+                                      ? "1px solid #e53e3e"
+                                      : "none"
+                                  }
+                                  _hover={{
+                                    background: "rgb(243 217 217)",
+                                    color: "#e53e3e"
+                                  }}
+                                  // style={{
+                                  //   color: blog.likes.length ? "#e53e3e" : "gray",
+                                  //   background: blog.likes.length
+                                  //     ? "rgb(243 217 217)"
+                                  //     : "#efecec",
+                                  //   border: blog.likes.length
+                                  //     ? "1px solid #e53e3e"
+                                  //     : "none"
+                                  // }}
+                                  _focus={{ outline: "none" }}
+                                  isRound={true}
+                                  onClick={e => handleLike(e, blog.id, index)}
+                                />
+                                <Text
+                                  style={{
+                                    color: blog.likes.length ? "red" : "gray"
+                                  }}
+                                >
+                                  {blog.likes.length}
+                                </Text>
+                              </Box>
+                              <Box textAlign="center">
+                                <Tooltip
+                                  hasArrow
+                                  label="Bookmark"
+                                  placement="top"
+                                >
                                   <IconButton
-                                    aria-label="Github Link"
-                                    size="lg"
-                                    icon={() => <FiGithub />}
-                                    variant="unstyled"
-                                    height="auto"
-                                    minWidth="auto"
+                                    aria-label="bookmark icon"
+                                    size="sm"
+                                    isRound={true}
+                                    _focus={{ outline: "none" }}
+                                    icon={() => <BsBookmarkPlus />}
+                                    // variantColor="red"
+                                    // variantColor={
+                                    //   blog.likes.length ? "green.200" : "gray"
+                                    // }
+                                    // style={{
+                                    //   color: blog.bookmarks.length
+                                    //     ? "#68D391"
+                                    //     : "gray",
+                                    //   background: blog.bookmarks.length
+                                    //     ? "rgb(223 241 230)"
+                                    //     : "#efecec",
+                                    //   border: blog.bookmarks.length
+                                    //     ? "1px solid #68D391"
+                                    //     : "none"
+                                    // }}
+                                    color={
+                                      blog.bookmarks.length ? "#68D391" : "gray"
+                                    }
+                                    background={
+                                      blog.bookmarks.length
+                                        ? "rgb(223 241 230)"
+                                        : "#efecec"
+                                    }
+                                    border={
+                                      blog.bookmarks.length
+                                        ? "1px solid #68D391"
+                                        : "none"
+                                    }
+                                    _hover={{
+                                      background: "rgb(223 241 230)",
+                                      color: "#68D391"
+                                    }}
+                                    // variant="outline"
+                                    isRound={true}
+                                    onClick={e => handleBookmark(e, blog.id)}
                                   />
                                 </Tooltip>
-                              </div>
+                                <Text
+                                  style={{
+                                    color: blog.bookmarks.length
+                                      ? "#68D391"
+                                      : "gray"
+                                  }}
+                                >
+                                  {blog.bookmarks.length}
+                                </Text>
+                              </Box>
                             </Stack>
-                          ) : (
-                            <Stack
-                              spacing={2}
-                              mt={1}
-                              isInline
-                              alignItems="center"
-                            >
-                              <Skeleton height="15px" width="80%" />
-                            </Stack>
-                          )}
-                          <Dotdotdot clamp={2}>
-                            <Box
-                              mt={2}
-                              fontWeight="semibold"
-                              as="p"
-                              lineHeight="tight"
-                              color="gray.600"
-                              fontSize="sm"
-                            >
-                              {isDataLoaded ? (
-                                blog.content
-                              ) : (
-                                <>
-                                  <Skeleton height="10px" width="100%" my={1} />
-                                  <Skeleton height="10px" width="100%" my={1} />
-                                  <Skeleton height="10px" width="100%" my={1} />
-                                </>
-                              )}
-                            </Box>
-                          </Dotdotdot>
-                        </Box>
-                      </Box>
-                      <Box>
-                        <Stack spacing={3} align="center">
-                          <Box textAlign="center">
-                            <IconButton
-                              aria-label="like icon"
-                              size="sm"
-                              isRound={true}
-                              icon={() => <RiHeart2Line />}
-                              variantColor={blog.likes.length ? "red" : "gray"}
-                              // variant={blog.likes.length ? "outline" : "ghost"}
-                              style={{
-                                color: blog.likes.length ? "#e53e3e" : "gray",
-                                background: blog.likes.length
-                                  ? "rgb(243 217 217)"
-                                  : "#efecec",
-                                border: blog.likes.length
-                                  ? "1px solid #e53e3e"
-                                  : "none"
-                              }}
-                              isRound={true}
-                              onClick={e => handleLike(e, blog.id)}
-                            />
-                            <Text
-                              style={{
-                                color: blog.likes.length ? "red" : "gray"
-                              }}
-                            >
-                              {blog.likes.length}
-                            </Text>
-                          </Box>
-                          <Box textAlign="center">
-                            <Tooltip hasArrow label="Bookmark" placement="top">
-                              <IconButton
-                                aria-label="like icon"
-                                // fontSize="20px"
-                                size="sm"
-                                isRound={true}
-                                icon={() => <BsBookmarkPlus />}
-                                // variantColor="red"
-                                // variantColor={
-                                //   blog.likes.length ? "green.200" : "gray"
-                                // }
-                                style={{
-                                  color: blog.bookmarks.length
-                                    ? "#68D391"
-                                    : "gray",
-                                  background: blog.bookmarks.length
-                                    ? "rgb(223 241 230)"
-                                    : "#efecec",
-                                  border: blog.bookmarks.length
-                                    ? "1px solid #68D391"
-                                    : "none"
-                                }}
-                                // variant="outline"
-                                isRound={true}
-                                onClick={e => handleBookmark(e, blog.id)}
-                              />
-                            </Tooltip>
-                            <Text
-                              style={{
-                                color: blog.bookmarks.length
-                                  ? "#68D391"
-                                  : "gray"
-                              }}
-                            >
-                              {blog.bookmarks.length}
-                            </Text>
                           </Box>
                         </Stack>
                       </Box>
-                    </Stack>
+                    </motion.div>
                   </Box>
                 );
               })
@@ -406,16 +527,18 @@ const Home = () => {
               <SkeletonFeed />
             )}
           </Stack>
+          {/* </motion.div> */}
         </Box>
 
         <Box
-          width={{ base: 1, sm: 1 / 2, md: "40%" }}
+          // width={{ base: 1, sm: 1 / 2, md: "40%" }}
+          width={["15em", "15em", "15em", "100%"]}
+          display={["none", "none", "none", "block"]}
           height="max-content"
-          display={{ sm: "none", md: "none", lg: "block" }}
+          // display={{ sm: "none", md: "none", lg: "block" }}
           rounded="md"
           // bg="gray.50"
           bg="#f9fbfd"
-          mx={2}
         >
           <Image
             src="bg_ph.jpg"
@@ -478,20 +601,8 @@ const Home = () => {
             </Stack>
            */}
         </Box>
-      </Flex>
-      {/* <div>
-          <Skeleton
-            rounded="full"
-            height="35px"
-            size="45px"
-            float="left"
-            mx="1rem"
-          />
-          <Skeleton height="15px" my="20px" mx="15%" width="25%" />
-          <Skeleton height="20px" my="10px" mx="15%" width="50%" />
-          <Skeleton height="15px" my="15px" mx="15%" width="35%" />
-        </div>
-        <PageLoader /> */}
+      </SimpleGrid>
+      {/* </Flex> */}
     </>
   );
 };
