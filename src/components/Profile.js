@@ -92,6 +92,7 @@ const Profile = ({ history }) => {
         margin="0 auto"
         pt="10px"
         p="10px"
+        mt="5em"
         justifyContent="flex-start"
       >
         <Heading as="h1" size="lg">
