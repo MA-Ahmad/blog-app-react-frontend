@@ -29,162 +29,181 @@ const Header = props => {
   const authContext = useContext(AuthContext);
 
   return (
-    <Flex
-      as="nav"
-      align="center"
-      justify="space-between"
-      wrap="wrap"
-      padding="1.5rem"
-      bg="teal.500"
-      color="white"
+    <Box
+      border="1px solid #e1e1e1"
+      justifyContent="center"
+      bg="#fff"
+      position="fixed"
+      zIndex="1000"
+      top="0"
+      left="0"
+      right="0"
     >
-      <Flex align="center" mr={5}>
-        <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
-          <NavLink exact to="/" activeClassName="active">
-            Blogs
-          </NavLink>
-        </Heading>
-      </Flex>
-
-      <Box display={{ base: "block", md: "none" }} onClick={handleToggle}>
-        <svg
-          fill="white"
-          width="12px"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>Menu</title>
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-        </svg>
-      </Box>
-
-      <Box
-        display={{ sm: show ? "block" : "none", md: "flex" }}
-        width={{ sm: "full", md: "auto" }}
+      <Flex
+        as="nav"
+        align="center"
+        justify="space-between"
+        wrap="wrap"
         alignItems="center"
-        flexGrow={1}
+        maxW="1300px"
+        height="68px"
+        // padding="1.5rem"
+        // bg="teal.500"
+        color="white"
+        margin="0 auto"
+        paddingX="20px"
       >
-        {authContext.isAuth ? (
-          <Box>
-            <Heading fontSize="20px">
-              <NavLink to="/new" activeClassName="active">
-                New
-              </NavLink>
-            </Heading>
-          </Box>
-        ) : (
-          ""
-        )}
-      </Box>
+        <Flex align="center" mr={5}>
+          <Heading as="h1" size="lg" letterSpacing={"-.1rem"}>
+            <NavLink exact to="/" activeClassName="active">
+              Blogs
+            </NavLink>
+          </Heading>
+        </Flex>
 
-      <Box
-        display={{ sm: show ? "block" : "none", md: "flex" }}
-        alignItems="center"
-        mt={{ base: 4, md: 0 }}
-      >
+        <Box display={{ base: "block", md: "none" }} onClick={handleToggle}>
+          <svg
+            fill="white"
+            width="12px"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+          </svg>
+        </Box>
+
         <Box
           display={{ sm: show ? "block" : "none", md: "flex" }}
           width={{ sm: "full", md: "auto" }}
           alignItems="center"
           flexGrow={1}
-          mr={5}
         >
           {authContext.isAuth ? (
-            <Box ml={{ sm: "0", md: "3" }}>
-              <Menu>
-                <MenuButton outline="none">
-                  <Avatar
-                    src={
-                      authContext.user.image &&
-                      `${baseUrl}${authContext.user.image}`
-                    }
-                  >
-                    <AvatarBadge size="1.25em" bg="green.500" />
-                  </Avatar>
-                </MenuButton>
-                <MenuList color="#000">
-                  <MenuGroup
-                    title={
-                      authContext.user.name ? authContext.user.name : "Profile"
-                    }
-                  >
-                    <Link
-                      as={ReachLink}
-                      to="/profile"
-                      _hover={{ textDecoration: "none" }}
-                    >
-                      <MenuItem>
-                        <RiAccountBoxLine />
-                        <Text as="span" pl={2}>
-                          My Account
-                        </Text>
-                      </MenuItem>
-                    </Link>
-
-                    <Link
-                      href="https://github.com/MA-Ahmad/blog-app-react-frontend"
-                      isExternal
-                      style={{ textDecoration: "none" }}
-                      _hover={{ color: "black" }}
-                    >
-                      <MenuItem>
-                        <AiOutlineGithub />
-                        <Text as="span" pl={2}>
-                          View Source
-                        </Text>
-                      </MenuItem>
-                    </Link>
-                  </MenuGroup>
-                  <MenuDivider />
-                  <MenuItem onClick={() => authContext.logout(props.history)}>
-                    <AiOutlineLogout />
-                    <Text as="span" pl={2}>
-                      Signout
-                    </Text>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
+            <Box>
+              <Heading fontSize="20px">
+                <NavLink to="/new" activeClassName="active">
+                  New
+                </NavLink>
+              </Heading>
             </Box>
           ) : (
-            <>
-              <Box ml={{ sm: "0", md: "3" }}>
-                <Heading fontSize="20px">
-                  <NavLink exact to="/login" activeClassName="active">
-                    Login
-                  </NavLink>
-                </Heading>
-              </Box>
-              <Box ml={{ sm: "0", md: "3" }}>
-                <Heading fontSize="20px">
-                  <NavLink exact to="/register" activeClassName="active">
-                    Signup
-                  </NavLink>
-                </Heading>
-              </Box>
-            </>
+            ""
           )}
         </Box>
-        {!authContext.isAuth ? (
-          <Link
-            href="https://github.com/MA-Ahmad/blog-app-react-frontend"
-            isExternal
-            style={{ textDecoration: "none" }}
-            _hover={{ color: "black" }}
+
+        <Box
+          display={{ sm: show ? "block" : "none", md: "flex" }}
+          alignItems="center"
+          // mt={{ base: 4, md: 0 }}
+        >
+          <Box
+            display={{ sm: show ? "block" : "none", md: "flex" }}
+            width={{ sm: "full", md: "auto" }}
+            alignItems="center"
+            flexGrow={1}
+            mr={5}
           >
-            <Button
-              leftIcon={FaGithub}
-              bg="transparent"
-              border="1px"
-              mt={{ sm: "2", md: "0" }}
+            {authContext.isAuth ? (
+              <Box ml={{ sm: "0", md: "3" }}>
+                <Menu>
+                  <MenuButton outline="none">
+                    <Avatar
+                      size="sm"
+                      src={
+                        authContext.user.image &&
+                        `${baseUrl}${authContext.user.image}`
+                      }
+                    >
+                      <AvatarBadge size="1.25em" bg="green.500" />
+                    </Avatar>
+                  </MenuButton>
+                  <MenuList color="#000">
+                    <MenuGroup
+                      title={
+                        authContext.user.name
+                          ? authContext.user.name
+                          : "Profile"
+                      }
+                    >
+                      <Link
+                        as={ReachLink}
+                        to="/profile"
+                        _hover={{ textDecoration: "none" }}
+                      >
+                        <MenuItem>
+                          <RiAccountBoxLine />
+                          <Text as="span" pl={2}>
+                            My Account
+                          </Text>
+                        </MenuItem>
+                      </Link>
+
+                      <Link
+                        href="https://github.com/MA-Ahmad/blog-app-react-frontend"
+                        isExternal
+                        style={{ textDecoration: "none" }}
+                        _hover={{ color: "black" }}
+                      >
+                        <MenuItem>
+                          <AiOutlineGithub />
+                          <Text as="span" pl={2}>
+                            View Source
+                          </Text>
+                        </MenuItem>
+                      </Link>
+                    </MenuGroup>
+                    <MenuDivider />
+                    <MenuItem onClick={() => authContext.logout(props.history)}>
+                      <AiOutlineLogout />
+                      <Text as="span" pl={2}>
+                        Signout
+                      </Text>
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              </Box>
+            ) : (
+              <>
+                <Box ml={{ sm: "0", md: "3" }}>
+                  <Heading fontSize="20px">
+                    <NavLink exact to="/login" activeClassName="active">
+                      Login
+                    </NavLink>
+                  </Heading>
+                </Box>
+                <Box ml={{ sm: "0", md: "3" }}>
+                  <Heading fontSize="20px">
+                    <NavLink exact to="/register" activeClassName="active">
+                      Signup
+                    </NavLink>
+                  </Heading>
+                </Box>
+              </>
+            )}
+          </Box>
+          {!authContext.isAuth ? (
+            <Link
+              href="https://github.com/MA-Ahmad/blog-app-react-frontend"
+              isExternal
+              style={{ textDecoration: "none" }}
+              _hover={{ color: "black" }}
             >
-              View Source
-            </Button>
-          </Link>
-        ) : (
-          ""
-        )}
-      </Box>
-    </Flex>
+              <Button
+                leftIcon={FaGithub}
+                bg="transparent"
+                border="1px"
+                mt={{ sm: "2", md: "0" }}
+              >
+                View Source
+              </Button>
+            </Link>
+          ) : (
+            ""
+          )}
+        </Box>
+      </Flex>
+    </Box>
   );
 };
 
