@@ -32,7 +32,6 @@ import { RiHeart2Line } from "react-icons/ri";
 import { BsBookmarkPlus, BsFilePost } from "react-icons/bs";
 import { FcAbout, FcRules, FcPrivacy } from "react-icons/fc";
 import { FaTags } from "react-icons/fa";
-// import Header from "../shared/Header";
 import ahoy from "ahoy.js";
 import {
   motion,
