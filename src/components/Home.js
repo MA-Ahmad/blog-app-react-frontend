@@ -15,9 +15,7 @@ import {
   ListIcon,
   Skeleton,
   Link as ChakraLink,
-  SimpleGrid,
-  Input,
-  Button
+  SimpleGrid
 } from "@chakra-ui/core";
 
 import SkeletonFeed from "./Skeleton";
