@@ -1,7 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import {
   Box,
-  Flex,
   Tag,
   Avatar,
   Image,
