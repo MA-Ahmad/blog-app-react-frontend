@@ -21,6 +21,7 @@ import { AuthContext } from "../context/AuthContext";
 import { RiHeart2Line } from "react-icons/ri";
 import { BsBookmarkPlus } from "react-icons/bs";
 import { motion } from "framer-motion";
+
 // const iconProps = {
 //   variant: "ghost",
 //   size: "lg",
