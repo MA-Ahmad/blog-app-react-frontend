@@ -6,7 +6,6 @@ import {
   Text,
   Image,
   Stack,
-  SimpleGrid,
   Avatar,
   AvatarBadge,
   IconButton
