@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack, Heading, Text, Skeleton } from "@chakra-ui/core";
+import { Box, Stack, Skeleton } from "@chakra-ui/core";
 
 import Dotdotdot from "react-dotdotdot";
 
