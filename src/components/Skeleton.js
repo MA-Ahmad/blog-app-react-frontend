@@ -3,7 +3,7 @@ import { Box, Stack, Skeleton } from "@chakra-ui/core";
 
 import Dotdotdot from "react-dotdotdot";
 
-import PageLoader from "./PageLoader";
+// import PageLoader from "./PageLoader";
 
 const SkeletonFeed = () => {
   return (
